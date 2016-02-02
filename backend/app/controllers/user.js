@@ -12,8 +12,8 @@ var moduleRoutes = express.Router();
 //Public Methods:
 moduleRoutes.get('/setup', function(req, res) {
 	var jimmy = new User({ 
-		name: 'jimmy', 
-		password: 'test',
+		name: 'Loics', 
+		password: 'passloic',
 		admin: true 
 	});
 	jimmy.save(function(err) {
