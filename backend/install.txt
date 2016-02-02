@@ -1,0 +1,40 @@
+install.txt
+
+cd /Applications/XAMPP/xamppfiles/htdocs/ter/server/app
+
+Tutorial:
+https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
+
+npm install express body-parser morgan mongoose jsonwebtoken --save
+
+
+---Mongodb----
+
+Start Mongodb:
+https://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/
+/usr/local/bin/mongodb/bin
+
+Server
+/usr/local/bin/mongodb/bin/mongod
+Terminal
+/usr/local/bin/mongodb/bin/mongo
+
+/usr/local/bin/mongodb/bin/mongoimport
+
+Data Path:
+/data/db
+
+ex: drop
+db.sportsdata.drop()
+
+Ex: insert		
+db.sportsdata.insert(	{"activity": "run","practiceDate": ISODate("2014-04-30T14:00:00.000Z"),"nbHour": 20,"nameSubQuarter": "Plan des quatre seigneurs","nameQuarter": "Hopitaux Facultes","nameCity": "Montpellier","genre": "M","xAxis": 0.36833753083881576,"yAxis": 0.11253132832080201,"color": "#de6154"}	)
+
+use sportster
+db.user.insert({"user_id": "1","name": "jimmy","lastname": "munoz","email": "myappeu@gmail.com","password": "123456"})
+
+
+module.exports = {
+	'secret': 'ilovescotchyscotch',
+    'database': 'mongodb://localhost:27017/sportster';
+};
