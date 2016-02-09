@@ -2,7 +2,7 @@ install.txt
 
 Tutorial:
 ->Project 
-cd /Applications/XAMPP/xamppfiles/htdocs/ter/bakend/app
+cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend/
 
 
 npm install express body-parser morgan mongoose jsonwebtoken --save

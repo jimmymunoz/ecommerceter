@@ -2,13 +2,15 @@
 
 
 Tutorial:
--> Acceder au dossier ave le projet
-cd /Applications/XAMPP/xamppfiles/htdocs/ter/bakend/app
+-> Acceder au dossier du projet
+cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend
 
 -> Instalar:
 npm install express body-parser morgan mongoose jsonwebtoken --save
 
-sudo npm install -g nodemon
+npm install -g nodemon
+
+export NODE_PATH=/Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend/node_modules
 
 Terminal 1
 node server webserver.js
@@ -38,3 +40,5 @@ password: 'password',
 
 http://localhost:8080/user/users?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NDY1MDViMDFmYTAzYmUwMTUxMDYwOWIiLCJuYW1lIjoiTmljayBDZXJtaW5hcmEiLCJwYXNzd29yZCI6InBhc3N3b3JkIiwiYWRtaW4iOnRydWUsIl9fdiI6MH0.ah-NFQ1967WVeN6lYNAahT7hZtshG6kw6AW3ncuJOYw
 
+export PATH=$PATH:/usr/local/bin/mongodb/bin/ 
+export NODE_PATH=/usr/local/lib/node_modules
