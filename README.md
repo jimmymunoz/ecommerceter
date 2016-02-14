@@ -1,5 +1,5 @@
 # ecommerceter
-
+https://github.com/jimmymunoz/ecommerceter
 
 Tutorial:
 -> Acceder au dossier du projet
@@ -42,3 +42,11 @@ http://localhost:8080/user/users?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJf
 
 export PATH=$PATH:/usr/local/bin/mongodb/bin/ 
 export NODE_PATH=/usr/local/lib/node_modules
+
+
+Errors:
+Windows kerberos:
+https://github.com/Automattic/mongoose/issues/3860
+
+rm -rf ./node_modules/mongoose/node_modules/mogodb
+npm install --prefix ./node_modules/mongoose/ mongodb@2.1.6 --save
