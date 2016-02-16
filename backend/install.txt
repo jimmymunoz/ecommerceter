@@ -132,3 +132,11 @@ postman
 
 https://www.javascripting.com/view/react
 
+Search and Kill process:
+
+lsof -i:8090
+kill -9 <PID>
+
+
+
+
