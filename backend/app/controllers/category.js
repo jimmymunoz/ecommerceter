@@ -5,7 +5,8 @@ var jwt    = require('jsonwebtoken');
 //Models:
 var moduleRoutes = express.Router();
 var Category   = require(pathServer + 'app/models/category');
-
+//Helpers:
+var commonHelper   = require(pathServer + 'app/helpers/common');
 //http://localhost:8888/category/
 moduleRoutes.get('/', function(req, res) {
     res.json({ success: false, message: 'Invalid Category action', data:req.decoded});
@@ -31,8 +32,29 @@ moduleRoutes.get('/setup', function(req, res) {
 });
 //Public Methods:
 // http://localhost:8888/category/createCategory
-
 moduleRoutes.post('/createCategory', function(req, res) {
+  var validationResponse = commonHelper.getValidationResponse();
+  var HelperValidator = commonHelper.validator;
+  console.log(req.body.idParent);
+// validation idParent
+  if(! ( HelperValidator.isNumeric( req.body.idParent ) && req.body.idParent != "" )  ){
+    validationResponse.addError("Invalid product idParent: " + req.body.idParent);
+  }
+  console.log(req.body.name);
+//validation name
+  if(! ( HelperValidator.isAlphanumeric( req.body.name ) && req.body.name != "" )  ){
+    validationResponse.addError("Invalid product name: " + req.body.name);
+  }
+  console.log(req.body.level);
+// validation level
+if(! ( HelperValidator.isInt( req.body.level) && req.body.level != "" )  ){
+validationResponse.addError("Invalid product level: " + req.body.level);
+}
+  if(! validationResponse.success){
+      res.json(validationResponse);
+  }
+  else {
+
    var dataCategory = new Category({
         idCategory: req.body.idCategory,
         idParent: req.body.idParent,
@@ -48,8 +70,8 @@ moduleRoutes.post('/createCategory', function(req, res) {
         console.log(msgResponse);
         res.json({ success: true, message: msgResponse, data: dataCategory });
     });
-    });
-
+      }
+  });
 //http://localhost:8888/category/getCategorysList
     moduleRoutes.get('/getCategorysList', function(req, res) {
         Category.find({}).
@@ -67,10 +89,34 @@ moduleRoutes.post('/createCategory', function(req, res) {
 
 // http://localhost:8888/category/updateCategory?idCategory=1
     moduleRoutes.post('/updateCategory', function(req, res) {
-      console.log("Body:");
-      console.log(req.body);
-      console.log("end Body");
+      var validationResponse = commonHelper.getValidationResponse();
+      var HelperValidator = commonHelper.validator;
+    //  console.log("Body:");
+    //  console.log(req.body);
+    //  console.log("end Body");
+    console.log(req.body.name);
+    // validation name
+    if(! ( HelperValidator.isAlphanumeric( req.body.name) && req.body.name != "" )  ){
+      validationResponse.addError("Invalid product name: " + req.body.name);
+    }
+      console.log(req.body.idParent);
+    // validation idParent
+    if(! ( HelperValidator.isNumeric( req.body.idParent) && req.body.idParent != "" )  ){
+      validationResponse.addError("Invalid product idParent: " + req.body.idParent);
+    }
+    console.log(req.body.level);
+    // validation level
+    if(! ( HelperValidator.isNumeric( req.body.level) && req.body.level != "" )  ){
+      validationResponse.addError("Invalid product level: " + req.body.level);
+    }
+
+    if(! validationResponse.success){
+        res.json(validationResponse);
+    }
+
+    else {
         var queryWhere = { idCategory: req.body.idCategory };
+
         var updateFields = {
             idCategory: req.body.idCategory,
             idParent: req.body.idParent,
@@ -79,6 +125,7 @@ moduleRoutes.post('/createCategory', function(req, res) {
             //creationDate: Date(),
             modificationDate:Date()
         };
+
 
         Category.update(
             queryWhere, //query
@@ -91,6 +138,7 @@ moduleRoutes.post('/createCategory', function(req, res) {
                 res.json({ success: true, message: msgResponse, data: raw });
             }
         );
+      }
     });
 
 //http://localhost:8888/category/getCategory?idCategory=1
