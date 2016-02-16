@@ -6,9 +6,6 @@ var moduleRoutes = express.Router();
 
 
 var Order   = require(pathServer + 'app/models/order');
-var Counter   = require(pathServer + 'app/models/counter');
-//Helpers:
-var commonHelper   = require(pathServer + 'app/helpers/common'); 
 
 //http://localhost:8888/order/
 moduleRoutes.get('/', function(req, res) {
@@ -55,86 +52,41 @@ moduleRoutes.get('/getOrdersList', function(req, res) {
     });
 });
 
-function getNextSequence(name) {
-   var ret = Counter.findAndModify(
-          {
-            query: { _id: name },
-            update: { $inc: { seq: 1 } },
-            new: true
-          }
-   );
-
-   return ret.seq;
-}
-
 //http://localhost:8888/order/createOrder
 moduleRoutes.post('/createOrder', function(req, res) {
-	var msgResponse = 'Order saved successfully';
-	res.json({ success: true, message: msgResponse, data: [] });
-    
-	//res.setHeader('Access-Control-Allow-Origin', '*');
-	
-	var validationResponse = commonHelper.getValidationResponse();
-    var HelperValidator = commonHelper.validator;
-    //console.log(req.body.address);
-    if(! ( req.body.address != "" )  ){
-      validationResponse.addError("Invalid address: " + req.body.address);
-    }
+   //console.log(req.body);
+   var orderLines = JSON.parse(req.body['orderLines[]'])
+   console.log( orderLines );
+   console.log( orderLines[0] );
+   return;
+   
+   var dataOrder = new Order({ 
+        idOrder: req.body.idOrder, 
+        address: req.body.address, 
+        creationDate: req.body.creationDate, 
+        total: req.body.total, 
+        status: req.body.status, 
+        city: req.body.city, 
+        totalTax: req.body.totalTax, 
+        orderLines: req.body.orderLines, 
+        approvalCode: req.body.approvalCode, 
+        paymentDate: req.body.paymentDate, 
+        modificationDate: req.body.modificationDate 
+    }); 
+    dataOrder.save(function(err) {
+        if (err) throw err;
 
-    if(! validationResponse.success){
-        res.json(validationResponse);
-    }
-    else {
-		/*
-		var obj = JSON.parse(req.body['orderLines[]']);
-		
-		console.log( obj );
-		var som = 0;
-		try{
-			for(var i in  obj)
-			{  
-				var s = obj[i].quantity;
-				console.log(s);
-				som = som + s;			
-			}	
-		}
-		catch(e){
-			console.log("Parsing error:", e);
-		}
-		 console.log(som);
-
-		 var dataOrder = new Order({ 
-			idOrder: getNextSequence("OrderId"), 
-			address: req.body.address, 
-			creationDate: Date(), 
-			total: som, 
-			status: req.body.status, 
-			city: req.body.city, 
-			totalTax: som, 
-			orderLines: obj, 
-			approvalCode: "bien", 
-			modificationDate: Date() 
-		}); 
-		console.log("body");
-		console.log( req.body );
-		dataOrder.save(function(err) {
-			if (err) throw err;
-
-			var msgResponse = 'Order saved successfully';
-			console.log(msgResponse);
-			res.json({ success: true, message: msgResponse, data: dataOrder });
-		});
-		*/
-		var msgResponse = 'Order saved successfully';
-		res.json({ success: true, message: msgResponse, data: dataOrder });
-	}
+        var msgResponse = 'Order saved successfully';
+        console.log(msgResponse);
+        res.json({ success: true, message: msgResponse, data: dataOrder });
+    });
 });
 
 //http://localhost:8888/order/updateOrder?idOrder=1
 moduleRoutes.post('/updateOrder', function(req, res) {
     var queryWhere = { idOrder: req.body.idOrder };
     var updateFields = {  
-        idOrder: req.body.idOrder, 
+        idOrder: 1, 
         address: req.body.address, 
         creationDate: req.body.creationDate, 
         total: req.body.total, 

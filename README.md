@@ -8,6 +8,7 @@ cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend
 -> Instalar:
 npm install express body-parser morgan mongoose jsonwebtoken --save
 
+npm install finalhandler serve-static
 npm install -g nodemon
 
 export NODE_PATH=/Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend/node_modules
