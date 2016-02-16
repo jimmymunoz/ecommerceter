@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tests</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body>
+	<input type="button" onclick="testOrders();" name="testOrders" >
+	
+	<script type="text/javascript">
+		function testOrders(){
+			$.ajax({
+				method: "POST",
+				url: "http://localhost:8888/order/createOrder",
+				data: {   
+					//idOrder: 1, 
+			        address: "address 1", 
+			       // total: 10, 
+			        //status: 20, 
+			        city: "Montpellier", 
+			        //totalTax: 10, 
+			        //orderLines: [{ product : 1, quantity: 20 }]
+			        'orderLines[]': JSON.stringify([{ product : 1, quantity: 20 }, { product : 2, quantity: 20 }])
+			   	}	
+			})
+			.done(function( response ) {
+				console.log(response);
+				
+			});
+		}
+	</script>
+</body>
+</html>

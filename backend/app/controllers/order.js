@@ -6,6 +6,9 @@ var moduleRoutes = express.Router();
 
 
 var Order   = require(pathServer + 'app/models/order');
+var Counter   = require(pathServer + 'app/models/counter');
+//Helpers:
+var commonHelper   = require(pathServer + 'app/helpers/common'); 
 
 //http://localhost:8888/order/
 moduleRoutes.get('/', function(req, res) {
@@ -53,7 +56,7 @@ moduleRoutes.get('/getOrdersList', function(req, res) {
 });
 
 function getNextSequence(name) {
-   var ret = db.counters.findAndModify(
+   var ret = Counter.findAndModify(
           {
             query: { _id: name },
             update: { $inc: { seq: 1 } },
@@ -66,56 +69,65 @@ function getNextSequence(name) {
 
 //http://localhost:8888/order/createOrder
 moduleRoutes.post('/createOrder', function(req, res) {
-	//var tmp = encodeURIComponent(JSON.stringify({productId:1, total:10}))
+	var msgResponse = 'Order saved successfully';
+	res.json({ success: true, message: msgResponse, data: [] });
+    
+	//res.setHeader('Access-Control-Allow-Origin', '*');
 	
-	//console.log(tmp);
-	//return;
-	/*var myObj = JSON.parse('[{"p": 5},{"p": 4}]');
-	console.log(myObj);
-	var lines = req.body['orderLines[0]'];
-	console.log(lines*/
-	/*var orderLines = JSON.parse(req.body['orderLines[]'])
-   console.log( orderLines );
-   console.log( orderLines[0] );*/
-	var obj = JSON.parse(req.body['orderLines[]'])
-	console.log( obj );
-	console.log(obj[0]);
-	/*try{
-		for(var i in  obj)
-		{  
-			var s = orderLines[i];
-		    console.log(s);  
-		}	
+	var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+    //console.log(req.body.address);
+    if(! ( req.body.address != "" )  ){
+      validationResponse.addError("Invalid address: " + req.body.address);
+    }
+
+    if(! validationResponse.success){
+        res.json(validationResponse);
+    }
+    else {
+		/*
+		var obj = JSON.parse(req.body['orderLines[]']);
+		
+		console.log( obj );
+		var som = 0;
+		try{
+			for(var i in  obj)
+			{  
+				var s = obj[i].quantity;
+				console.log(s);
+				som = som + s;			
+			}	
+		}
+		catch(e){
+			console.log("Parsing error:", e);
+		}
+		 console.log(som);
+
+		 var dataOrder = new Order({ 
+			idOrder: getNextSequence("OrderId"), 
+			address: req.body.address, 
+			creationDate: Date(), 
+			total: som, 
+			status: req.body.status, 
+			city: req.body.city, 
+			totalTax: som, 
+			orderLines: obj, 
+			approvalCode: "bien", 
+			modificationDate: Date() 
+		}); 
+		console.log("body");
+		console.log( req.body );
+		dataOrder.save(function(err) {
+			if (err) throw err;
+
+			var msgResponse = 'Order saved successfully';
+			console.log(msgResponse);
+			res.json({ success: true, message: msgResponse, data: dataOrder });
+		});
+		*/
+		var msgResponse = 'Order saved successfully';
+		res.json({ success: true, message: msgResponse, data: dataOrder });
 	}
-	catch(e){
-		console.log("Parsing error:", e);
-	}
-	*/
-	
-
-
-
- /*  var dataOrder = new Order({ 
-        idOrder: getNextSequence("OrderId"), 
-        address: req.body.address, 
-        creationDate: Date(), 
-        total: req.body.total, 
-        status: req.body.status, 
-        city: req.body.city, 
-        totalTax: req.body.totalTax, 
-        orderLines: req.body.orderLines, 
-        approvalCode: req.body.approvalCode, 
-        modificationDate: Date() 
-    }); 
-	console.log("body");
-	console.log( req.body );
-    dataOrder.save(function(err) {
-        if (err) throw err;
-
-        var msgResponse = 'Order saved successfully';
-        console.log(msgResponse);
-        res.json({ success: true, message: msgResponse, data: dataOrder });
-    });*/
 });
 
 //http://localhost:8888/order/updateOrder?idOrder=1
