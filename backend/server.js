@@ -5,11 +5,17 @@ var morgan      = require('morgan');
 var mongoose    = require('mongoose');
 
 var config = require('./config'); // get our config file
-var User   = require('./app/models/user'); 
-var UserController   = require('./app/controllers/user'); 
-var PaymentController   = require('./app/controllers/payment'); 
+var User   = require('./app/models/user');
+var Product   = require('./app/models/product');
+var Category  = require('./app/models/category');
 
-var port = process.env.PORT || 8080; 
+
+var UserController   = require('./app/controllers/user');
+var ProductController   = require('./app/controllers/product');
+var PaymentController   = require('./app/controllers/payment');
+var CategoryController = require('./app/controllers/category');
+
+var port = process.env.PORT || 8888;
 mongoose.connect(config.database); // connect to database
 
 
@@ -19,7 +25,8 @@ app.use(morgan('dev'));
 
 app.use('/user', UserController);
 app.use('/payment', UserController);
-
+app.use('/product', ProductController);
+app.use('/category',CategoryController);
 
 
 
