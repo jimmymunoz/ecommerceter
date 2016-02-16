@@ -1,12 +1,3 @@
-module.exports = mongoose.model('Category', new Schema({ 
-    idCategory: Number, 
-    idParent: String, 
-    name: String, 
-    level: Number, 
-    creationDate: Date, 
-    modificationDate: Date 
-}));
-
 var pathServer = '../../';
 var express 	= require('express');
 var config = require(pathServer + 'config');

@@ -4,20 +4,16 @@ var Schema = mongoose.Schema;
 var commonHelper   = require(pathServer + 'app/helpers/common');
 
 
-module.exports = mongoose.model('Product', new Schema({ 
-    idProduct: String, 
-    name: String, 
-    description: String, 
-    price: Number, 
-    tax: Number, 
-    buyPrice: Number, 
-    price: Number, 
-    image: String, 
-    quantity: Number, 
-    weight: Number, 
-    category: Number, 
-    productComment: Array, 
-    productEvaluation: Array, 
+module.exports = mongoose.model('Order', new Schema({ 
+    idOrder: Number, 
+    address: String, 
     creationDate: Date, 
+    total: Number, 
+    status: String, 
+    city: String, 
+    totalTax: String, 
+    orderLines: Array, 
+    approvalCode: String, 
+    paymentDate: Date, 
     modificationDate: Date 
 }));

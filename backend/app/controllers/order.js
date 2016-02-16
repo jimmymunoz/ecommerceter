@@ -54,6 +54,12 @@ moduleRoutes.get('/getOrdersList', function(req, res) {
 
 //http://localhost:8888/order/createOrder
 moduleRoutes.post('/createOrder', function(req, res) {
+   //console.log(req.body);
+   var orderLines = JSON.parse(req.body['orderLines[]'])
+   console.log( orderLines );
+   console.log( orderLines[0] );
+   return;
+   
    var dataOrder = new Order({ 
         idOrder: req.body.idOrder, 
         address: req.body.address, 
@@ -80,7 +86,7 @@ moduleRoutes.post('/createOrder', function(req, res) {
 moduleRoutes.post('/updateOrder', function(req, res) {
     var queryWhere = { idOrder: req.body.idOrder };
     var updateFields = {  
-        idOrder: req.body.idOrder, 
+        idOrder: 1, 
         address: req.body.address, 
         creationDate: req.body.creationDate, 
         total: req.body.total, 

@@ -51,12 +51,10 @@ UserModel.validateSignUp = function (query){
 	return validationResponse;
 }
 
-UserModel.getUser = function (res, idUser){
+UserModel.getUser = function (res, idUser, callback){
 	var response = { success: false, message: '', data: [] };
-	/*
 	
-	 */
-	this.findOne({
+    this.findOne({
        idUser: idUser
     }, function(err, user) {
         if (err) throw err;
@@ -69,7 +67,7 @@ UserModel.getUser = function (res, idUser){
         	console.log("found ");
             response = {
                 success: true,
-                message: 'User Found :)',
+                message: 'User Found',
                 data: user
             };
         }
