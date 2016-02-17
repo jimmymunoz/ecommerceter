@@ -1,5 +1,11 @@
+var pathServer = '../../';
 //https://www.npmjs.com/package/validator
 var validator = require('validator');
+var SHAREDDATA   = require(pathServer + 'app/helpers/data');
+var config = require(pathServer + 'config'); // get our config file
+//http://lollyrock.com/articles/nodejs-encryption/
+
+var MongoClient = require('mongodb').MongoClient;
 
 var commonHelper = function() {
 	/*
@@ -64,6 +70,7 @@ var commonHelper = function() {
 	whitelist(input, chars) - remove characters that do not appear in the whitelist. The characters are used in a RegExp and so you will need to escape some chars, e.g. whitelist(input, '\\[\\]').
 	 */
 	this.validator = validator; // var HelperValidator = commonHelper.validator;
+	
 	this.getValidationResponse = function(){
 		return {
 			success : true,
@@ -82,6 +89,54 @@ var commonHelper = function() {
 			}
 		};
 	}
+
+	this.incremenCounter = function(name){
+		MongoClient.connect(config.database, function (err, db) {
+			if (err) {
+				console.log('Unable to connect to the mongoDB server. Error:', err);
+			}
+			else 
+			{
+				var ret = db.collection("counters").findAndModify(
+					{
+						query: { _id: name },
+						update: { $inc: { seq: 1 } },
+						new: true
+					}
+			    );
+			    console.log();
+			    return ret;
+
+				/*
+				
+				var collection = db.collection(collectionName);
+				console.log('Connection established to', config.database);
+				collection.group( groupObject["keys"], groupObject["cond"], groupObject["initial"], groupObject["function"], function (err, result) {
+			      if (err) {
+			        console.log(err);
+			        res.send([]);
+			      } else if (result.length) {
+			        console.log('Found query :');
+			        console.log('db.' + collectionName + '.group( ' + JSON.stringify(objectQuery) + ' )');
+			        //Jimmy: Add Percentages
+			        resultSporData = addPercentages(result);
+			        res.send(resultSporData);
+			        //console.log(JsonData);
+			      } else {
+			        console.log('No document(s) found query: ' + JSON.stringify(objectQuery) );
+			        console.log('db.' + collectionName + '.group( ' + JSON.stringify(objectQuery) + ' )');
+			        //db.sportsdata.find( {"practice.practice_sportsmans.sportman_genre":"female"} )
+			        res.send([]);
+			      }
+			      //Close connection
+			      db.close();
+			    });
+				 */
+			     db.close();
+			}
+		});
+	}
+
 }
 
 module.exports = new commonHelper();

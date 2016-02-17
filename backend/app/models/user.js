@@ -6,7 +6,7 @@ var commonHelper   = require(pathServer + 'app/helpers/common');
 
 
 // set up a mongoose model and pass it using module.exports
-var UserModel = mongoose.model('User', new Schema({ 
+var UserModel = Model = mongoose.model('User', new Schema({ 
     firstName: String, 
     lastName: String, 
     email: String, 
@@ -16,40 +16,6 @@ var UserModel = mongoose.model('User', new Schema({
     phone: String
 }));
 
-UserModel.validateSignUp = function (query){
-	console.log("User validating");
-	var validationResponse = commonHelper.getValidationResponse();
-	var HelperValidator = commonHelper.validator;
-
-    if(! HelperValidator.isEmail( query.email) ){ 
-    	validationResponse.addError("Invalid email: " + query.email);
-    }
-	if(! HelperValidator.isAlphanumeric( query.firstName ) 
-		&& query.lastName != "" ){
-		validationResponse.addError("Invalid firstName: " + query.firstName);
-    }
-    if(! HelperValidator.isAlphanumeric( query.lastName) 
-    	&& query.lastName != "" ){ 
-    	validationResponse.addError("Invalid Prenom: " + query.lastName);
-    }
-    if(! HelperValidator.isAlphanumeric( query.password) 
-    	&& HelperValidator.isLength(query.password, {min: 0, max: 10}) ){ 
-    	validationResponse.addError("Le mot de pass doit être une chaine de characters entre (5 - 10) : " + query.password);
-    }
-    /*
-    if(! HelperValidator.isAlphanumeric( query.address) ){ 
-    	validationResponse.addError("Invalid address: " + query.address);
-    }
-    if(! HelperValidator.isEmail( query.image) ){ 
-    	validationResponse.addError("Invalid email: " + query.image);
-    }
-    if(! HelperValidator.isEmail( query.phone) ){ 
-    	validationResponse.addError("Invalid email: " + query.phone);
-    }
-    */
-    
-	return validationResponse;
-}
 
 UserModel.getUser = function (res, idUser, callback){
 	var response = { success: false, message: '', data: [] };
@@ -60,12 +26,10 @@ UserModel.getUser = function (res, idUser, callback){
         if (err) throw err;
 
         if (!user) {
-        	console.log("not found");
-            response = { success: false, message: 'User not found.', data: [] };
+        	response = { success: false, message: 'User not found.', data: [] };
         } 
         else if (user) {
-        	console.log("found ");
-            response = {
+        	response = {
                 success: true,
                 message: 'User Found',
                 data: user
@@ -85,5 +49,30 @@ UserModel.getUser = function (res, idUser, callback){
         return response;
     });
 }
+
+UserModel.createUser = function (res, data, callback){
+    var dataUser = new Model({ 
+        firstName: req.data.firstName, 
+        lastName: req.data.lastName, 
+        email: req.data.email, 
+        password: req.data.password, 
+        rol: "client", 
+        creationDate: new Date(), 
+        updateDate: new Date() 
+    }); 
+    dataUser.save(function(err) {
+        if (err) throw err;
+        
+        var msgResponse = 'User saved successfully';
+        console.log(msgResponse);
+        res.json({ success: true, message: msgResponse, data: dataUser });
+    });
+}
+
+UserModel.getLoginUser = function (data){
+    
+}
+
+
 
 module.exports =  UserModel;

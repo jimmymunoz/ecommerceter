@@ -7,9 +7,9 @@ cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend
 
 -> Instalar:
 npm install express body-parser morgan mongoose jsonwebtoken --save
-
-npm install finalhandler serve-static
-npm install -g nodemon
+npm install finalhandler serve-static	
+sudo npm install -g nodemon
+sudo npm install -g n
 
 export NODE_PATH=/Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend/node_modules
 
@@ -29,8 +29,8 @@ Terminal
 
 Authentication:
 
-POST http://localhost:8080/user/setup
 
+POST http://localhost:8080/user/setup
 
 POST http://localhost:8080/user/authenticate
 

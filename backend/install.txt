@@ -4,10 +4,16 @@ Tutorial:
 ->Project 
 cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend/
 
+export NODE_PATH=/usr/local/lib/node_modules
+export NODE_PATH=/Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend/node_modules
 
 npm install express body-parser morgan mongoose jsonwebtoken --save
 
 sudo npm install -g nodemon
+//https://www.npmjs.com/package/validator
+npm install validator
+
+
 
 Terminal 1
 node server webserver.js
@@ -28,7 +34,7 @@ http://localhost:8080/api/users
 Start Mongodb:
 https://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/
 /usr/local/bin/mongodb/bin
-
+.
 Server
 /usr/local/bin/mongodb/bin/mongod
 Terminal
