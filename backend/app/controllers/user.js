@@ -23,7 +23,6 @@ moduleRoutes.get('/setup', function(req, res) {
     }); 
     dataUser.save(function(err) {
         if (err) throw err;
-
         var msgResponse = 'User saved successfully';
         console.log(msgResponse);
         res.json({ success: true, message: msgResponse, data: [] });
