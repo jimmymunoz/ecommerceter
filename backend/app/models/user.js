@@ -10,6 +10,7 @@ var UserModel = Model = mongoose.model('User', new Schema({
     firstName: String, 
     lastName: String, 
     email: String, 
+    rol: String, 
     password: String, 
     address: String, 
     image: String, 
@@ -69,9 +70,7 @@ UserModel.createUser = function (res, data, callback){
     });
 }
 
-UserModel.getLoginUser = function (data){
-    
-}
+
 
 
 

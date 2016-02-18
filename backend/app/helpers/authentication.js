@@ -41,6 +41,28 @@ var authenticationHelper = function() {
         });
         return token;
 	}
+
+	this.getUserByToken = function (token){
+	    var result = { user: {}, error: undefined };
+	    if (token) {
+	    	try {
+				var isValid = jwt.verify(token, config.secret);
+				if(isValid){
+					var decoded = jwt.decode(token, config.secret);
+					result['user'] = decoded._doc;
+				}
+				else{
+					result['error'] = "Invalid token";
+				}
+			} catch(err) {
+				result['error'] = err;
+				console.log(err);
+			}
+	    }
+	    return result;
+	}
 }
+
+
 
 module.exports = new authenticationHelper();

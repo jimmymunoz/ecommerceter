@@ -6,6 +6,7 @@ var mongoose    = require('mongoose');
 
 var config = require('./config'); // get our config file
 var ACL = []; //Access control List
+var authenticationHelper   = require('./app/helpers/authentication'); 
 
 //var port = process.env.PORT || 8888; 
 var port = 8888; 
@@ -17,25 +18,81 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 app.use(function(req, res, next) {
-	//var Privilege   = require(pathServer + 'app/models/privilege');
-	var Privilege   = require('./app/models/privilege');
-	Privilege.find({}).
-    //where('idCategory').equals(req.query.idCategory).// =
-    //where('idCategory').gt(17).lt(66).// gt - lt
-    //where('idCategory').in(['idCategory', req.query.idCategory]).// like
-    //limit(10).
-    sort('-idCategory').
-    select('action rol ').
-    exec(function(err, Privileges) {
-        
-        ACL = Privileges;
-        console.log(ACL);
-        //res.json({ success: true, message: 'Privilege List:', data: Privileges });
-        next();
-    });
+    var requestUrl = req.url;
+    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+    
+    
+    //var Privilege   = require(pathServer + 'app/models/privilege');
+    var Privilege   = require('./app/models/privilege');
+    var allowAccess = true;
+
+    Privilege.find({}).
+        sort('-idCategory').
+        select('action rol ').
+        exec(function(err, Privileges) {
+            //console.log(Privileges);
+            
+            var urlIsProtected = false;
+            for (var i in Privileges){
+                if( Privileges[i]['action'] == requestUrl ){
+                    urlIsProtected = true;
+                    allowAccess = false;//Interdir l'access quand il existe une url dans la liste de privileges
+                    break;
+                }
+            }
+            console.log("urlIsProtected: " + urlIsProtected);
+            
+            var user;
+            var userRol = "";
+            if( urlIsProtected ){
+                if(token){
+                    var authDecoded = authenticationHelper.getUserByToken(token);
+                    if( authDecoded['error'] ){
+                        return res.status(403).send({ 
+                            allowAccess: allowAccess, 
+                            success: false, 
+                            message: authDecoded['error'],
+                            data: []
+                        });
+                    }
+                    user = authDecoded['user'];
+                    console.log(user);
+                    userRol = user.rol;
+                    if( userRol != '' ){
+                        //Jimmy: User Exists in the ACL?
+                        for (var i in Privileges){
+                            if( Privileges[i]['action'] == requestUrl && Privileges[i]['rol'] == userRol  ){
+                                allowAccess = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else{
+                    return res.status(403).send({ 
+                        allowAccess: allowAccess, 
+                        success: false, 
+                        message: 'Access Denied. (' + requestUrl + ') -  No token provided.',
+                        data: []
+                    });
+                }
+            }
+
+            if (! allowAccess) {
+                return res.status(403).send({ 
+                    allowAccess: allowAccess, 
+                    success: false, 
+                    message: 'Access Denied. (' + requestUrl + ')  - Rol: ' + userRol,
+                    data: []
+                });
+            }
+
+            console.log("allowAccess: " + allowAccess);
+            next();
+        });
 });
 
-console.log(ACL);
+
 
 //Controllers
 app.use('/authentication', require('./app/controllers/authentication'));
