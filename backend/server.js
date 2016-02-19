@@ -8,8 +8,8 @@ var config = require('./config'); // get our config file
 var ACL = []; //Access control List
 var authenticationHelper   = require('./app/helpers/authentication'); 
 
-//var port = process.env.PORT || 8888; 
-var port = 8888; 
+//var port = process.env.PORT || 8888;
+var port = 8888;
 mongoose.connect(config.database); // connect to database
 
 
@@ -19,7 +19,7 @@ app.use(morgan('dev'));
 
 //Default Paths
 //Jimmy: Security
-//app.use(authenticationHelper.restrictAccess);
+app.use(authenticationHelper.restrictAccess);
 
 //Controllers
 app.use('/authentication', require('./app/controllers/authentication'));
