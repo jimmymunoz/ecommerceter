@@ -15,12 +15,12 @@ moduleRoutes.get('/', function(req, res) {
 //http://localhost:8888/category/setup
 moduleRoutes.get('/setup', function(req, res) {
    	var dataCategory = new Category({
-    idCategory: '1',
-    idParent: '1',
-    name: 'my new category',
-    level: 1,
-    creationDate: Date(),
-    modificationDate: Date()
+	    idCategory: '1',
+	    idParent: '1',
+	    name: 'my new category',
+	    level: 1,
+	    creationDate: Date(),
+	    modificationDate: Date()
     });
     dataCategory.save(function(err) {
         if (err) throw err;

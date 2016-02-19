@@ -19,7 +19,7 @@ moduleRoutes.get('/', function(req, res) {
 
 //http://localhost:8888/order/getOrder?idOrder=1 //Comment connaiter le client en question
 moduleRoutes.get('/getOrder', function(req, res) {
-   var validationResponse = commonHelper.getValidationResponse();
+    var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     if(! ( HelperValidator.isNumeric( req.query.idOrder ) && req.query.idOrder != "" )  ){
       validationResponse.addError("Invalid number: " + req.query.idOrder);
@@ -61,15 +61,15 @@ moduleRoutes.get('/getAdminOrders', function(req, res) {
 });
 //http://localhost:8888/order/getClientOrder?idUser=1
 moduleRoutes.post('/getClientOrder', function(req, res) {
-res.setHeader('Access-Control-Allow-Origin', '*');
-var validationResponse = commonHelper.getValidationResponse();
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     
     if(! ( HelperValidator.isNumeric( req.query.idUser ) && req.query.idUser != "" )  ){
       validationResponse.addError("Invalid idUser: " + req.query.idUser);
     }
     
-     if(! validationResponse.success){
+    if(! validationResponse.success){
         res.json(validationResponse);
     }
     else {
@@ -95,7 +95,7 @@ var validationResponse = commonHelper.getValidationResponse();
 //http://localhost:8888/order/changeStatus?idOrder=1
 moduleRoutes.post('/changeStatus', function(req, res) {
 res.setHeader('Access-Control-Allow-Origin', '*');
-var validationResponse = commonHelper.getValidationResponse();
+    var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     
     if(! ( HelperValidator.isNumeric( req.query.idOrder ) && req.query.idOrder != "" )  ){
@@ -132,7 +132,7 @@ var validationResponse = commonHelper.getValidationResponse();
 
 //http://localhost:8888/order/getAdminOrder?idOrder=1
 moduleRoutes.get('/getAdminOrder', function(req, res) {
-   var validationResponse = commonHelper.getValidationResponse();
+    var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     if(! ( HelperValidator.isNumeric( req.query.idOrder ) && req.query.idOrder != "" )  ){
       validationResponse.addError("Invalid number: " + req.query.idOrder);

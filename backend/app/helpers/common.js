@@ -87,6 +87,21 @@ var commonHelper = function() {
 			}
 		};
 	}
+	this.calculateTotalProd = function(Order) {
+		var obj = JSON.parse(Order);
+		var som = 0;
+		try{
+			for(var i in  obj)
+			{  
+				var s = obj[i].quantity;
+				som = som + s;			
+			}	
+		}
+		catch(e){
+			console.log("Parsing error:", e);
+		}
+		return som;
+	}
 
 }
 

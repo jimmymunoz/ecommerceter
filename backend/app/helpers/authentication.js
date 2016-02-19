@@ -59,7 +59,14 @@ var authenticationHelper = function() {
 				console.log(err);
 			}
 	    }
-	    return result;
+	    if( result['error'] ){
+	        return res.status(403).send({ 
+	            success: false, 
+	            message: result['error'],
+	            data: []
+	        });
+	    }
+	    return result['user'];
 	}
 
 	this.restrictAccess = function(req, res, next) {
@@ -88,16 +95,7 @@ var authenticationHelper = function() {
 	            var userRol = "";
 	            if( urlIsProtected ){
 	                if(token){
-	                    var authDecoded = authenticationHelper.getUserByToken(token);
-	                    if( authDecoded['error'] ){
-	                        return res.status(403).send({ 
-	                            allowAccess: allowAccess, 
-	                            success: false, 
-	                            message: authDecoded['error'],
-	                            data: []
-	                        });
-	                    }
-	                    user = authDecoded['user'];
+	                    user = this.getUserByToken(token);
 	                    console.log(user);
 	                    userRol = user.rol;
 	                    if( userRol != '' ){
@@ -128,7 +126,6 @@ var authenticationHelper = function() {
 	                    data: []
 	                });
 	            }
-
 	            console.log("allowAccess: " + allowAccess);
 	            next();
 	        });

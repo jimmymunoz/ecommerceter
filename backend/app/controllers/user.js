@@ -24,21 +24,11 @@ moduleRoutes.get('/', function(req, res) {
         res.json({ success: false, message: 'Invalid User action', data: req.decoded });
 });
 
-//http://localhost:8888/user/getMyUser?idUser=1
+//http://localhost:8888/user/getMyUser
 moduleRoutes.get('/getMyUser', function(req, res) {
     var token = req.body.token || req.param('token') || req.headers['x-access-token'];
-    var authDecoded = authenticationHelper.getUserByToken(token);
-    var validationResponse = commonHelper.getValidationResponse();
-    var HelperValidator = commonHelper.validator;
-
-    if( authDecoded['error'] ){
-        return res.status(403).send({ 
-            success: false, 
-            message: authDecoded['error'],
-            data: []
-        });
-    }
-    user = authDecoded['user'];
+    var user = authenticationHelper.getUserByToken(token);
+    
     console.log("user: ");
     console.log(user);
 
@@ -50,12 +40,7 @@ moduleRoutes.get('/getMyUser', function(req, res) {
         res.json(validationResponse);
     }
     else {
-        User.
-            findOne({ idUser: user.idUser }).
-            //where('idUser').equals(req.query.idUser).// =
-            //where('idUser').gt(17).lt(66).// gt - lt
-            //where('idUser').in(['idUser', req.query.idUser]).// like
-            //limit(10).
+        User.findOne({ idUser: user.idUser }).
             sort('-idUser').
             select('idUser firstName lastName email address image phone rol InscriptionDate updateDate ').
             exec(function(err, user) {
@@ -78,33 +63,47 @@ moduleRoutes.get('/getMyUser', function(req, res) {
 
 //http://localhost:8888/user/getUser?idUser=1
 moduleRoutes.get('/getUser', function(req, res) {
+    var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
 
-    User.
-        findOne({ idUser: req.query.idUser }).
-        //where('idUser').equals(req.query.idUser).// =
-        //where('idUser').gt(17).lt(66).// gt - lt
-        //where('idUser').in(['idUser', req.query.idUser]).// like
-        //limit(10).
-        sort('-idUser').
-        select('idUser firstName lastName email address image phone rol InscriptionDate updateDate ').
-        exec(function(err, user) {
-        if (err) throw err;
+    if(! ( HelperValidator.isNumeric( req.query.idUser ) )  ){
+        validationResponse.addError("User not found (" + user.idUser + ")");
+    }
 
-        if (!user) {
-            res.json({ success: false, message: 'User not found.', data: [] });
-        } 
-        else if (user) {
-                res.json({
-                success: true,
-                message: 'User Found',
-                data: user
-            });
-        }
-    });
+    if(! validationResponse.success){
+        res.json(validationResponse);
+    }
+    else {
+        User.
+            findOne({ idUser: req.query.idUser }).
+            //where('idUser').equals(req.query.idUser).// =
+            //where('idUser').gt(17).lt(66).// gt - lt
+            //where('idUser').in(['idUser', req.query.idUser]).// like
+            //limit(10).
+            sort('-idUser').
+            select('idUser firstName lastName email address image phone rol InscriptionDate updateDate ').
+            exec(function(err, user) {
+            if (err) throw err;
+
+            if (!user) {
+                res.json({ success: false, message: 'User not found.', data: [] });
+            } 
+            else if (user) {
+                    res.json({
+                    success: true,
+                    message: 'User Found',
+                    data: user
+                });
+            }
+        });
+    }
 });
 
 //http://localhost:8888/user/getUsersList
 moduleRoutes.get('/getUsersList', function(req, res) {
+    var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+
     User.find({}).
     //where('idCategory').equals(req.query.idCategory).// =
     //where('idCategory').gt(17).lt(66).// gt - lt
@@ -119,6 +118,10 @@ moduleRoutes.get('/getUsersList', function(req, res) {
 
 //http://localhost:8888/user/createUser
 moduleRoutes.post('/createUser', function(req, res) {
+    var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+
+
     User.findOne({ email: res.body.email }).
         select('idUser, email').
         exec( function(err, user){
@@ -155,6 +158,10 @@ moduleRoutes.post('/createUser', function(req, res) {
 
 //http://localhost:8888/user/updateUser?idUser=1
 moduleRoutes.post('/updateUser', function(req, res) {
+    var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+
+    
     var queryWhere = { idUser: req.body.idUser };
     var updateFields = {  
         idUser: req.body.idUser, 

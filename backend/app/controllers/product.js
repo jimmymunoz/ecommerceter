@@ -119,6 +119,9 @@ moduleRoutes.post('/createProduct', function(req, res) {
 });
 // http://localhost:8888/product/getProduct?idProduct=1
 moduleRoutes.get('/getProduct', function(req, res) {
+	var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+
     Product.findOne({
         idProduct: req.query.idProduct
     },
@@ -232,6 +235,9 @@ moduleRoutes.post('/updateProduct', function(req, res) {
 
 //http://localhost:8888/product/removeProduct?idProduct=1
 moduleRoutes.delete('/removeProduct', function(req, res) {
+	var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+	
     Product.remove({
         idProduct: req.query.idProduct
     }, function(err, product) {
