@@ -6,6 +6,7 @@ var jwt    = require('jsonwebtoken');
 var moduleRoutes = express.Router();
 var Product   = require(pathServer + 'app/models/product');
 var Category   = require(pathServer + 'app/models/category');
+var ProductEvaluation = require(pathServer + 'app/models/productEvaluation');
 //Helpers:
 var commonHelper   = require(pathServer + 'app/helpers/common');
 //http://localhost:8888/product/setup
@@ -303,6 +304,35 @@ moduleRoutes.get('/getProductsList', function(req, res) {
               res.json({ success: true, message: 'Product List 45:', data: out });
         });
 });
+ //http://localhost:8888/product/productEvaluation
+ moduleRoutes.post('/productEvaluation', function(req, res) {
+   var validationResponse = commonHelper.getValidationResponse();
+   var HelperValidator = commonHelper.validator;
+   // validation evaluation
+   if(! ( HelperValidator.isNumeric( req.body.evaluation ) && req.body.evaluation  != ""  && HelperValidator.isLength(req.body.evaluation, {min:0,max:5}) )  ){
+     validationResponse.addError("Invalid product evaluation  : " + req.body.evaluation );
+   }
+   // validation email
+   if(! ( HelperValidator.isEmail( req.body.email) && req.body.email!= "" )  ){
+     validationResponse.addError("Invalid product evaluation email: " + req.body.email);
+   }
+   if(! validationResponse.success){
+       res.json(validationResponse);
+   }
+   else {
+     var dataProductEvaluation = new ProductEvaluation({
+       evaluation: req.body.evaluation,
+       idProduct:req.body.idProduct,
+       email : req.body.email
+     });
+     dataProductEvaluation.save(function(err) {
+       if (err) throw err;
 
+       var msgResponse = 'Product evaluation saved successfully';
+       console.log(msgResponse);
+       res.json({ success: true, message: msgResponse, data: [] });
+     });
+  }
+});
 
 module.exports = moduleRoutes;
