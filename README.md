@@ -6,8 +6,11 @@ Tutorial:
 cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend
 
 -> Instalar:
+//https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 npm install express body-parser morgan mongoose jsonwebtoken --save
 npm install finalhandler serve-static	
+npm install --save mongoose-auto-increment
+
 sudo npm install -g nodemon
 sudo npm install -g n
 

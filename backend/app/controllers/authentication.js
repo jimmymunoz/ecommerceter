@@ -12,15 +12,15 @@ var authenticationHelper   = require(pathServer + 'app/helpers/authentication');
 var moduleRoutes = express.Router();
 //Public Methods:
 
-
-
 //http://localhost:8888/authentication/singup
 moduleRoutes.post('/singup', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
+    var email = req.body.email;
+    email = email.toLowerCase();
 
-    if(! HelperValidator.isEmail( req.body.email) ){ 
-        validationResponse.addError("Invalid email: " + req.body.email);
+    if(! HelperValidator.isEmail( email) ){ 
+        validationResponse.addError("Invalid email: " + email);
     }
     if(! HelperValidator.isAscii( req.body.firstName ) 
         && req.body.lastName != "" ){
@@ -30,8 +30,8 @@ moduleRoutes.post('/singup', function(req, res) {
         && req.body.lastName != "" ){ 
         validationResponse.addError("Invalid lastName: " + req.body.lastName);
     }
-    if(! HelperValidator.isAlphanumeric( req.body.password) 
-        && HelperValidator.isLength(req.body.password, {min: 0, max: 10}) ){ 
+    if(! (HelperValidator.isAlphanumeric( req.body.password) 
+        && HelperValidator.isLength(req.body.password, {min: 5, max: 10}) ) ){ 
         validationResponse.addError("Le mot de pass doit être une chaine de characters Alphanumerique entre (5 - 10) : " + req.body.password);
     }
 
@@ -42,24 +42,38 @@ moduleRoutes.post('/singup', function(req, res) {
         res.json({ success: false, message: msgResponse, data: [] });
     }
     else{ //validation ok
-        var encryptedPassword = authenticationHelper.encrypt(req.body.password);
-        
-        var dataUser = new User({ 
-            firstName: req.body.firstName, 
-            lastName: req.body.lastName, 
-            email: req.body.email, 
-            password: encryptedPassword, 
-            rol: "client", 
-            creationDate: new Date(), 
-            updateDate: new Date() 
-        }); 
-        dataUser.save(function(err) {
-            if (err) throw err;
-            var msgResponse = 'User saved successfully';
-            console.log(msgResponse);
-            dataUser.password = undefined;
-            res.json({ success: true, message: msgResponse, data: dataUser });
-        });
+        User.findOne({ email: email }).
+            select('idUser, email').
+            exec( function(err, user){
+                if (err) throw err;
+
+                if (!user){
+
+                    var encryptedPassword = authenticationHelper.encrypt(req.body.password);
+                    
+                    var dataUser = new User({ 
+                        firstName: req.body.firstName, 
+                        lastName: req.body.lastName, 
+                        email: email, 
+                        password: encryptedPassword, 
+                        rol: "client", 
+                        creationDate: new Date(), 
+                        updateDate: new Date() 
+                    }); 
+                    dataUser.save(function(err) {
+                        if (err) throw err;
+                        var msgResponse = 'User saved successfully';
+                        console.log(msgResponse);
+                        dataUser.password = undefined;
+                        res.json({ success: true, message: msgResponse, data: dataUser });
+                    });
+
+                }
+                else{
+                    res.json({ success: false, message: 'Email (' + email + ') Already Exists ', data: [] });
+                }
+            });
+
     }
 });
 
@@ -68,10 +82,13 @@ moduleRoutes.post('/singup', function(req, res) {
 moduleRoutes.post('/login', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
+    var email = req.body.email;
+    email = email.toLowerCase();
 
-    if(! HelperValidator.isEmail( req.body.email) ){ 
-        validationResponse.addError("Invalid email: " + req.body.email);
+    if(! HelperValidator.isEmail( email) ){ 
+        validationResponse.addError("Invalid email: " + email);
     }
+    
     if(! HelperValidator.isAlphanumeric( req.body.password) 
         && HelperValidator.isLength(req.body.password, {min: 0, max: 10}) ){ 
         validationResponse.addError("Le mot de pass doit être une chaine de characters Alphanumerique entre (5 - 10) : " + req.body.password);
@@ -84,7 +101,7 @@ moduleRoutes.post('/login', function(req, res) {
     }
     else{
         //User.getUserBy();
-        User.findOne({ email: req.body.email }).
+        User.findOne({ email: email }).
             select('idUser firstName lastName email password address image phone rol InscriptionDate updateDate ').
             exec(function(err, user) {
                 if (err) throw err;

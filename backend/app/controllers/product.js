@@ -85,10 +85,10 @@ moduleRoutes.get('/getProduct', function(req, res) {
 
 //http://localhost:8888/product/updateProduct?idProduct=1
 moduleRoutes.post('/updateProduct', function(req, res) {
-  console.log("Body:");
+	console.log("Body:");
 
-  console.log(req.body);
-  console.log("end Body");
+	console.log(req.body);
+	console.log("end Body");
     var queryWhere = { idProduct: req.body.idProduct };
     var updateFields = {
         idProduct: req.body.idProduct,
@@ -127,32 +127,31 @@ moduleRoutes.post('/updateProduct-', function(req, res) {
     }, function(err, product) {
 
         if (!product) {
-            res.json({ success: false, message: 'Product not found.:(', data: [] });
+            res.json({ success: false, message: 'Product not found.', data: [] });
         }
         else if (product) {
+        	// update product
+            product.idProduct= req.body.idProduct;
+            product.name = req.body.name;
+            product.description = req.body.description;
+            product.price = req.body.price;
+            product.tax = req.body.tax;
+            product.buyPrice = req.body.buyPrice;
+            product.image = req.body.image;
+            product.quantity = req.body.quantity;
+            product.weight = req.body.weight;
+            product.category = req.body.category;
+            product.productComment = req.body.productComment;
+            product.productEvaluation = req.body.productEvaluation;
+            product.creationDate = req.body.creationDate;
 
-                // update product
-                product.idProduct= req.body.idProduct;
-                product.name = req.body.name;
-                product.description = req.body.description;
-                product.price = req.body.price;
-                product.tax = req.body.tax;
-                product.buyPrice = req.body.buyPrice;
-                product.image = req.body.image;
-                product.quantity = req.body.quantity;
-                product.weight = req.body.weight;
-                product.category = req.body.category;
-                product.productComment = req.body.productComment;
-                product.productEvaluation = req.body.productEvaluation;
-                product.creationDate = req.body.creationDate;
+            product.update(function(err) {
+                if (err) throw err;
 
-                product.update(function(err) {
-                    if (err) throw err;
-
-                    var msgResponse = 'Product updated successfully';
-                    console.log(msgResponse);
-                    res.json({ success: true, message: msgResponse, data: [] });
-                });
+                var msgResponse = 'Product updated successfully';
+                console.log(msgResponse);
+                res.json({ success: true, message: msgResponse, data: [] });
+            });
         }
     });
 });
@@ -178,16 +177,16 @@ moduleRoutes.delete('/removeProduct', function(req, res) {
 
 // http://localhost:8888/product/getProductsList
 moduleRoutes.get('/getProductsList', function(req, res) {
-        Product.find({}, function(err, Products) {
-              //console.log(Products);
-              var out = [];
-              for(var key in Products){
-                Products[key]['CategoryData'] = Category.findOne({ idCategory: Products[key].category });
-                console.log(Products[key]);
-                out.push(Products[key]);
-              }
-              res.json({ success: true, message: 'Product List 45:', data: out });
-        });
+    Product.find({}, function(err, Products) {
+		//console.log(Products);
+		var out = [];
+		for(var key in Products){
+			Products[key]['CategoryData'] = Category.findOne({ idCategory: Products[key].category });
+			console.log(Products[key]);
+			out.push(Products[key]);
+		}
+		res.json({ success: true, message: 'Product List 45:', data: out });
+    });
 });
 
 

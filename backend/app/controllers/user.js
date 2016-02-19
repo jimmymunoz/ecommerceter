@@ -5,6 +5,9 @@ var jwt    = require('jsonwebtoken');
 var moduleRoutes = express.Router();
 //Models:
 var User   = require(pathServer + 'app/models/user');
+var authenticationHelper   = require(pathServer + 'app/helpers/authentication');
+//Helpers:
+var commonHelper   = require(pathServer + 'app/helpers/common'); 
 
 //http://localhost:8888/user/setup
 var pathServer = '../../';
@@ -21,8 +24,61 @@ moduleRoutes.get('/', function(req, res) {
         res.json({ success: false, message: 'Invalid User action', data: req.decoded });
 });
 
+//http://localhost:8888/user/getMyUser?idUser=1
+moduleRoutes.get('/getMyUser', function(req, res) {
+    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+    var authDecoded = authenticationHelper.getUserByToken(token);
+    var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+
+    if( authDecoded['error'] ){
+        return res.status(403).send({ 
+            success: false, 
+            message: authDecoded['error'],
+            data: []
+        });
+    }
+    user = authDecoded['user'];
+    console.log("user: ");
+    console.log(user);
+
+    if(! ( HelperValidator.isNumeric( user.idUser ) )  ){
+        validationResponse.addError("User not found (" + user.idUser + ")");
+    }
+
+    if(! validationResponse.success){
+        res.json(validationResponse);
+    }
+    else {
+        User.
+            findOne({ idUser: user.idUser }).
+            //where('idUser').equals(req.query.idUser).// =
+            //where('idUser').gt(17).lt(66).// gt - lt
+            //where('idUser').in(['idUser', req.query.idUser]).// like
+            //limit(10).
+            sort('-idUser').
+            select('idUser firstName lastName email address image phone rol InscriptionDate updateDate ').
+            exec(function(err, user) {
+            if (err) throw err;
+
+            if (!user) {
+                res.json({ success: false, message: 'User not found.', data: [] });
+            } 
+            else if (user) {
+                    res.json({
+                    success: true,
+                    message: 'User Found',
+                    data: user
+                });
+            }
+        });
+    }
+
+});
+
 //http://localhost:8888/user/getUser?idUser=1
 moduleRoutes.get('/getUser', function(req, res) {
+
     User.
         findOne({ idUser: req.query.idUser }).
         //where('idUser').equals(req.query.idUser).// =
@@ -30,7 +86,7 @@ moduleRoutes.get('/getUser', function(req, res) {
         //where('idUser').in(['idUser', req.query.idUser]).// like
         //limit(10).
         sort('-idUser').
-        select('idUser firstName lastName email password address image phone rol InscriptionDate updateDate ').
+        select('idUser firstName lastName email address image phone rol InscriptionDate updateDate ').
         exec(function(err, user) {
         if (err) throw err;
 
@@ -63,26 +119,38 @@ moduleRoutes.get('/getUsersList', function(req, res) {
 
 //http://localhost:8888/user/createUser
 moduleRoutes.post('/createUser', function(req, res) {
-   var dataUser = new User({ 
-        idUser: req.body.idUser, 
-        firstName: req.body.firstName, 
-        lastName: req.body.lastName, 
-        email: req.body.email, 
-        password: req.body.password, 
-        address: req.body.address, 
-        image: req.body.image, 
-        phone: req.body.phone, 
-        rol: req.body.rol, 
-        InscriptionDate: req.body.InscriptionDate, 
-        updateDate: req.body.updateDate 
-    }); 
-    dataUser.save(function(err) {
-        if (err) throw err;
+    User.findOne({ email: res.body.email }).
+        select('idUser, email').
+        exec( function(err, user){
+            if (err) throw err;
 
-        var msgResponse = 'User saved successfully';
-        console.log(msgResponse);
-        res.json({ success: true, message: msgResponse, data: dataUser });
-    });
+            if (!user){
+                //Email no 
+                var dataUser = new User({ 
+                    idUser: req.body.idUser, 
+                    firstName: req.body.firstName, 
+                    lastName: req.body.lastName, 
+                    email: req.body.email, 
+                    password: req.body.password, 
+                    address: req.body.address, 
+                    image: req.body.image, 
+                    phone: req.body.phone, 
+                    rol: req.body.rol, 
+                    InscriptionDate: req.body.InscriptionDate, 
+                    updateDate: req.body.updateDate 
+                }); 
+                dataUser.save(function(err) {
+                    if (err) throw err;
+
+                    var msgResponse = 'User saved successfully';
+                    console.log(msgResponse);
+                    res.json({ success: true, message: msgResponse, data: dataUser });
+                });
+            }
+            else{
+                res.json({ success: false, message: 'Email (' + req.body.email + ') Already Exists ', data: [] });
+            }
+        });
 });
 
 //http://localhost:8888/user/updateUser?idUser=1

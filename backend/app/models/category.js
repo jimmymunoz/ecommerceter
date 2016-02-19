@@ -5,10 +5,10 @@ var Schema = mongoose.Schema;
 // set up a mongoose model and pass it using module.exports
 
 module.exports = mongoose.model('Category', new Schema({
-  idCategory: Number,
-  idParent: String,
-  name: String,
-  level: Number,
-  creationDate: Date,
-  modificationDate: Date
+	idCategory: Number,
+	idParent: String,
+	name: String,
+	level: Number,
+	creationDate: Date,
+	modificationDate: Date
 }));

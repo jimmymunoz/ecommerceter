@@ -37,7 +37,7 @@ var authenticationHelper = function() {
 
 	this.createToken = function(user, rol){
 		var token = jwt.sign(user, config.secret, {
-         	expiresInMinutes: 60 // expires in 1 hour
+         	expiresInMinutes: config.time_user_session // expires in 1 hour
         });
         return token;
 	}
@@ -61,6 +61,79 @@ var authenticationHelper = function() {
 	    }
 	    return result;
 	}
+
+	this.restrictAccess = function(req, res, next) {
+	    var requestUrl = req.url;
+	    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+	    var Privilege   = require(pathServer + 'app/models/privilege');
+	    //var Privilege   = require('./app/models/privilege');
+	    var allowAccess = true;
+
+	    Privilege.find({}).
+	        select('action rol ').
+	        exec(function(err, Privileges) {
+	            //console.log(Privileges);
+	            
+	            var urlIsProtected = false;
+	            for (var i in Privileges){
+	                if( Privileges[i]['action'] == requestUrl ){
+	                    urlIsProtected = true;
+	                    allowAccess = false;//Interdir l'access quand il existe une url dans la liste de privileges
+	                    break;
+	                }
+	            }
+	            console.log("urlIsProtected: " + urlIsProtected);
+	            
+	            var user;
+	            var userRol = "";
+	            if( urlIsProtected ){
+	                if(token){
+	                    var authDecoded = authenticationHelper.getUserByToken(token);
+	                    if( authDecoded['error'] ){
+	                        return res.status(403).send({ 
+	                            allowAccess: allowAccess, 
+	                            success: false, 
+	                            message: authDecoded['error'],
+	                            data: []
+	                        });
+	                    }
+	                    user = authDecoded['user'];
+	                    console.log(user);
+	                    userRol = user.rol;
+	                    if( userRol != '' ){
+	                        //Jimmy: User Exists in the ACL?
+	                        for (var i in Privileges){
+	                            if( Privileges[i]['action'] == requestUrl && Privileges[i]['rol'] == userRol  ){
+	                                allowAccess = true;
+	                                break;
+	                            }
+	                        }
+	                    }
+	                }
+	                else{
+	                    return res.status(403).send({ 
+	                        allowAccess: allowAccess, 
+	                        success: false, 
+	                        message: 'Access Denied. (' + requestUrl + ') -  No token provided.',
+	                        data: []
+	                    });
+	                }
+	            }
+
+	            if (! allowAccess) {
+	                return res.status(403).send({ 
+	                    allowAccess: allowAccess, 
+	                    success: false, 
+	                    message: 'Access Denied. (' + requestUrl + ')  - Rol: ' + userRol,
+	                    data: []
+	                });
+	            }
+
+	            console.log("allowAccess: " + allowAccess);
+	            next();
+	        });
+	}
+
 }
 
 
