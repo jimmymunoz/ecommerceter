@@ -1,7 +1,6 @@
 var pathServer = "../../";
 var express 	= require('express');
 var config = require(pathServer + 'config');
-var jwt    = require('jsonwebtoken');
 //Models:
 var moduleRoutes = express.Router();
 var Product   = require(pathServer + 'app/models/product');
@@ -9,10 +8,11 @@ var Category   = require(pathServer + 'app/models/category');
 var ProductEvaluation = require(pathServer + 'app/models/productEvaluation');
 //Helpers:
 var commonHelper   = require(pathServer + 'app/helpers/common');
+var authenticationHelper   = require(pathServer + 'app/helpers/authentication');
 //http://localhost:8888/product/setup
 moduleRoutes.get('/setup', function(req, res) {
    var dataProduct = new Product({
-        idProduct: '1',
+        //idProduct: '1',
         name: 'Product 1',
         description: 'Mi product has ....',
         price: 100,
@@ -80,39 +80,30 @@ moduleRoutes.post('/createProduct', function(req, res) {
 		validationResponse.addError("Invalid product category: " + req.body. category);
 	}
 	// validation productComment
-	if(! ( HelperValidator.isAscii( req.body.productComment) && req.body.productComment!= "" )  ){
-		validationResponse.addError("Invalid product productComment: " + req.body.productComment);
-	}
-	// validation   productEvaluation
-	if(! ( HelperValidator.isAscii( req.body.productEvaluation) && req.body.productEvaluation!= "" )  ){
-		validationResponse.addError("Invalid product productEvaluation: " + req.body.productEvaluation);
-	}
-    if(! validationResponse.success){
+	if(! validationResponse.success){
         res.json(validationResponse);
     }
     else {
 		var dataProduct = new Product({
 			//idProduct: req.body.idProduct,
-			name: req.body.name,
-			description: req.body.description,
-			price: req.body.price,
-			tax: req.body.tax,
-			buyPrice: req.body.buyPrice,
-			image: req.body.image,
-			quantity: req.body.quantity,
-			weight: req.body.weight,
-			category: req.body.category,
-			productComment: req.body.productComment,
-			productEvaluation: req.body.productEvaluation,
-			creationDate:Date(),
-			modificationDate:Date()
+			name: ( req.body.name == undefined )? '': req.body.name,
+			description: ( req.body.description == undefined )? '': req.body.description,
+			price: ( req.body.price == undefined )? '': req.body.price,
+			tax: ( req.body.tax == undefined )? '': req.body.tax,
+			buyPrice: ( req.body.buyPrice == undefined )? '': req.body.buyPrice,
+			image: ( req.body.image == undefined )? '': req.body.image,
+			quantity: ( req.body.quantity == undefined )? '': req.body.quantity,
+			weight: ( req.body.weight == undefined )? '': req.body.weight,
+			category: ( req.body.category == undefined )? '': req.body.category,
+			creationDate: Date(),
+			modificationDate: Date()
 		});
 		dataProduct.save(function(err) {
 			if (err) throw err;
 
 			var msgResponse = 'Product saved successfully';
 			console.log(msgResponse);
-			res.json({ success: true, message: msgResponse, data: [] });
+			res.json({ success: true, message: msgResponse, data: dataProduct 	});
 		});
     }
 
@@ -129,12 +120,12 @@ moduleRoutes.get('/getProduct', function(req, res) {
         if (err) throw err;
 
         if (!product) {
-            res.json({ success: false, message: 'Product not found.:(', data: [] });
+            res.json({ success: false, message: 'Product not found.', data: [] });
         }
         else if (product) {
                 res.json({
                 success: true,
-                message: 'Product Found :)',
+                message: 'Product Found',
                 data: product
             });
         }
@@ -150,6 +141,10 @@ moduleRoutes.post('/updateProduct', function(req, res) {
     //  console.log(req.body);
     //  console.log("end Body");
     console.log(req.body.name);
+    // validation id
+    if(! ( HelperValidator.isNumeric( req.body.idProduct) && req.body.idProduct != "" )  ){
+		validationResponse.addError("Invalid idProduct: " + req.body.idProduct);
+    }
     // validation name
     if(! ( HelperValidator.isAlphanumeric( req.body.name) && req.body.name != "" )  ){
 		validationResponse.addError("Invalid product name: " + req.body.name);
@@ -187,20 +182,10 @@ moduleRoutes.post('/updateProduct', function(req, res) {
     if(! ( HelperValidator.isInt( req.body.category) && req.body.category!= "" )  ){
 		validationResponse.addError("Invalid product category: " + req.body. category);
     }
-    // validation productComment
-    if(! ( HelperValidator.isAscii( req.body.productComment) && req.body.productComment!= "" )  ){
-		validationResponse.addError("Invalid product productComment: " + req.body.productComment);
-    }
-    // validation   productEvaluation
-    if(! ( HelperValidator.isAscii( req.body.productEvaluation) && req.body.productEvaluation!= "" )  ){
-		validationResponse.addError("Invalid product productEvaluation: " + req.body.productEvaluation);
-    }
-
-
+    
     if(! validationResponse.success){
         res.json(validationResponse);
     }
-
     else {
 	    var queryWhere = { idProduct: req.body.idProduct };
 	    var updateFields = {
@@ -237,23 +222,32 @@ moduleRoutes.post('/updateProduct', function(req, res) {
 moduleRoutes.delete('/removeProduct', function(req, res) {
 	var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
-	
-    Product.remove({
-        idProduct: req.query.idProduct
-    }, function(err, product) {
-        if (err) throw err;
+	// validation id
+    if(! ( HelperValidator.isNumeric( req.body.idProduct) && req.body.idProduct != "" )  ){
+		validationResponse.addError("Invalid idProduct: " + req.body.idProduct);
+    }
 
-        if (!product) {
-            res.json({ success: false, message: 'Error: Product can not deleted', data: [] });
-        }
-        else if (product) {
-            res.json({
-                success: true,
-                message: 'Product Deleted',
-                data: product
-            });
-        }
-    });
+    if(! validationResponse.success){
+        res.json(validationResponse);
+    }
+    else {
+	    Product.remove({
+	        idProduct: req.query.idProduct
+	    }, function(err, product) {
+	        if (err) throw err;
+
+	        if (!product) {
+	            res.json({ success: false, message: 'Error: Product can not deleted', data: [] });
+	        }
+	        else if (product) {
+	            res.json({
+	                success: true,
+	                message: 'Product Deleted',
+	                data: product
+	            });
+	        }
+	    });
+    }
 });
 
 // http://localhost:8888/product/getProductsList
@@ -262,11 +256,11 @@ moduleRoutes.get('/getProductsList', function(req, res) {
 		//console.log(Products);
 		var out = [];
 		for(var key in Products){
-			Products[key]['CategoryData'] = Category.findOne({ idCategory: Products[key].category });
-			console.log(Products[key]);
+			//Products[key]['CategoryData'] = Category.findOne({ idCategory: Products[key].category });
+			//console.log(Products[key]);
 			out.push(Products[key]);
 		}
-		res.json({ success: true, message: 'Product List 45:', data: out });
+		res.json({ success: true, message: 'Product List:', data: out });
     });
 });
 
@@ -274,14 +268,17 @@ moduleRoutes.get('/getProductsList', function(req, res) {
 moduleRoutes.post('/productEvaluation', function(req, res) {
 	var validationResponse = commonHelper.getValidationResponse();
 	var HelperValidator = commonHelper.validator;
+	var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+	var user = authenticationHelper.getUserByToken(token);
 	// validation evaluation
 	if(! ( HelperValidator.isNumeric( req.body.evaluation ) && req.body.evaluation  != ""  && HelperValidator.isLength(req.body.evaluation, {min:0,max:5}) )  ){
 		validationResponse.addError("Invalid product evaluation  : " + req.body.evaluation );
 	}
-	// validation email
-	if(! ( HelperValidator.isEmail( req.body.email) && req.body.email!= "" )  ){
-		validationResponse.addError("Invalid product evaluation email: " + req.body.email);
-	}
+	if(! ( HelperValidator.isNumeric( user.idUser ) )  ){
+        validationResponse.addError("User not found (" + user.idUser + ") - Login required");
+    }
+
+
 	if(! validationResponse.success){
 		res.json(validationResponse);
 	}

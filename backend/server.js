@@ -19,7 +19,7 @@ app.use(morgan('dev'));
 
 //Default Paths
 //Jimmy: Security
-app.use(authenticationHelper.restrictAccess);
+//app.use(authenticationHelper.restrictAccess);
 
 //Controllers
 app.use('/authentication', require('./app/controllers/authentication'));

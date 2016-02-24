@@ -2,6 +2,7 @@ var pathServer = '../../';
 //https://www.npmjs.com/package/validator
 var validator = require('validator');
 var SHAREDDATA   = require(pathServer + 'app/helpers/data');
+var Counter   = require(pathServer + 'app/models/counter');
 var config = require(pathServer + 'config'); // get our config file
 //http://lollyrock.com/articles/nodejs-encryption/
 
@@ -101,6 +102,33 @@ var commonHelper = function() {
 			console.log("Parsing error:", e);
 		}
 		return som;
+	}
+
+	this.getNextSequence = function (name) {
+	    //Model.findByIdAndUpdate(id, { name: 'jason borne' }, options, callback)
+	    var ret = Counter.findByIdAndUpdate(id,
+	        {
+	            query: { _id: name },
+	            update: { $inc: { seq: 1 } },
+	            new: true
+	        },
+	        options,
+	        callback
+	    );
+	    
+	    /*
+	    Counter.update(
+	        { _id: name }, //query
+	        { $inc: { seq: 1 } }, //update
+	        function (err, raw) {
+	            if (err) return handleError(err);
+
+	            var msgResponse = ' ok ';
+	            console.log(msgResponse);
+	            res.json({ success: true, message: msgResponse, data: raw });
+	        }
+	    );*/
+	    return ret.seq;
 	}
 
 }

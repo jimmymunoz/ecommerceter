@@ -1,14 +1,10 @@
 var pathServer = '../../';
 var express     = require('express');
 var config = require(pathServer + 'config');
-var jwt    = require('jsonwebtoken'); 
 var moduleRoutes = express.Router();
  
 
 var Order   = require(pathServer + 'app/models/order');
-var Counter   = require(pathServer + 'app/models/counter');
-
-
 //Helpers:
 var commonHelper   = require(pathServer + 'app/helpers/common'); 
 
@@ -163,32 +159,7 @@ moduleRoutes.get('/getAdminOrder', function(req, res) {
 });
 
 
-function getNextSequence(name) {
-    //Model.findByIdAndUpdate(id, { name: 'jason borne' }, options, callback)
-    var ret = Counter.findByIdAndUpdate(id,
-        {
-            query: { _id: name },
-            update: { $inc: { seq: 1 } },
-            new: true
-        },
-        options,
-        callback
-    );
-    
-    /*
-    Counter.update(
-        { _id: name }, //query
-        { $inc: { seq: 1 } }, //update
-        function (err, raw) {
-            if (err) return handleError(err);
 
-            var msgResponse = ' ok ';
-            console.log(msgResponse);
-            res.json({ success: true, message: msgResponse, data: raw });
-        }
-    );*/
-    return ret.seq;
-}
 
 
 
@@ -217,7 +188,6 @@ moduleRoutes.post('/createOrder', function(req, res) {
     else {     
         var dataOrder = new Order({ 
             idUser: req.body.idUser,
-            //idOrder: req.body.idOrder, 
             address: req.body.address, 
             creationDate: Date(), 
             total: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
@@ -294,7 +264,7 @@ moduleRoutes.post('/updateOrder', function(req, res) {
 
 
 //http://localhost:8888/order/removeOrder?idOrder=1
-moduleRoutes.post('/removeOrder', function(req, res) {
+moduleRoutes.delete('/removeOrder', function(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;

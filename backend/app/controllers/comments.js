@@ -1,7 +1,6 @@
 var pathServer = '../../';
 var express 	= require('express');
 var config = require(pathServer + 'config');
-var jwt    = require('jsonwebtoken'); 
 var moduleRoutes = express.Router();
 
 
@@ -115,7 +114,7 @@ moduleRoutes.post('/editComment', function(req, res) {
 	}
 });
 //http://localhost:8888/comment/removeComment?idComment=1
-moduleRoutes.post('/removeComment', function(req, res) {
+moduleRoutes.delete('/removeComment', function(req, res) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;

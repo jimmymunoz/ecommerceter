@@ -1,7 +1,6 @@
 var pathServer = "../../";
 var express 	= require('express');
 var config = require(pathServer + 'config');
-var jwt    = require('jsonwebtoken');
 //Models:
 var moduleRoutes = express.Router();
 var Category   = require(pathServer + 'app/models/category');
@@ -40,7 +39,6 @@ moduleRoutes.post('/createCategory', function(req, res) {
 	if(! ( HelperValidator.isNumeric( req.body.idParent ) && req.body.idParent != "" )  ){
 		validationResponse.addError("Invalid product idParent: " + req.body.idParent);
 	}
-	console.log(req.body.name);
 	//validation name
 	if(! ( HelperValidator.isAlphanumeric( req.body.name ) && req.body.name != "" )  ){
 		validationResponse.addError("Invalid product name: " + req.body.name);
@@ -55,7 +53,6 @@ moduleRoutes.post('/createCategory', function(req, res) {
 	}
 	else {
 		var dataCategory = new Category({
-			idCategory: req.body.idCategory,
 			idParent: req.body.idParent,
 			name: req.body.name,
 			level: req.body.level,
@@ -95,6 +92,11 @@ moduleRoutes.post('/updateCategory', function(req, res) {
     //  console.log(req.body);
     //  console.log("end Body");
     console.log(req.body.name);
+
+    // validation idCategory
+    if(! ( HelperValidator.isNumeric( req.body.idCategory) && req.body.idCategory != "" )  ){
+    	validationResponse.addError("Invalid product idCategory: " + req.body.idCategory);
+    }
     // validation name
     if(! ( HelperValidator.isAlphanumeric( req.body.name) && req.body.name != "" )  ){
     	validationResponse.addError("Invalid product name: " + req.body.name);
@@ -104,7 +106,6 @@ moduleRoutes.post('/updateCategory', function(req, res) {
     if(! ( HelperValidator.isNumeric( req.body.idParent) && req.body.idParent != "" )  ){
     	validationResponse.addError("Invalid product idParent: " + req.body.idParent);
     }
-    console.log(req.body.level);
     // validation level
     if(! ( HelperValidator.isNumeric( req.body.level) && req.body.level != "" )  ){
     	validationResponse.addError("Invalid product level: " + req.body.level);

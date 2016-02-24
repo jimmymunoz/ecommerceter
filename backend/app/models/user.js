@@ -1,12 +1,16 @@
 var pathServer = '../../';
-// get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
+var config = require(pathServer + 'config'); // get our config file
 var Schema = mongoose.Schema;
 var commonHelper   = require(pathServer + 'app/helpers/common');
 
+var autoIncrement = require('mongoose-auto-increment');
+var connection = mongoose.createConnection(config.database);
+autoIncrement.initialize(connection);
 
 // set up a mongoose model and pass it using module.exports
-var UserModel = Model = mongoose.model('User', new Schema({ 
+var UserSchema = new Schema({ 
+    idUser: Number, 
     firstName: String, 
     lastName: String, 
     email: String, 
@@ -15,29 +19,32 @@ var UserModel = Model = mongoose.model('User', new Schema({
     address: String, 
     image: String, 
     phone: String
-}));
+});
+
+UserSchema.plugin(autoIncrement.plugin, { model: 'users', field: 'idUser' });
+var UserModel = Model = mongoose.model('User', UserSchema);
 
 
 UserModel.getUser = function (res, idUser, callback){
-	var response = { success: false, message: '', data: [] };
-	
+    var response = { success: false, message: '', data: [] };
+    
     this.findOne({
        idUser: idUser
     }, function(err, user) {
         if (err) throw err;
 
         if (!user) {
-        	response = { success: false, message: 'User not found.', data: [] };
+            response = { success: false, message: 'User not found.', data: [] };
         } 
         else if (user) {
-        	response = {
+            response = {
                 success: true,
                 message: 'User Found',
                 data: user
             };
         }
     });
-	var query = this.findOne({
+    var query = this.findOne({
        idUser: idUser
     });
     query.then(function (doc) {
@@ -70,8 +77,4 @@ UserModel.createUser = function (res, data, callback){
     });
 }
 
-
-
-
-
-module.exports =  UserModel;
+module.exports = UserModel;

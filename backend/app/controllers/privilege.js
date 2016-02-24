@@ -1,7 +1,6 @@
 var pathServer = '../../';
 var express     = require('express');
 var config = require(pathServer + 'config');
-var jwt    = require('jsonwebtoken'); 
 var moduleRoutes = express.Router();
 
 
@@ -87,7 +86,7 @@ moduleRoutes.post('/updatePrivilege', function(req, res) {
 });
 
 //http://localhost:8888/privilege/removePrivilege?action=test
-moduleRoutes.post('/removePrivilege', function(req, res) {
+moduleRoutes.delete('/removePrivilege', function(req, res) {
     Privilege.remove({
         action: req.body.action
     }, function(err, privilege) {

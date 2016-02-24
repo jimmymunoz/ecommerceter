@@ -1,7 +1,6 @@
 var pathServer = '../../';
 var express     = require('express');
 var config = require(pathServer + 'config');
-var jwt    = require('jsonwebtoken'); 
 var moduleRoutes = express.Router();
 
 
@@ -107,7 +106,7 @@ moduleRoutes.get('/setup', function(req, res) {
 });
 
 //http://localhost:8888/payment/removePayment?code=888881919
-moduleRoutes.post('/removePayment', function(req, res) {
+moduleRoutes.delete('/removePayment', function(req, res) {
     Payment.remove({
         code: req.body.code
     }, function(err, payment) {
