@@ -113,80 +113,12 @@ moduleRoutes.get('/getUsersList', function(req, res) {
 moduleRoutes.post('/createUser', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
-    if(! HelperValidator.isEmail( req.body.email) ){ 
-        validationResponse.addError("Invalid email: " + req.body.email);
-    }
-    if(! HelperValidator.isAscii( req.body.firstName ) 
-        && req.body.lastName != "" ){
-        validationResponse.addError("Invalid firstName: " + req.body.firstName);
-    }
-    if(! HelperValidator.isAscii( req.body.lastName) 
-        && req.body.lastName != "" ){ 
-        validationResponse.addError("Invalid lastName: " + req.body.lastName);
-    }
-    if(! (HelperValidator.isAlphanumeric( req.body.password) 
-        && HelperValidator.isLength(req.body.password, {min: 5, max: 10}) ) ){ 
-        validationResponse.addError("Le mot de pass doit être une chaine de characters Alphanumerique entre (5 - 10) : " + req.body.password);
-    }
-    if(! HelperValidator.isAscii( req.body.phone) 
-        && req.body.phone != "" ){ 
-        validationResponse.addError("Invalid phone: " + req.body.phone);
-    }
+    var rol = ( req.body.rol != undefined )? req.body.rol: '';
+    var arrRols = commonHelper.getDataByKey('rol');
+    var email = (req.body.email == undefined)? "": req.body.email;
+    email = email.toLowerCase();
 
-    if(! HelperValidator.isAscii( req.body.rol) 
-        && req.body.rol != "" ){ 
-        validationResponse.addError("Invalid rol: " + req.body.rol);
-    }
-
-    if(! validationResponse.success){
-        res.json(validationResponse);
-    }
-    else {
-        User.findOne({ email: req.body.email }).
-            select('idUser, email').
-            exec( function(err, user){
-                if (err) throw err;
-
-                if (!user){
-                    //Email no 
-                    var dataUser = new User({ 
-                        //idUser: req.body.idUser, 
-                        firstName: req.body.firstName, 
-                        lastName: req.body.lastName, 
-                        email: req.body.email, 
-                        password: req.body.password, 
-                        address: req.body.address, 
-                        //image: req.body.image, 
-                        phone: req.body.phone, 
-                        rol: req.body.rol, 
-                        InscriptionDate: Date(), 
-                        updateDate: Date() 
-                    }); 
-                    dataUser.save(function(err) {
-                        if (err) throw err;
-
-                        var msgResponse = 'User saved successfully';
-                        console.log(msgResponse);
-                        res.json({ success: true, message: msgResponse, data: dataUser });
-                    });
-                }
-                else{
-                    res.json({ success: false, message: 'Email (' + req.body.email + ') Already Exists ', data: [] });
-                }
-            });
-    }
-
-});
-
-//http://localhost:8888/user/updateUser?idUser=1
-moduleRoutes.post('/updateUser', function(req, res) {
-    var validationResponse = commonHelper.getValidationResponse();
-    var HelperValidator = commonHelper.validator;
-    if(! HelperValidator.isNumeric( req.body.idUser) 
-        && req.body.idUser != "" ){ 
-        validationResponse.addError("Invalid idUser: " + req.body.idUser);
-    }
-    if(! HelperValidator.isEmail( req.body.email) ){ 
+    if(! HelperValidator.isEmail( email) ){ 
         validationResponse.addError("Invalid email: " + email);
     }
     if(! HelperValidator.isAscii( req.body.firstName ) 
@@ -205,8 +137,10 @@ moduleRoutes.post('/updateUser', function(req, res) {
         && req.body.phone != "" ){ 
         validationResponse.addError("Invalid phone: " + req.body.phone);
     }
-    if(! HelperValidator.isAscii( req.body.rol) 
-        && req.body.rol != "" ){ 
+
+    if(! ( HelperValidator.isAscii( req.body.rol) 
+        && req.body.rol != "" 
+        && arrRols.indexOf(rol) != -1 ) ){ 
         validationResponse.addError("Invalid rol: " + req.body.rol);
     }
 
@@ -214,32 +148,124 @@ moduleRoutes.post('/updateUser', function(req, res) {
         res.json(validationResponse);
     }
     else {
-        var queryWhere = { idUser: req.body.idUser };
-        var updateFields = {  
-            idUser: req.body.idUser, 
-            firstName: req.body.firstName, 
-            lastName: req.body.lastName, 
-            email: req.body.email, 
-            password: req.body.password, 
-            address: req.body.address, 
-            image: req.body.image, 
-            phone: req.body.phone, 
-            rol: req.body.rol, 
-            InscriptionDate: req.body.InscriptionDate, 
-            updateDate: req.body.updateDate 
-        };
-        
-        User.update(
-            queryWhere, //query
-            updateFields, //update
-            function (err, raw) {
-                if (err) return handleError(err);
+        User.findOne({ email: email }).
+            select('idUser, email').
+            exec( function(err, user){
+                if (err) throw err;
 
-                var msgResponse = 'User updated successfully';
-                console.log(msgResponse);
-                res.json({ success: true, message: msgResponse, data: raw });
-            }
-        );
+                if (!user){
+                    //Email no 
+                    var dataUser = new User({ 
+                        //idUser: req.body.idUser, 
+                        firstName: req.body.firstName, 
+                        lastName: req.body.lastName, 
+                        email: email, 
+                        password: req.body.password, 
+                        address: req.body.address, 
+                        //image: req.body.image, 
+                        phone: req.body.phone, 
+                        rol: req.body.rol, 
+                        InscriptionDate: Date(), 
+                        updateDate: Date() 
+                    }); 
+                    dataUser.save(function(err) {
+                        if (err) throw err;
+
+                        var msgResponse = 'User saved successfully';
+                        console.log(msgResponse);
+                        res.json({ success: true, message: msgResponse, data: dataUser });
+                    });
+                }
+                else{
+                    res.json({ success: false, message: 'Email (' + email + ') Already Exists ', data: [] });
+                }
+            });
+    }
+
+});
+
+//http://localhost:8888/user/updateUser?idUser=1
+moduleRoutes.post('/updateUser', function(req, res) {
+    var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+    var rol = ( req.body.rol != undefined )? req.body.rol: '';
+    var arrRols = commonHelper.getDataByKey('rol');
+    var email = (req.body.email == undefined)? "": req.body.email;
+    email = email.toLowerCase();
+
+    if(! HelperValidator.isNumeric( req.body.idUser) 
+        && req.body.idUser != "" ){ 
+        validationResponse.addError("Invalid idUser: " + req.body.idUser);
+    }
+
+    if(! HelperValidator.isEmail( email) ){ 
+        validationResponse.addError("Invalid email: " + email);
+    }
+    if(! HelperValidator.isAscii( req.body.firstName ) 
+        && req.body.lastName != "" ){
+        validationResponse.addError("Invalid firstName: " + req.body.firstName);
+    }
+    if(! HelperValidator.isAscii( req.body.lastName) 
+        && req.body.lastName != "" ){ 
+        validationResponse.addError("Invalid lastName: " + req.body.lastName);
+    }
+    if(! (HelperValidator.isAlphanumeric( req.body.password) 
+        && HelperValidator.isLength(req.body.password, {min: 5, max: 10}) ) ){ 
+        validationResponse.addError("Le mot de pass doit être une chaine de characters Alphanumerique entre (5 - 10) : " + req.body.password);
+    }
+    if(! HelperValidator.isAscii( req.body.phone) 
+        && req.body.phone != "" ){ 
+        validationResponse.addError("Invalid phone: " + req.body.phone);
+    }
+
+    if(! ( HelperValidator.isAscii( req.body.rol) 
+        && req.body.rol != "" 
+        && arrRols.indexOf(rol) != -1 ) ){ 
+        validationResponse.addError("Invalid rol: " + req.body.rol);
+    }
+
+    if(! validationResponse.success){
+        res.json(validationResponse);
+    }
+    else {
+        User.findOne({ idUser: req.body.idUser }).
+            select('idUser, email').
+            exec( function(err, user){
+                if (err) throw err;
+
+                if (!user) {
+                    res.json({ success: false, message: 'User not found.', data: [] });
+                } 
+                else if (user) {
+
+                    var queryWhere = { idUser: req.body.idUser };
+                    var updateFields = {  
+                        idUser: req.body.idUser, 
+                        firstName: req.body.firstName, 
+                        lastName: req.body.lastName, 
+                        email: email, 
+                        password: req.body.password, 
+                        address: req.body.address, 
+                        image: req.body.image, 
+                        phone: req.body.phone, 
+                        rol: req.body.rol, 
+                        updateDate: Date() 
+                    }
+                    
+                    User.update(
+                        queryWhere, //query
+                        updateFields, //update
+                        function (err, raw) {
+                            if (err) return handleError(err);
+
+                            var msgResponse = 'User updated successfully';
+                            console.log(msgResponse);
+                            res.json({ success: true, message: msgResponse, data: raw });
+                        }
+                    );
+                }
+            });
+
     }
 });
  
@@ -250,8 +276,8 @@ moduleRoutes.get('/setup', function(req, res) {
         firstName: 'Jimmy', 
         lastName: 'MUNOZ', 
         email: 'myappeu@gmail.com', 
-        password: 'jimmypass', 
-        address: '345 Rue des Azalées', 
+        password: '1234567', 
+        address: '345, Rue des Azalées', 
         image: 'images/user/jimmy.png', 
         phone: ' +33 988765432', 
         rol: 'admin', 

@@ -130,6 +130,12 @@ var commonHelper = function() {
 	    );*/
 	    return ret.seq;
 	}
+	this.getDataByKey = function(key){
+		return (SHAREDDATA[key] != undefined)? SHAREDDATA[key] : "";
+	}
+	this.getSharedData = function(){
+		return SHAREDDATA;
+	}
 
 }
 

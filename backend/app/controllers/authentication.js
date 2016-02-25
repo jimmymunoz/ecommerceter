@@ -106,7 +106,7 @@ moduleRoutes.post('/login', function(req, res) {
                 if (err) throw err;
 
                 if (!user) {
-                    res.json({ success: false, message: 'Email not found : ' + req.body.email , data: [] });
+                    res.json({ success: false, message: 'Email not found : ' + email , data: [] });
                 } 
                 else if (user) {
                     //Email found!
