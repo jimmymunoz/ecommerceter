@@ -54,3 +54,28 @@ https://github.com/Automattic/mongoose/issues/3860
 
 rm -rf ./node_modules/mongoose/node_modules/mogodb
 npm install --prefix ./node_modules/mongoose/ mongodb@2.1.6 --save
+
+
+-------
+FRONT-END:
+
+http://bower.io/
+
+sudo npm install -g bower
+
+$ bower install
+
+$ bower install jquery
+$ bower install ember
+$ bower install backbone
+
+https://github.com/ngReact/ngReact
+
+bower install --save ngReact
+bower install --save react
+bower install --save angular
+bower install --save ember
+bower install --save backbone
+
+
+
