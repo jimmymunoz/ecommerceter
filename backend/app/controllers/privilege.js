@@ -67,41 +67,64 @@ moduleRoutes.post('/createPrivilege', function(req, res) {
 //http://localhost:8888/privilege/updatePrivilege?action=test
 moduleRoutes.post('/updatePrivilege', function(req, res) {
     var queryWhere = { action: req.body.action };
-    var updateFields = {  
-        action: req.body.action, 
-        rol: req.body.rol 
-    };
-    
-    Privilege.update(
-        queryWhere, //query
-        updateFields, //update
-        function (err, raw) {
-            if (err) return handleError(err);
+    Privilege.findOne( queryWhere ).
+        select('idPrivilege').
+        exec( function(err, privilege){
+            if (err) throw err;
 
-            var msgResponse = 'Privilege updated successfully';
-            console.log(msgResponse);
-            res.json({ success: true, message: msgResponse, data: raw });
-        }
-    );
+            if (!privilege) {
+                res.json({ success: false, message: 'Privilege not found.', data: [] });
+            } 
+            else if (payment) {
+                var updateFields = {  
+                    action: req.body.action, 
+                    rol: req.body.rol 
+                };
+                Privilege.update(
+                    queryWhere, //query
+                    updateFields, //update
+                    function (err, raw) {
+                        if (err) return handleError(err);
+
+                        var msgResponse = 'Privilege updated successfully';
+                        console.log(msgResponse);
+                        res.json({ success: true, message: msgResponse, data: raw });
+                    }
+                );
+            }
+        });
+        
 });
 
 //http://localhost:8888/privilege/removePrivilege?action=test
 moduleRoutes.delete('/removePrivilege', function(req, res) {
-    Privilege.remove({
-        action: req.body.action
-    }, function(err, privilege) {
-        if (err) throw err;
+    var queryWhere = { action: req.body.action };
+    Privilege.findOne( queryWhere ).
+        select('idPrivilege').
+        exec( function(err, privilege){
+            if (err) throw err;
 
-        if (!privilege) {
-            res.json({ success: false, message: 'Error: Privilege can not deleted', data: Privilege });
-        } 
-        else if (privilege) {
-            res.json({
-                success: true,
-                message: 'Privilege Deleted',
-                data: privilege
-            });
-        }
-    });
+            if (!privilege) {
+                res.json({ success: false, message: 'Privilege not found.', data: [] });
+            } 
+            else if (payment) {
+                Privilege.remove({
+                    action: req.body.action
+                }, function(err, privilege) {
+                    if (err) throw err;
+
+                    if (!privilege) {
+                        res.json({ success: false, message: 'Error: Privilege can not deleted', data: Privilege });
+                    } 
+                    else if (privilege) {
+                        res.json({
+                            success: true,
+                            message: 'Privilege Deleted',
+                            data: privilege
+                        });
+                    }
+                });
+            }
+        });
 });
 module.exports = moduleRoutes;

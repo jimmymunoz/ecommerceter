@@ -70,31 +70,43 @@ moduleRoutes.post('/createPayment', function(req, res) {
 //http://localhost:8888/payment/updatePayment?code=888881919
 moduleRoutes.post('/updatePayment', function(req, res) {
     var queryWhere = { code: req.body.code };
-    var updateFields = {  
-        code: req.body.code, 
-        status: req.body.status, 
-        creationDate: req.body.creationDate 
-    };
-    
-    Payment.update(
-        queryWhere, //query
-        updateFields, //update
-        function (err, raw) {
-            if (err) return handleError(err);
+    Payment.findOne( queryWhere ).
+        select('idPayment').
+        exec( function(err, payment){
+            if (err) throw err;
 
-            var msgResponse = 'Payment updated successfully';
-            console.log(msgResponse);
-            res.json({ success: true, message: msgResponse, data: raw });
-        }
-    );
+            if (!payment) {
+                res.json({ success: false, message: 'Payment not found.', data: [] });
+            } 
+            else if (payment) {
+                var updateFields = {  
+                    code: req.body.code, 
+                    status: req.body.status, 
+                    creationDate: req.body.creationDate 
+                };
+                Payment.update(
+                    queryWhere, //query
+                    updateFields, //update
+                    function (err, raw) {
+                        if (err) return handleError(err);
+
+                        var msgResponse = 'Payment updated successfully';
+                        console.log(msgResponse);
+                        res.json({ success: true, message: msgResponse, data: raw });
+                    }
+                );
+            }
+        });
+
+
 });
  
 //http://localhost:8888/payment/setup
 moduleRoutes.get('/setup', function(req, res) {
    var dataPayment = new Payment({ 
-    code: String, 
-    status: String, 
-    creationDate: Date 
+        code: String, 
+        status: String, 
+        creationDate: Date 
     }); 
     dataPayment.save(function(err) {
         if (err) throw err;
@@ -107,21 +119,34 @@ moduleRoutes.get('/setup', function(req, res) {
 
 //http://localhost:8888/payment/removePayment?code=888881919
 moduleRoutes.delete('/removePayment', function(req, res) {
-    Payment.remove({
-        code: req.body.code
-    }, function(err, payment) {
-        if (err) throw err;
+    var queryWhere = { code: req.body.code };
+    Payment.findOne( queryWhere ).
+        select('idPayment').
+        exec( function(err, payment){
+            if (err) throw err;
 
-        if (!payment) {
-            res.json({ success: false, message: 'Error: Payment can not deleted', data: Payment });
-        } 
-        else if (payment) {
-            res.json({
-                success: true,
-                message: 'Payment Deleted',
-                data: payment
-            });
-        }
-    });
+            if (!payment) {
+                res.json({ success: false, message: 'Payment not found.', data: [] });
+            } 
+            else if (payment) {
+                Payment.remove({
+                    code: req.body.code
+                }, function(err, payment) {
+                    if (err) throw err;
+
+                    if (!payment) {
+                        res.json({ success: false, message: 'Error: Payment can not deleted', data: Payment });
+                    } 
+                    else if (payment) {
+                        res.json({
+                            success: true,
+                            message: 'Payment Deleted',
+                            data: payment
+                        });
+                    }
+                });
+            }
+        });
+
 });
 module.exports = moduleRoutes;

@@ -100,17 +100,29 @@ moduleRoutes.post('/editComment', function(req, res) {
 			comment: req.body.comment, 
 		};
 		
-		Comment.update(
-			queryWhere, 
-			updateFields, 
-			function (err, raw) {
-				if (err) return handleError(err);
+		Comment.findOne( queryWhere ).
+            select('idComment').
+            exec( function(err, comment){
+                if (err) throw err;
 
-				var msgResponse = 'Comment updated successfully';
-				console.log(msgResponse);
-				res.json({ success: true, message: msgResponse, data: raw });
-			}
-		);
+                if (!comment) {
+                    res.json({ success: false, message: 'Comment not found.', data: [] });
+                } 
+                else if (comment) {
+					Comment.update(
+						queryWhere, 
+						updateFields, 
+						function (err, raw) {
+							if (err) return handleError(err);
+
+							var msgResponse = 'Comment updated successfully';
+							console.log(msgResponse);
+							res.json({ success: true, message: msgResponse, data: raw });
+						}
+					);
+                }
+            });
+
 	}
 });
 //http://localhost:8888/comment/removeComment?idComment=1
@@ -134,24 +146,40 @@ moduleRoutes.delete('/removeComment', function(req, res) {
         res.json(validationResponse);
     }
     else {
-		Comment.remove({
-			idComment: req.query.idComment,
+    	var queryWhere = { 
+    		idComment: req.query.idComment,
 			idProduct: req.body.idProduct,
-			idUser: req.body.idUser
-		}, function(err, comment) {
-			if (err) throw err;
+			idUser: req.body.idUser 
+		};
+        Comment.findOne( queryWhere ).
+            select('idComment').
+            exec( function(err, comment){
+                if (err) throw err;
 
-			if (!comment) {
-				res.json({ success: false, message: 'Error: Comment can not deleted', data: comment });
-			} 
-			else if (comment) {
-				res.json({
-					success: true,
-					message: 'Comment Deleted',
-					data: comment
-				});
-			}
-		});
+                if (!comment) {
+                    res.json({ success: false, message: 'Comment not found.', data: [] });
+                } 
+                else if (comment) {
+					Comment.remove({
+						idComment: req.query.idComment,
+						idProduct: req.body.idProduct,
+						idUser: req.body.idUser
+					}, function(err, comment) {
+						if (err) throw err;
+
+						if (!comment) {
+							res.json({ success: false, message: 'Error: Comment can not deleted', data: comment });
+						} 
+						else if (comment) {
+							res.json({
+								success: true,
+								message: 'Comment Deleted',
+								data: comment
+							});
+						}
+					});
+                }
+            });
 	}
 });
 

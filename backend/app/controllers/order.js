@@ -7,6 +7,7 @@ var moduleRoutes = express.Router();
 var Order   = require(pathServer + 'app/models/order');
 //Helpers:
 var commonHelper   = require(pathServer + 'app/helpers/common'); 
+var authenticationHelper   = require(pathServer + 'app/helpers/authentication'); 
 
 //http://localhost:8888/order/
 moduleRoutes.get('/', function(req, res) {
@@ -56,73 +57,86 @@ moduleRoutes.get('/getAdminOrders', function(req, res) {
     });
 });
 //http://localhost:8888/order/getClientOrder?idUser=1
-moduleRoutes.post('/getClientOrder', function(req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+moduleRoutes.get('/getClientOrder', function(req, res) {
+    //res.setHeader('Access-Control-Allow-Origin', '*');
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
-    
-    if(! ( HelperValidator.isNumeric( req.query.idUser ) && req.query.idUser != "" )  ){
-      validationResponse.addError("Invalid idUser: " + req.query.idUser);
+    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+    var user = authenticationHelper.getUserByToken(token);
+
+    if(! ( HelperValidator.isNumeric( user.idUser ) && user.idUser != "" )  ){
+        validationResponse.addError("Invalid idUser: " + user.idUser);
     }
     
     if(! validationResponse.success){
         res.json(validationResponse);
     }
     else {
-    Order.find({
-        idUser: req.query.idUser
-    }, function(err, order) {
-        if (err) throw err;
+        Order.find({
+            idUser: user.idUser
+        }, function(err, order) {
+            if (err) throw err;
 
-        if (!order) {
-            res.json({ success: false, message: 'Error: Order not found', data: Order });
-        } 
-        else if (order) {
-            res.json({
-                success: true,
-                message: 'Order found',
-                data: order
-            });
-        }
-    });
+            if (!order) {
+                res.json({ success: false, message: 'Error: Order not found', data: Order });
+            } 
+            else if (order) {
+                res.json({
+                    success: true,
+                    message: 'Orders result',
+                    data: order
+                });
+            }
+        });
     }
 });
 
-//http://localhost:8888/order/changeStatus?idOrder=1
+//http://localhost:8888/order/changeStatus
 moduleRoutes.post('/changeStatus', function(req, res) {
 res.setHeader('Access-Control-Allow-Origin', '*');
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     
-    if(! ( HelperValidator.isNumeric( req.query.idOrder ) && req.query.idOrder != "" )  ){
-      validationResponse.addError("Invalid number: " + req.query.idOrder);
+    if(! ( HelperValidator.isNumeric( req.body.idOrder ) && req.body.idOrder != "" )  ){
+        validationResponse.addError("Invalid number: " + req.body.idOrder);
     }
     
     if(! ( HelperValidator.isAscii( req.body.status ) && req.body.status != "" )  ){
-      validationResponse.addError("Invalid status: " + req.body.status);
+        validationResponse.addError("Invalid status: " + req.body.status);
     }
 
     if(! validationResponse.success){
         res.json(validationResponse);
     }
     else {
-        var queryWhere = { idOrder: req.query.idOrder };
+
+        var queryWhere = { idOrder: req.body.idOrder };
         var updateFields = {  
-            idOrder: req.query.idOrder, 
+            idOrder: req.body.idOrder, 
             status: req.body.status
         };
-        
-        Order.update(
-            queryWhere, 
-            updateFields,
-            function (err, raw) {
-                if (err) return handleError(err);
+        Order.findOne(queryWhere).
+            select('idOrder').
+            exec( function(err, order){
+                if(err) throw err;
 
-                var msgResponse = 'Status updated successfully';
-                console.log(msgResponse);
-                res.json({ success: true, message: msgResponse, data: raw });
-            }
-        );
+                if(! order ){
+                    res.json({ success: false, message: 'Order not found.', data: order });
+                }
+                else if( order ){
+                    Order.update(
+                        queryWhere, 
+                        updateFields,
+                        function (err, raw) {
+                            if (err) return handleError(err);
+
+                            var msgResponse = 'Status updated successfully';
+                            console.log(msgResponse);
+                            res.json({ success: true, message: msgResponse, data: raw });
+                        }
+                    );
+                }
+            });
     }
 });
 
@@ -159,21 +173,20 @@ moduleRoutes.get('/getAdminOrder', function(req, res) {
 });
 
 
-
-
-
-
 //http://localhost:8888/order/createOrder
 moduleRoutes.post('/createOrder', function(req, res) {
-   //console.log(req.body);
     res.setHeader('Access-Control-Allow-Origin', '*');
-   
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
+    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+    var user = authenticationHelper.getUserByToken(token);
+
+    if(! ( HelperValidator.isNumeric( user.idUser ) && user.idUser != "" )  ){
+        validationResponse.addError("Invalid idUser: " + user.idUser);
+    }
     if(! ( HelperValidator.isAscii( req.body.address ) && req.body.address != "" )  ){
       validationResponse.addError("Invalid address: " + req.body.address);
     }
-    
     if(! ( HelperValidator.isAscii( req.body.city ) && req.body.city != "" )  ){
       validationResponse.addError("Invalid city: " + req.body.city);
     }
@@ -187,15 +200,15 @@ moduleRoutes.post('/createOrder', function(req, res) {
     }
     else {     
         var dataOrder = new Order({ 
-            idUser: req.body.idUser,
+            idUser: user.idUser,
             address: req.body.address, 
             creationDate: Date(), 
             total: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
-            status: req.body.status, 
+            status: "unpaid", 
             city: req.body.city, 
             totalTax: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
             orderLines: req.body['orderLines[]'], 
-            approvalCode: "bien", 
+            //approvalCode: "bien", 
             modificationDate: Date() 
         });
         dataOrder.save(function(err) {
@@ -209,18 +222,24 @@ moduleRoutes.post('/createOrder', function(req, res) {
    
 });
 
-//http://localhost:8888/order/updateOrder?idOrder=1
+//http://localhost:8888/order/updateOrder
 moduleRoutes.post('/updateOrder', function(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     
-    if(! ( HelperValidator.isNumeric( req.query.idOrder ) && req.query.idOrder != "" )  ){
-      validationResponse.addError("Invalid number: " + req.query.idOrder);
+    if(! ( HelperValidator.isNumeric( req.body.idOrder ) && req.body.idOrder != "" )  ){
+      validationResponse.addError("Invalid number: " + req.body.idOrder);
     }
     
     if(! ( HelperValidator.isAscii( req.body.status ) && req.body.status != "" )  ){
       validationResponse.addError("Invalid status: " + req.body.status);
+    }
+    if(! ( HelperValidator.isAscii( req.body.address ) && req.body.address != "" )  ){
+      validationResponse.addError("Invalid address: " + req.body.address);
+    }
+    if(! ( HelperValidator.isAscii( req.body.city ) && req.body.city != "" )  ){
+      validationResponse.addError("Invalid city: " + req.body.city);
     }
     if(! ( HelperValidator.isAscii( req.body.approvalCode ) && req.body.approvalCode != "" )  ){
       validationResponse.addError("Invalid approvalCode: " + req.body.approvalCode);
@@ -234,31 +253,44 @@ moduleRoutes.post('/updateOrder', function(req, res) {
         res.json(validationResponse);
     }
     else {
-        var queryWhere = { idOrder: req.query.idOrder };
-        var updateFields = {  
-            idOrder: req.query.idOrder, 
-            //address: req.body.address, à rajouter
-            total: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
-            status: req.body.status, 
-            //city: req.body.city, à rajouter
-            totalTax: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
-            orderLines: req.body['orderLines[]'], 
-            approvalCode: req.body.approvalCode, 
-            //paymentDate: req.body.paymentDate, 
-            modificationDate: Date()  
-        };
-        
-        Order.update(
-            queryWhere, //query
-            updateFields, //update
-            function (err, raw) {
-                if (err) return handleError(err);
+        var queryWhere = { idOrder: req.body.idOrder };
+        Order.findOne( queryWhere ).
+            select('idOrder').
+            exec( function(err, order){
+                if (err) throw err;
 
-                var msgResponse = 'Order updated successfully';
-                console.log(msgResponse);
-                res.json({ success: true, message: msgResponse, data: raw });
-            }
-        );
+                if (!order) {
+                    res.json({ success: false, message: 'Order not found.', data: [] });
+                } 
+                else if (order) {
+                    var updateFields = {  
+                        address: req.body.address,
+                        total: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
+                        status: req.body.status, 
+                        city: req.body.city,
+                        totalTax: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
+                        orderLines: req.body['orderLines[]'], 
+                        //approvalCode: req.body.approvalCode, 
+                        //paymentDate: req.body.paymentDate, 
+                        modificationDate: Date()  
+                    };
+                    
+                    Order.update(
+                        queryWhere, //query
+                        updateFields, //update
+                        function (err, raw) {
+                            if (err) return handleError(err);
+
+                            var msgResponse = 'Order updated successfully';
+                            console.log(msgResponse);
+                            res.json({ success: true, message: msgResponse, data: raw });
+                        }
+                    );
+
+                }
+            });
+
+
     }
 });
 
@@ -277,22 +309,36 @@ moduleRoutes.delete('/removeOrder', function(req, res) {
         res.json(validationResponse);
     }
     else {
-        Order.remove({
-            idOrder: req.query.idOrder
-        }, function(err, order) {
-            if (err) throw err;
+        var queryWhere = { idOrder: req.body.idOrder };
+        Order.findOne( queryWhere ).
+            select('idOrder').
+            exec( function(err, order){
+                if (err) throw err;
 
-            if (!order) {
-                res.json({ success: false, message: 'Error: Order can not deleted', data: Order });
-            } 
-            else if (order) {
-                res.json({
-                    success: true,
-                    message: 'Order Deleted',
-                    data: order
-                });
-            }
-        });
+                if (!order) {
+                    res.json({ success: false, message: 'Order not found.', data: [] });
+                } 
+                else if (order) {
+                    Order.remove({
+                        idOrder: req.query.idOrder
+                    }, function(err, order) {
+                        if (err) throw err;
+
+                        if (!order) {
+                            res.json({ success: false, message: 'Error: Order can not deleted', data: Order });
+                        } 
+                        else if (order) {
+                            res.json({
+                                success: true,
+                                message: 'Order Deleted',
+                                data: order
+                            });
+                        }
+                    });
+                }
+            });
+
+            
     }
 });
 module.exports = moduleRoutes;

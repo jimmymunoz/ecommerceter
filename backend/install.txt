@@ -144,5 +144,6 @@ lsof -i:8090
 kill -9 <PID>
 
 
-
+find ./ -type f -name 'Icon*'
+find . -type f -name "Icon*" -exec rm -f {} \;
 

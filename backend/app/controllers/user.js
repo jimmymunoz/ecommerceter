@@ -272,7 +272,7 @@ moduleRoutes.post('/updateUser', function(req, res) {
 //http://localhost:8888/user/setup
 moduleRoutes.get('/setup', function(req, res) {
    var dataUser = new User({ 
-        idUser: 1, 
+        //idUser: 1, 
         firstName: 'Jimmy', 
         lastName: 'MUNOZ', 
         email: 'myappeu@gmail.com', 
@@ -304,22 +304,35 @@ moduleRoutes.delete('/removeUser', function(req, res) {
         res.json(validationResponse);
     }
     else {
-        User.remove({
-            idUser: req.body.idUser
-        }, function(err, user) {
-            if (err) throw err;
+        var queryWhere = { idProduct: req.body.idProduct };
+        User.findOne( queryWhere ).
+            select('idUser, email').
+            exec( function(err, user){
+                if (err) throw err;
 
-            if (!user) {
-                res.json({ success: false, message: 'Error: User can not deleted', data: User });
-            } 
-            else if (user) {
-                res.json({
-                    success: true,
-                    message: 'User Deleted',
-                    data: user
-                });
-            }
-        });
+                if (!user) {
+                    res.json({ success: false, message: 'User not found.', data: [] });
+                } 
+                else if (user) {
+                    User.remove({
+                        idUser: req.body.idUser
+                    }, function(err, user) {
+                        if (err) throw err;
+
+                        if (!user) {
+                            res.json({ success: false, message: 'Error: User can not deleted', data: User });
+                        } 
+                        else if (user) {
+                            res.json({
+                                success: true,
+                                message: 'User Deleted',
+                                data: user
+                            });
+                        }
+                    });
+                }
+            });
+
     }
     
 });

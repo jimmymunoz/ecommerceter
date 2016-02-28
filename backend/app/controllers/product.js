@@ -84,27 +84,42 @@ moduleRoutes.post('/createProduct', function(req, res) {
         res.json(validationResponse);
     }
     else {
-		var dataProduct = new Product({
-			//idProduct: req.body.idProduct,
-			name: ( req.body.name == undefined )? '': req.body.name,
-			description: ( req.body.description == undefined )? '': req.body.description,
-			price: ( req.body.price == undefined )? '': req.body.price,
-			tax: ( req.body.tax == undefined )? '': req.body.tax,
-			buyPrice: ( req.body.buyPrice == undefined )? '': req.body.buyPrice,
-			image: ( req.body.image == undefined )? '': req.body.image,
-			quantity: ( req.body.quantity == undefined )? '': req.body.quantity,
-			weight: ( req.body.weight == undefined )? '': req.body.weight,
-			category: ( req.body.category == undefined )? '': req.body.category,
-			creationDate: Date(),
-			modificationDate: Date()
-		});
-		dataProduct.save(function(err) {
-			if (err) throw err;
+    	Category.findOne({
+            idCategory: req.body.category
+        }, function (err, categoryJoin) {
+            if (err) throw err;
 
-			var msgResponse = 'Product saved successfully';
-			console.log(msgResponse);
-			res.json({ success: true, message: msgResponse, data: dataProduct 	});
-		});
+            console.log(categoryJoin);
+            
+            if (! categoryJoin && req.body.category > 0) {
+                res.json({ success: false, message: 'Category not found.' + req.body.category, data: [] });
+            } 
+            else {
+				var dataProduct = new Product({
+					//idProduct: req.body.idProduct,
+					name: ( req.body.name == undefined )? '': req.body.name,
+					description: ( req.body.description == undefined )? '': req.body.description,
+					price: ( req.body.price == undefined )? '': req.body.price,
+					tax: ( req.body.tax == undefined )? '': req.body.tax,
+					buyPrice: ( req.body.buyPrice == undefined )? '': req.body.buyPrice,
+					image: ( req.body.image == undefined )? '': req.body.image,
+					quantity: ( req.body.quantity == undefined )? '': req.body.quantity,
+					weight: ( req.body.weight == undefined )? '': req.body.weight,
+					category: categoryJoin._id,
+					creationDate: Date(),
+					modificationDate: Date()
+				});
+				dataProduct.save(function(err) {
+					if (err) throw err;
+
+					var msgResponse = 'Product saved successfully';
+					console.log(msgResponse);
+					res.json({ success: true, message: msgResponse, data: dataProduct 	});
+				});
+
+            }
+        });
+
     }
 
 });
@@ -115,15 +130,17 @@ moduleRoutes.get('/getProduct', function(req, res) {
 
     Product.findOne({
         idProduct: req.query.idProduct
-    },
-    function(err, product) {
+    }).
+    populate('category').
+    populate('productEvaluation.user', 'firstName lastName idUser').
+    exec(function(err, product) {
         if (err) throw err;
 
         if (!product) {
             res.json({ success: false, message: 'Product not found.', data: [] });
         }
         else if (product) {
-                res.json({
+            res.json({
                 success: true,
                 message: 'Product Found',
                 data: product
@@ -188,33 +205,58 @@ moduleRoutes.post('/updateProduct', function(req, res) {
     }
     else {
 	    var queryWhere = { idProduct: req.body.idProduct };
-	    var updateFields = {
-	        idProduct: req.body.idProduct,
-	        name: req.body.name,
-	        description: req.body.description,
-	        price: req.body.price,
-	        tax: req.body.tax,
-	        buyPrice: req.body.buyPrice,
-	        image: req.body.image,
-	        quantity: req.body.quantity,
-	        weight: req.body.weight,
-	        category: req.body.category,
-	        //productComment: req.body.productComment,
-	        //productEvaluation: req.body.productEvaluation,
-	        modificationDate: Date()
-	    };
+	    Product.findOne( queryWhere ).
+	        select('idProduct').
+	        exec( function(err, product){
+	            if (err) throw err;
 
-	    Product.update(
-	        queryWhere, //query
-	        updateFields, //update
-	        function (err, raw) {
-	            if (err) return handleError(err);
+	            if (!product) {
+	                res.json({ success: false, message: 'Product not found.', data: [] });
+	            } 
+	            else if (product) {
+	            	Category.findOne({
+					    idCategory: req.body.category
+					}, function (err, categoryJoin) {
+					    if (err) throw err;
 
-	            var msgResponse = 'Product updated successfully';
-	            console.log(msgResponse);
-	            res.json({ success: true, message: msgResponse, data: raw });
-	        }
-	    );
+					    console.log(categoryJoin);
+					    
+					    if (! categoryJoin && req.body.category > 0) {
+					        res.json({ success: false, message: 'Category not found.' + req.body.category, data: [] });
+					    } 
+					    else {
+						    var updateFields = {
+						        idProduct: req.body.idProduct,
+						        name: req.body.name,
+						        description: req.body.description,
+						        price: req.body.price,
+						        tax: req.body.tax,
+						        buyPrice: req.body.buyPrice,
+						        image: req.body.image,
+						        quantity: req.body.quantity,
+						        weight: req.body.weight,
+						        category: categoryJoin._id,
+						        //productComment: req.body.productComment,
+						        //productEvaluation: req.body.productEvaluation,
+						        modificationDate: Date()
+						    };
+
+						    Product.update(
+						        queryWhere, //query
+						        updateFields, //update
+						        function (err, raw) {
+						            if (err) return handleError(err);
+
+						            var msgResponse = 'Product updated successfully';
+						            console.log(msgResponse);
+						            res.json({ success: true, message: msgResponse, data: raw });
+						        }
+						    );
+						}
+					});
+	            }
+	        });
+
   	}
 });
 
@@ -231,29 +273,51 @@ moduleRoutes.delete('/removeProduct', function(req, res) {
         res.json(validationResponse);
     }
     else {
-	    Product.remove({
-	        idProduct: req.query.idProduct
-	    }, function(err, product) {
-	        if (err) throw err;
+    	var queryWhere = { idProduct: req.body.idProduct };
+	    Product.findOne( queryWhere ).
+	        select('idProduct').
+	        exec( function(err, product){
+	            if (err) throw err;
 
-	        if (!product) {
-	            res.json({ success: false, message: 'Error: Product can not deleted', data: [] });
-	        }
-	        else if (product) {
-	            res.json({
-	                success: true,
-	                message: 'Product Deleted',
-	                data: product
-	            });
-	        }
-	    });
+	            if (!product) {
+	                res.json({ success: false, message: 'Product not found.', data: [] });
+	            } 
+	            else if (product) {
+				    Product.remove({
+				        idProduct: req.query.idProduct
+				    }, function(err, product) {
+				        if (err) throw err;
+
+				        if (!product) {
+				            res.json({ success: false, message: 'Error: Product can not deleted', data: [] });
+				        }
+				        else if (product) {
+				            res.json({
+				                success: true,
+				                message: 'Product Deleted',
+				                data: product
+				            });
+				        }
+				    });								
+	            }
+	        });
+	        
     }
 });
 
 // http://localhost:8888/product/getProductsList
 moduleRoutes.get('/getProductsList', function(req, res) {
-    Product.find({}, function(err, Products) {
-		//console.log(Products);
+    Product.find({}).
+    //where('idCategory').equals(req.query.idCategory).// =
+    //where('idCategory').gt(17).lt(66).// gt - lt
+    //where('idCategory').in(['idCategory', req.query.idCategory]).// like
+    //limit(10).
+    sort('-name').
+    populate('category').
+    populate('productEvaluation.user', 'firstName lastName idUser').
+    populate('productComment.user', 'firstName lastName idUser').
+    exec(function(err, Products) {
+    	//console.log(Products);
 		var out = [];
 		for(var key in Products){
 			//Products[key]['CategoryData'] = Category.findOne({ idCategory: Products[key].category });
@@ -268,10 +332,10 @@ moduleRoutes.get('/getProductsList', function(req, res) {
 moduleRoutes.post('/productEvaluation', function(req, res) {
 	var validationResponse = commonHelper.getValidationResponse();
 	var HelperValidator = commonHelper.validator;
-	var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+	var token = req.body.token || req.headers['x-access-token'];
 	var user = authenticationHelper.getUserByToken(token);
 	// validation evaluation
-	if(! ( HelperValidator.isNumeric( req.body.evaluation ) && req.body.evaluation  != ""  && HelperValidator.isLength(req.body.evaluation, {min:0,max:5}) )  ){
+	if(! ( HelperValidator.isNumeric( req.body.evaluation ) && req.body.evaluation  != ""  && HelperValidator.isLength(req.body.evaluation, {min:0, max:5}) )  ){
 		validationResponse.addError("Invalid product evaluation  : " + req.body.evaluation );
 	}
 	if(! ( HelperValidator.isNumeric( user.idUser ) )  ){
@@ -283,19 +347,105 @@ moduleRoutes.post('/productEvaluation', function(req, res) {
 		res.json(validationResponse);
 	}
 	else {
-		var dataProductEvaluation = new ProductEvaluation({
-			evaluation: req.body.evaluation,
-			idProduct:req.body.idProduct,
-			email : req.body.email,
-			evaluationDate : Date()
-		});
-		dataProductEvaluation.save(function(err) {
-			if (err) throw err;
+		var queryWhere = { idProduct: req.body.idProduct };
+	    Product.findOne( queryWhere ).
+	        //select('idProduct').
+	        exec( function(err, product){
+	            if (err) throw err;
+	            console.log(product);
 
-			var msgResponse = 'Product evaluation saved successfully';
-			console.log(msgResponse);
-			res.json({ success: true, message: msgResponse, data: [] });
-		});
+	            if (!product) {
+	                res.json({ success: false, message: 'Product not found.', data: [] });
+	            } 
+	            else if (product) {
+	            	var productEvaluation = product.productEvaluation;
+	            	productEvaluation.push( { user: user._id, evaluation: req.body.evaluation, evaluationDate: Date() });
+	            	
+	            	var updateFields = {
+				        productEvaluation: productEvaluation
+				    };
+
+				    Product.update(
+				        queryWhere, //query
+				        updateFields, //update
+				        function (err, raw) {
+				            if (err) return handleError(err);
+
+				            var msgResponse = 'Product evaluation added successfully';
+				            console.log(msgResponse);
+				            res.json({ success: true, message: msgResponse, data: raw });
+				        }
+				    );
+	            	/*
+	            	var dataProductEvaluation = new ProductEvaluation({
+						evaluation: req.body.evaluation,
+						idProduct:req.body.idProduct,
+						email : user.email,
+						evaluationDate : Date()
+					});
+					dataProductEvaluation.save(function(err) {
+						if (err) throw err;
+
+						var msgResponse = 'Product evaluation saved successfully';
+						console.log(msgResponse);
+						res.json({ success: true, message: msgResponse, data: [] });
+					});
+	            	 */
+				}
+			});
+	}
+});
+
+//http://localhost:8888/product/productComment
+moduleRoutes.post('/productComment', function(req, res) {
+	var validationResponse = commonHelper.getValidationResponse();
+	var HelperValidator = commonHelper.validator;
+	var token = req.body.token || req.headers['x-access-token'];
+	var user = authenticationHelper.getUserByToken(token);
+	// validation comment
+	if(! ( HelperValidator.isAscii( req.body.comment ) && req.body.comment  != "")  ){
+		validationResponse.addError("Invalid product comment  : " + req.body.comment );
+	}
+	if(! ( HelperValidator.isNumeric( user.idUser ) )  ){
+        validationResponse.addError("User not found (" + user.idUser + ") - Login required");
+    }
+
+
+	if(! validationResponse.success){
+		res.json(validationResponse);
+	}
+	else {
+		var queryWhere = { idProduct: req.body.idProduct };
+	    Product.findOne( queryWhere ).
+	        //select('idProduct').
+	        exec( function(err, product){
+	            if (err) throw err;
+	            console.log(product);
+
+	            if (!product) {
+	                res.json({ success: false, message: 'Product not found.', data: [] });
+	            } 
+	            else if (product) {
+	            	var productComment = product.productComment;
+	            	productComment.push( { user: user._id, comment: req.body.comment, commentDate: Date() });
+	            	
+	            	var updateFields = {
+				        productComment: productComment
+				    };
+
+				    Product.update(
+				        queryWhere, //query
+				        updateFields, //update
+				        function (err, raw) {
+				            if (err) return handleError(err);
+
+				            var msgResponse = 'Product comment added successfully';
+				            console.log(msgResponse);
+				            res.json({ success: true, message: msgResponse, data: raw });
+				        }
+				    );
+				}
+			});
 	}
 });
 

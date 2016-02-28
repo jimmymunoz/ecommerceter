@@ -21,11 +21,13 @@ var schemaProduct = new Schema({
     image: String,
     quantity: Number,
     weight: Number,
-    category: Number,
-    productComment: Array,
-    CategoryData: Array, 
+    //category: Number,
+    category: { type: Schema.Types.ObjectId, ref: 'Category' },
+    //productComment: Array,
+    //CategoryData: Array, 
     //productEvaluation: Array,
-    productEvaluation: [{ type: Schema.Types.ObjectId, ref: 'User' }, { type: Number }],
+    productComment: [ { user: { type: Schema.Types.ObjectId, ref: 'User' }, comment: { type: String } , evaluationDate: { type: Date } }],
+    productEvaluation: [ { user: { type: Schema.Types.ObjectId, ref: 'User' }, evaluation: { type: Number } , evaluationDate: { type: Date } }],
     creationDate: Date,
     modificationDate: Date
 });
