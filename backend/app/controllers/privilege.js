@@ -3,6 +3,8 @@ var express     = require('express');
 var config = require(pathServer + 'config');
 var moduleRoutes = express.Router();
 
+var commonHelper   = require(pathServer + 'app/helpers/common'); 
+var authenticationHelper   = require(pathServer + 'app/helpers/authentication'); 
 
 var Privilege   = require(pathServer + 'app/models/privilege');
 

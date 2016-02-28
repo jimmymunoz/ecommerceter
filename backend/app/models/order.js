@@ -18,7 +18,7 @@ var schemaOrder = new Schema({
     status: String, 
     city: String, 
     totalTax: String, 
-    orderLines: [ { product: { type: Schema.Types.ObjectId, ref: 'Product' }, quantity: { type: Number }, total: { type: Number } }, totalTax: { type: Number } }],
+    orderLines: [ { productId: { type: Schema.Types.ObjectId, ref: 'Product' },  product: { type: Schema.Types.Mixed }, quantity: { type: Number }, total: { type: Number }, totalTax: { type: Number } }],
     //orderLines: Array, 
     approvalCode: String, 
     paymentDate: Date,
