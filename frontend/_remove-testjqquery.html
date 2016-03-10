@@ -17,13 +17,8 @@
 				url: "http://localhost:8888/order/createOrder",
 				data: {  
 					idUser: 3,
-					//idOrder: 3, 
 			        address: "addresse 2", 
-			       // total: 10, 
-			        //status: 20, 
-			        city: "Paris", 
-			        //totalTax: 10, 
-			        //orderLines: [{ product : 1, quantity: 20 }]
+			        city: "Paris",
 			        'orderLines[]': JSON.stringify([{ product : 1, quantity: 5 }, { product : 3, quantity: 11 },{ product : 6, quantity: 8 }])
 			   	}	
 			})
@@ -38,15 +33,13 @@
 		function testOrdersUpdate(){
 			$.ajax({
 				method: "POST",
-				url: "http://localhost:8888/order/updateOrder?idOrder=e",
+				url: "http://localhost:8888/order/updateOrder?idOrder=3",
 				data: {   
 					idOrder: 3, 
-			        //address: "addresse 2", 
-			       // total: 10, 
+			   
 			        status: "En cours", 
 			        city: "Paris", 
-			        //totalTax: 10, 
-			        //orderLines: [{ product : 1, quantity: 20 }]
+			        
 			        'orderLines[]': JSON.stringify([{ product : 3, quantity: 8 }]),
 					approvalCode: "effectuer"
 			   	}	

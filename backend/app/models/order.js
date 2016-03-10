@@ -5,12 +5,11 @@ var commonHelper   = require(pathServer + 'app/helpers/common');
 
 autoIncrement = require('mongoose-auto-increment');
 //autoIncrement.initialize();
-/*var connection = mongoose.createConnection("mongodb://localhost/exportster");
+var connection = mongoose.createConnection("mongodb://localhost/exportster");
  
-autoIncrement.initialize(connection);*/
+autoIncrement.initialize(connection);
 
-
-module.exports = mongoose.model('Order', new Schema({ 
+var schemaOrder = new Schema({ 
 	idUser: Number,
     idOrder: Number, 
     address: String, 
@@ -23,6 +22,7 @@ module.exports = mongoose.model('Order', new Schema({
     approvalCode: String, 
     paymentDate: Date, 
     modificationDate: Date 
-}));
+});
+schemaOrder.plugin(autoIncrement.plugin, { model: 'orders', field: 'idOrder' });
+module.exports = mongoose.model('Order',schemaOrder);
 
-//module.exports.plugin(autoIncrement.plugin, { model: 'orders', field: 'idOrder' });

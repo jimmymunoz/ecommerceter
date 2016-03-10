@@ -17,7 +17,7 @@ moduleRoutes.get('/', function(req, res) {
         res.json({ success: false, message: 'Invalid Order action', data: req.decoded });
 });
 
-//http://localhost:8888/order/getOrder?idOrder=1 //Comment connaiter le client en question
+//http://localhost:8888/order/getOrder?idOrder=1 
 moduleRoutes.get('/getOrder', function(req, res) {
    var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;

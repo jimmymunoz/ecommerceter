@@ -29,10 +29,6 @@ moduleRoutes.post('/createComment', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
 	
-	if(! ( HelperValidator.isNumeric( req.body.idComment ) && req.body.idComment != "" )  ){
-      validationResponse.addError("Invalid idComment: " + req.body.idComment);
-    }
-	
 	if(! ( HelperValidator.isNumeric( req.body.idProduct ) && req.body.idProduct != "" )  ){
       validationResponse.addError("Invalid idProduct: " + req.body.idProduct);
     }
@@ -50,10 +46,10 @@ moduleRoutes.post('/createComment', function(req, res) {
     }
     else {	   
 		var dataComment = new Comment({ 
-			idComment: req.body.idComment,
 			idProduct: req.body.idProduct, 
 			idUser: req.body.idUser,
-			comment: req.body.comment
+			comment: req.body.comment,
+			creationDate: Date() 
 		});
 		dataComment.save(function(err) {
 			if (err) throw err;
@@ -66,15 +62,11 @@ moduleRoutes.post('/createComment', function(req, res) {
    
 });
 
-//http://localhost:8888/comment/editComment?idComment=1
+//http://localhost:8888/comment/editComment
 moduleRoutes.post('/editComment', function(req, res) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
-    
-	if(! ( HelperValidator.isNumeric( req.query.idComment ) && req.query.idComment != "" )  ){
-      validationResponse.addError("Invalid idComment: " + req.query.idComment);
-    }
 	
 	if(! ( HelperValidator.isNumeric( req.body.idProduct ) && req.body.idProduct != "" )  ){
       validationResponse.addError("Invalid idProduct: " + req.body.idProduct);
@@ -93,12 +85,13 @@ moduleRoutes.post('/editComment', function(req, res) {
     else {
 
 		var queryWhere = { 
-			idComment: req.query.idComment,
 			idProduct: req.body.idProduct,
 			idUser: req.body.idUser
+			 
 		};
 		var updateFields = {  
-			comment: req.body.comment, 
+			comment: req.body.comment,
+			modificationDate: Date()
 		};
 		
 		Comment.update(
@@ -114,15 +107,12 @@ moduleRoutes.post('/editComment', function(req, res) {
 		);
 	}
 });
-//http://localhost:8888/comment/removeComment?idComment=1
+//http://localhost:8888/comment/removeComment
 moduleRoutes.post('/removeComment', function(req, res) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
-    if(! ( HelperValidator.isNumeric( req.query.idComment ) && req.query.idComment != "" )  ){
-      validationResponse.addError("Invalid idComment: " + req.query.idComment);
-    }
-	
+    
 	if(! ( HelperValidator.isNumeric( req.body.idProduct ) && req.body.idProduct != "" )  ){
       validationResponse.addError("Invalid idProduct: " + req.body.idProduct);
     }
@@ -136,7 +126,6 @@ moduleRoutes.post('/removeComment', function(req, res) {
     }
     else {
 		Comment.remove({
-			idComment: req.query.idComment,
 			idProduct: req.body.idProduct,
 			idUser: req.body.idUser
 		}, function(err, comment) {
