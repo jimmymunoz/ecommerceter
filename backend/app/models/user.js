@@ -1,70 +1,42 @@
 var pathServer = '../../';
-// get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
+var config = require(pathServer + 'config'); // get our config file
 var Schema = mongoose.Schema;
 var commonHelper   = require(pathServer + 'app/helpers/common');
 
+var autoIncrement = require('mongoose-auto-increment');
+var connection = mongoose.createConnection(config.database);
+autoIncrement.initialize(connection);
 
 // set up a mongoose model and pass it using module.exports
-var UserModel = mongoose.model('User', new Schema({ 
+var UserSchema = new Schema({ 
+    idUser: Number, 
     firstName: String, 
     lastName: String, 
     email: String, 
+    rol: String, 
     password: String, 
     address: String, 
     image: String, 
     phone: String
-}));
+});
 
-UserModel.validateSignUp = function (query){
-	console.log("User validating");
-	var validationResponse = commonHelper.getValidationResponse();
-	var HelperValidator = commonHelper.validator;
+UserSchema.plugin(autoIncrement.plugin, { model: 'users', field: 'idUser' });
+var UserModel = Model = mongoose.model('User', UserSchema);
 
-    if(! HelperValidator.isEmail( query.email) ){ 
-    	validationResponse.addError("Invalid email: " + query.email);
-    }
-	if(! HelperValidator.isAlphanumeric( query.firstName ) 
-		&& query.lastName != "" ){
-		validationResponse.addError("Invalid firstName: " + query.firstName);
-    }
-    if(! HelperValidator.isAlphanumeric( query.lastName) 
-    	&& query.lastName != "" ){ 
-    	validationResponse.addError("Invalid Prenom: " + query.lastName);
-    }
-    if(! HelperValidator.isAlphanumeric( query.password) 
-    	&& HelperValidator.isLength(query.password, {min: 0, max: 10}) ){ 
-    	validationResponse.addError("Le mot de pass doit être une chaine de characters entre (5 - 10) : " + query.password);
-    }
-    /*
-    if(! HelperValidator.isAlphanumeric( query.address) ){ 
-    	validationResponse.addError("Invalid address: " + query.address);
-    }
-    if(! HelperValidator.isEmail( query.image) ){ 
-    	validationResponse.addError("Invalid email: " + query.image);
-    }
-    if(! HelperValidator.isEmail( query.phone) ){ 
-    	validationResponse.addError("Invalid email: " + query.phone);
-    }
-    */
-    
-	return validationResponse;
-}
 
 UserModel.getUser = function (res, idUser, callback){
-	var response = { success: false, message: '', data: [] };
-	
+    var response = { success: false, message: '', data: [] };
+    
     this.findOne({
        idUser: idUser
     }, function(err, user) {
         if (err) throw err;
 
         if (!user) {
-        	console.log("not found");
             response = { success: false, message: 'User not found.', data: [] };
         } 
         else if (user) {
-        	console.log("found ");
             response = {
                 success: true,
                 message: 'User Found',
@@ -72,7 +44,7 @@ UserModel.getUser = function (res, idUser, callback){
             };
         }
     });
-	var query = this.findOne({
+    var query = this.findOne({
        idUser: idUser
     });
     query.then(function (doc) {
@@ -86,4 +58,23 @@ UserModel.getUser = function (res, idUser, callback){
     });
 }
 
-module.exports =  UserModel;
+UserModel.createUser = function (res, data, callback){
+    var dataUser = new Model({ 
+        firstName: req.data.firstName, 
+        lastName: req.data.lastName, 
+        email: req.data.email, 
+        password: req.data.password, 
+        rol: "client", 
+        creationDate: new Date(), 
+        updateDate: new Date() 
+    }); 
+    dataUser.save(function(err) {
+        if (err) throw err;
+        
+        var msgResponse = 'User saved successfully';
+        console.log(msgResponse);
+        res.json({ success: true, message: msgResponse, data: dataUser });
+    });
+}
+
+module.exports = UserModel;

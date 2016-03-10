@@ -6,5 +6,5 @@ var commonHelper   = require(pathServer + 'app/helpers/common');
 
 module.exports = mongoose.model('Counter', new Schema({  
     _id: String,
-      seq: Number
+    seq: Number
 }));

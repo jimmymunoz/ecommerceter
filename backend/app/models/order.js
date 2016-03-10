@@ -1,16 +1,16 @@
 var pathServer = '../../';
 var mongoose = require('mongoose');
+var config = require(pathServer + 'config'); // get our config file
 var Schema = mongoose.Schema;
 var commonHelper   = require(pathServer + 'app/helpers/common');
 
-autoIncrement = require('mongoose-auto-increment');
-//autoIncrement.initialize();
-var connection = mongoose.createConnection("mongodb://localhost/exportster");
- 
+var autoIncrement = require('mongoose-auto-increment');
+var connection = mongoose.createConnection(config.database);
 autoIncrement.initialize(connection);
 
+
 var schemaOrder = new Schema({ 
-	idUser: Number,
+    idUser: Number,
     idOrder: Number, 
     address: String, 
     creationDate: Date, 
@@ -18,11 +18,12 @@ var schemaOrder = new Schema({
     status: String, 
     city: String, 
     totalTax: String, 
-    orderLines: Array, 
+    orderLines: [ { product: { type: Schema.Types.ObjectId, ref: 'Product' }, quantity: { type: Number }, total: { type: Number } }, totalTax: { type: Number } }],
+    //orderLines: Array, 
     approvalCode: String, 
-    paymentDate: Date, 
+    paymentDate: Date,
     modificationDate: Date 
 });
-schemaOrder.plugin(autoIncrement.plugin, { model: 'orders', field: 'idOrder' });
-module.exports = mongoose.model('Order',schemaOrder);
 
+schemaOrder.plugin(autoIncrement.plugin, { model: 'orders', field: 'idOrder' });
+module.exports = mongoose.model('Order', schemaOrder);

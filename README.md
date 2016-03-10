@@ -6,10 +6,13 @@ Tutorial:
 cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend
 
 -> Instalar:
+//https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 npm install express body-parser morgan mongoose jsonwebtoken --save
+npm install finalhandler serve-static	
+npm install --save mongoose-auto-increment
 
-npm install finalhandler serve-static
-npm install -g nodemon
+sudo npm install -g nodemon
+sudo npm install -g n
 
 export NODE_PATH=/Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend/node_modules
 
@@ -29,8 +32,8 @@ Terminal
 
 Authentication:
 
-POST http://localhost:8080/user/setup
 
+POST http://localhost:8080/user/setup
 
 POST http://localhost:8080/user/authenticate
 
@@ -51,3 +54,28 @@ https://github.com/Automattic/mongoose/issues/3860
 
 rm -rf ./node_modules/mongoose/node_modules/mogodb
 npm install --prefix ./node_modules/mongoose/ mongodb@2.1.6 --save
+
+
+-------
+FRONT-END:
+
+http://bower.io/
+
+sudo npm install -g bower
+
+$ bower install
+
+$ bower install jquery
+$ bower install ember
+$ bower install backbone
+
+https://github.com/ngReact/ngReact
+
+bower install --save ngReact
+bower install --save react
+bower install --save angular
+bower install --save ember
+bower install --save backbone
+
+
+
