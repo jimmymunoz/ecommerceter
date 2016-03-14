@@ -77,5 +77,15 @@ bower install --save angular
 bower install --save ember
 bower install --save backbone
 
+--------
+REACT:
+
+cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/frontend/angular-react
+npm install --save react react-dom babel-preset-react
+
+
+babel --presets react react-src/ --watch --out-dir react-build/
+
+
 
 

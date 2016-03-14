@@ -44,11 +44,11 @@ moduleRoutes.post('/createProduct', function(req, res) {
     var HelperValidator = commonHelper.validator;
     console.log(req.body.name);
 	// validation name
-    if(! ( HelperValidator.isAlphanumeric( req.body.name ) && req.body.name != "" )  ){
+    if(! ( HelperValidator.isAscii( req.body.name ) && req.body.name != "" )  ){
 		validationResponse.addError("Invalid product name: " + req.body.name);
     }
 	//validation description
-    if(! ( HelperValidator.isAlphanumeric( req.body.description ) && req.body.description != "" )  ){
+    if(! ( HelperValidator.isAscii( req.body.description ) && req.body.description != "" )  ){
 		validationResponse.addError("Invalid product description: " + req.body.description);
     }
 	// validation price
@@ -163,11 +163,11 @@ moduleRoutes.post('/updateProduct', function(req, res) {
 		validationResponse.addError("Invalid idProduct: " + req.body.idProduct);
     }
     // validation name
-    if(! ( HelperValidator.isAlphanumeric( req.body.name) && req.body.name != "" )  ){
+    if(! ( HelperValidator.isAscii( req.body.name) && req.body.name != "" )  ){
 		validationResponse.addError("Invalid product name: " + req.body.name);
     }
     //validation description
-    if(! ( HelperValidator.isAlphanumeric( req.body.description ) && req.body.description != "" )  ){
+    if(! ( HelperValidator.isAscii( req.body.description ) && req.body.description != "" )  ){
 		validationResponse.addError("Invalid product description: " + req.body.description);
     }
     // validation price
@@ -307,16 +307,28 @@ moduleRoutes.delete('/removeProduct', function(req, res) {
 
 // http://localhost:8888/product/getProductsList
 moduleRoutes.get('/getProductsList', function(req, res) {
-    Product.find({}).
-    //where('idCategory').equals(req.query.idCategory).// =
-    //where('idCategory').gt(17).lt(66).// gt - lt
-    //where('idCategory').in(['idCategory', req.query.idCategory]).// like
-    //limit(10).
-    sort('-name').
-    populate('category').
-    populate('productEvaluation.user', 'firstName lastName idUser').
-    populate('productComment.user', 'firstName lastName idUser').
-    exec(function(err, Products) {
+    var query = {};
+    if( req.query.name != undefined && req.query.name != "" ){
+    	query["name"] = new RegExp(req.query.name, "i");
+    }
+    if( req.query.category != undefined && req.query.category != "" ){
+    	query["category"] = req.query.category;
+    }
+    if( req.query.price != undefined && req.query.price != "" ){
+    	query["price"] = req.query.price
+    }
+
+    var ProductList = Product.find(query);
+    //ProductList.where('name').equals(req.query.name);// =
+    //ProductList.where('name').equals(req.query.name);// =
+    //ProductList.where('idCategory').gt(17).lt(66);// gt - lt
+    //ProductList.where('idCategory').in(['idCategory', req.query.idCategory]);// like
+    //ProductList.limit(10).
+    ProductList.sort('-name')
+    ProductList.populate('category')
+    ProductList.populate('productEvaluation.user', 'firstName lastName idUser')
+    ProductList.populate('productComment.user', 'firstName lastName idUser')
+    ProductList.exec(function(err, Products) {
     	//console.log(Products);
 		var out = [];
 		for(var key in Products){

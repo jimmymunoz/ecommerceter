@@ -40,7 +40,7 @@ moduleRoutes.post('/createCategory', function(req, res) {
 		validationResponse.addError("Invalid categoy idParent: " + req.body.idParent);
 	}
 	//validation name
-	if(! ( HelperValidator.isAlphanumeric( req.body.name ) && req.body.name != "" )  ){
+	if(! ( HelperValidator.isAscii( req.body.name ) && req.body.name != "" )  ){
 		validationResponse.addError("Invalid categoy name: " + req.body.name);
 	}
 	//console.log(req.body.level);
@@ -133,7 +133,7 @@ moduleRoutes.post('/updateCategory', function(req, res) {
     	validationResponse.addError("Invalid category idCategory: " + req.body.idCategory);
     }
     // validation name
-    if(! ( HelperValidator.isAlphanumeric( req.body.name) && req.body.name != "" )  ){
+    if(! ( HelperValidator.isAscii( req.body.name) && req.body.name != "" )  ){
     	validationResponse.addError("Invalid category name: " + req.body.name);
     }
     console.log(req.body.idParent);

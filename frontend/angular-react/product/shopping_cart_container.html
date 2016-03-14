@@ -1,0 +1,23 @@
+<!-- WITH REACT -->
+<!-- 
+<div>
+	Items:
+	<br/>
+	<shopping-cart-items data="shopping_cart_data"></shopping-cart-items>
+	Total: 100€
+</div>
+-->
+<!-- ONLY ANGULAR -->
+<div>
+	Items:
+	<br/>
+	<div ng-repeat="(shopping_cart_row_key, shopping_cart_row) in shopping_cart_data">
+		<div class="shopping_cart_item">
+			<div class="container">
+				<span class="product_quantiy"><b>{{shopping_cart_row.quantity}}</b></span>
+				<span class="product_name">{{shopping_cart_row.product.name}}</span>
+			</div>
+		</div>
+	</div>
+	Total: 100€
+</div>
