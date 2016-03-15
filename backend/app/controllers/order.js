@@ -3,7 +3,8 @@ var express     = require('express');
 var config = require(pathServer + 'config');
 var moduleRoutes = express.Router();
  
-
+var Product   = require(pathServer + 'app/models/product');
+var Category   = require(pathServer + 'app/models/category');
 var Order   = require(pathServer + 'app/models/order');
 //Helpers:
 var commonHelper   = require(pathServer + 'app/helpers/common'); 
@@ -19,7 +20,7 @@ moduleRoutes.get('/getOrder', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     if(! ( HelperValidator.isNumeric( req.query.idOrder ) && req.query.idOrder != "" )  ){
-      validationResponse.addError("Invalid number: " + req.query.idOrder);
+        validationResponse.addError("Invalid number: " + req.query.idOrder);
     }
     if(! validationResponse.success){
         res.json(validationResponse);
@@ -145,7 +146,7 @@ moduleRoutes.get('/getAdminOrder', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     if(! ( HelperValidator.isNumeric( req.query.idOrder ) && req.query.idOrder != "" )  ){
-      validationResponse.addError("Invalid number: " + req.query.idOrder);
+        validationResponse.addError("Invalid number: " + req.query.idOrder);
     }
     if(! validationResponse.success){
         res.json(validationResponse);
@@ -185,39 +186,101 @@ moduleRoutes.post('/createOrder', function(req, res) {
         validationResponse.addError("Invalid idUser: " + user.idUser);
     }
     if(! ( HelperValidator.isAscii( req.body.address ) && req.body.address != "" )  ){
-      validationResponse.addError("Invalid address: " + req.body.address);
+        validationResponse.addError("Invalid address: " + req.body.address);
     }
     if(! ( HelperValidator.isAscii( req.body.city ) && req.body.city != "" )  ){
-      validationResponse.addError("Invalid city: " + req.body.city);
+        validationResponse.addError("Invalid city: " + req.body.city);
     }
     
-    if(! ( HelperValidator.isJSON( req.body['orderLines[]'] ) && req.body['orderLines[]'] != "" )  ){
-      validationResponse.addError("Invalid orderLines: " + req.body['orderLines[]']);
+    //if(! ( HelperValidator.isJSON( req.body['orderLines[]'] ) && req.body['orderLines[]'] != "" )  ){
+    //    validationResponse.addError("Invalid orderLines: " + req.body['orderLines[]']);
+    //}
+    var arrRequestProduct = (typeof req.body['product[]'] == "string")? [req.body['product[]']]: req.body['product[]'];
+    var arrRequestQuantity = (typeof req.body['quantity[]'] == "string")? [req.body['quantity[]']]: req.body['quantity[]'];
+    
+    if(! ( HelperValidator.isAscii( req.body['product[]'] ) && typeof arrRequestProduct == "object" )  ){
+        validationResponse.addError("Invalid product: " + req.body['product[]']);
     }
+    if(! ( HelperValidator.isAscii( req.body['quantity[]'] ) && typeof arrRequestQuantity == "object" )  ){
+        validationResponse.addError("Invalid quantity: " + req.body['quantity[]']);
+    }
+    if(! ( arrRequestProduct.length == arrRequestQuantity.length  && arrRequestProduct.length > 0  && arrRequestQuantity.length > 0) ){
+        validationResponse.addError("Invalid quanties x product: (" + arrRequestProduct.length + " - " + arrRequestQuantity.length + ") ");
+    }
+
 
     if(! validationResponse.success){
         res.json(validationResponse);
     }
-    else {     
-        var dataOrder = new Order({ 
-            idUser: user.idUser,
-            address: req.body.address, 
-            creationDate: Date(), 
-            total: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
-            status: "unpaid", 
-            city: req.body.city, 
-            totalTax: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
-            orderLines: req.body['orderLines[]'], 
-            //approvalCode: "bien", 
-            modificationDate: Date() 
-        });
-        dataOrder.save(function(err) {
+    else { 
+        Product.find({}).
+        where('idProduct').in( arrRequestProduct ).// like
+        //limit(10).
+        sort('-name').
+        populate('category').
+        exec(function(err, Products) {
             if (err) throw err;
 
-            var msgResponse = 'Order saved successfully';
-            console.log(msgResponse);
-            res.json({ success: true, message: msgResponse, data: dataOrder });
+            if (!Products) {
+                res.json({ success: false, message: 'Products not found :(' + arrRequestProduct.join(', ') + ')', data: arrRequestProduct });
+            
+            } 
+            else if (Products) {
+                //Jimmy compare if all products exists
+                var arrUnfoundProducts = [];
+                var arrOrderLines = [];
+                for ( keyRp in arrRequestProduct){
+                    var tmpProduct = null;
+                    for ( keyP in Products){
+                        if( Products[keyP].idProduct == arrRequestProduct[keyRp] ){
+                            tmpProduct = Products[keyP];
+                            break;
+                        }
+                    }
+                    if(! tmpProduct ){
+                        arrUnfoundProducts.push(arrRequestProduct[keyRp]);
+                    }
+                    else{ //Product Found - Add to orderLines
+                        tmpProduct.CategoryData = undefined;
+                        tmpProduct.productEvaluation = undefined;
+                        tmpProduct.productComment = undefined;
+                        tmpProduct.creationDate = undefined;
+                        tmpProduct.modificationDate = undefined;
+                        arrOrderLines.push({ productId : tmpProduct.productId, product : tmpProduct, quantity: arrRequestQuantity[keyRp] });
+                    }
+                }
+                console.log(arrOrderLines);
+
+                if( arrUnfoundProducts.length > 0 ){
+                    res.json({ success: false, message: 'Products not found :(' + arrUnfoundProducts.join(', ') + ')', data: arrUnfoundProducts });
+                }
+                else{//All products found
+                    var dataOrder = new Order({ 
+                        idUser: user.idUser,
+                        address: req.body.address, 
+                        creationDate: Date(), 
+                        total: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
+                        status: "unpaid", 
+                        city: req.body.city, 
+                        totalTax: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
+                        orderLines: arrOrderLines, 
+                        //orderLines: req.body['orderLines[]'], 
+                        //approvalCode: "bien", 
+                        modificationDate: Date() 
+                    });
+                    dataOrder.save(function(err) {
+                        if (err) throw err;
+
+                        var msgResponse = 'Order saved successfully';
+                        console.log(msgResponse);
+                        res.json({ success: true, message: msgResponse, data: dataOrder });
+                    });
+
+                }
+
+            }
         });
+        
     }
    
 });
@@ -229,26 +292,26 @@ moduleRoutes.post('/updateOrder', function(req, res) {
     var HelperValidator = commonHelper.validator;
     
     if(! ( HelperValidator.isNumeric( req.body.idOrder ) && req.body.idOrder != "" )  ){
-      validationResponse.addError("Invalid number: " + req.body.idOrder);
+        validationResponse.addError("Invalid number: " + req.body.idOrder);
     }
     
     if(! ( HelperValidator.isAscii( req.body.status ) && req.body.status != "" )  ){
-      validationResponse.addError("Invalid status: " + req.body.status);
+        validationResponse.addError("Invalid status: " + req.body.status);
     }
     if(! ( HelperValidator.isAscii( req.body.address ) && req.body.address != "" )  ){
-      validationResponse.addError("Invalid address: " + req.body.address);
+        validationResponse.addError("Invalid address: " + req.body.address);
     }
     if(! ( HelperValidator.isAscii( req.body.city ) && req.body.city != "" )  ){
-      validationResponse.addError("Invalid city: " + req.body.city);
+        validationResponse.addError("Invalid city: " + req.body.city);
     }
     if(! ( HelperValidator.isAscii( req.body.approvalCode ) && req.body.approvalCode != "" )  ){
-      validationResponse.addError("Invalid approvalCode: " + req.body.approvalCode);
+        validationResponse.addError("Invalid approvalCode: " + req.body.approvalCode);
     }
     
     if(! ( HelperValidator.isJSON( req.body['orderLines[]'] ) && req.body['orderLines[]'] != "" )  ){
-      validationResponse.addError("Invalid orderLines: " + req.body['orderLines[]']);
+        validationResponse.addError("Invalid orderLines: " + req.body['orderLines[]']);
     }
-
+    
     if(! validationResponse.success){
         res.json(validationResponse);
     }
@@ -302,7 +365,7 @@ moduleRoutes.delete('/removeOrder', function(req, res) {
     var HelperValidator = commonHelper.validator;
     
     if(! ( HelperValidator.isNumeric( req.query.idOrder ) && req.query.idOrder != "" )  ){
-      validationResponse.addError("Invalid number: " + req.query.idOrder);
+        validationResponse.addError("Invalid number: " + req.query.idOrder);
     }
     
      if(! validationResponse.success){
