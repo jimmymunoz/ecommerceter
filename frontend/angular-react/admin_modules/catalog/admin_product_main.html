@@ -1,0 +1,78 @@
+<div ng-controller="AdminCreateProductController">
+    <div class="product_form">
+    	<span>Product Manager</span>
+    	<form action="">
+    		<table>
+    			<tr>
+    				<td>Name:</td>
+    				<td>
+    					<input type="text" placeholder="Product" ng-model="product_manager_form.name" name="name" value=""/>
+    				</td>
+    			</tr>
+    			<tr>
+                    <td>Description:</td>
+                    <td>
+                        <input type="text" placeholder="Description" ng-model="product_manager_form.description" name="description" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Price:</td>
+                    <td>
+                        <input type="text" placeholder="Price €" ng-model="product_manager_form.price" name="price" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tax:</td>
+                    <td>
+                        <input type="text" placeholder="Tax €" ng-model="product_manager_form.tax" name="tax" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Buy Price:</td>
+                    <td>
+                        <input type="text" placeholder="Buy Price €" ng-model="product_manager_form.buyPrice" name="buyPrice" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Quantity:</td>
+                    <td>
+                        <input type="text" placeholder="Quantity" ng-model="product_manager_form.quantity" name="quantity" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Weight:</td>
+                    <td>
+                        <input type="text" placeholder="Weight €" ng-model="product_manager_form.weight" name="weight" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Category:</td>
+                    <td>
+                        <div >
+                            <select placeholder="Category" ng-model='product_manager_form.category' name='category' >
+                                <option ng-repeat="filterRow in product_manager_form.category_options" value='{{filterRow.value}}'>{{filterRow.name}}</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Image:</td>
+                    <td>
+                        <input type="text" placeholder="Image" ng-model="product_manager_form.image" name="image" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+    				<td>
+    					<input type="submit" name="price" value="Create Product"/>
+    				</td>
+    			</tr>
+    		</table>
+    	</form>
+    </div>
+    <!-- 
+    <div class="product_list">
+        <admin-product-list data="product_list_data"></admin-product-list>
+    </div>
+    -->
+</div>

@@ -1,7 +1,6 @@
 var pathServer = '../../';
 var express     = require('express');
 var config = require(pathServer + 'config');
-var jwt    = require('jsonwebtoken');
 var SHARED_DATA   = require(pathServer + 'app/helpers/data');
 //Models:
 var User   = require(pathServer + 'app/models/user'); 
@@ -16,7 +15,7 @@ var moduleRoutes = express.Router();
 moduleRoutes.post('/singup', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
-    var email = req.body.email;
+    var email = (req.body.email == undefined)? "": req.body.email;
     email = email.toLowerCase();
 
     if(! HelperValidator.isEmail( email) ){ 
@@ -82,7 +81,7 @@ moduleRoutes.post('/singup', function(req, res) {
 moduleRoutes.post('/login', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
-    var email = req.body.email;
+    var email = (req.body.email == undefined)? "": req.body.email;
     email = email.toLowerCase();
 
     if(! HelperValidator.isEmail( email) ){ 
@@ -107,28 +106,37 @@ moduleRoutes.post('/login', function(req, res) {
                 if (err) throw err;
 
                 if (!user) {
-                    res.json({ success: false, message: 'Email not found : ' + req.body.email , data: [] });
+                    res.json({ success: false, message: 'Email not found : ' + email , data: [] });
                 } 
                 else if (user) {
                     //Email found!
-                    console.log(user)
-                    var decryptedPassword = authenticationHelper.decrypt(user.password);
-                    if( req.body.password == decryptedPassword ){
-                        user.password = undefined;
+                    if( user.password != undefined ){
 
-                        var token = authenticationHelper.createToken(user);
+                        var decryptedPassword = authenticationHelper.decrypt(user.password);
+                        if( req.body.password == decryptedPassword ){
+                            user.password = undefined;
 
-                        res.json({
-                            success: true,
-                            message: 'Login ok',
-                            data: user,
-                            token: token
-                        });
+                            var token = authenticationHelper.createToken(user);
+
+                            res.json({
+                                success: true,
+                                message: 'Login ok',
+                                data: user,
+                                token: token
+                            });
+                        }
+                        else{
+                            res.json({
+                                success: false,
+                                message: 'Invalid Password',
+                                data: []
+                            });
+                        }
                     }
                     else{
                         res.json({
                             success: false,
-                            message: 'Invalid Password',
+                            message: 'Password error',
                             data: []
                         });
                     }

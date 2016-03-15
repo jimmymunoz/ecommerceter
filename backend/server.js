@@ -12,6 +12,12 @@ var authenticationHelper   = require('./app/helpers/authentication');
 var port = 8888;
 mongoose.connect(config.database); // connect to database
 
+//Cross Origin
+app.all('/*', function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	next();
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -19,9 +25,10 @@ app.use(morgan('dev'));
 
 //Default Paths
 //Jimmy: Security
-app.use(authenticationHelper.restrictAccess);
+//app.use(authenticationHelper.restrictAccess);
 
 //Controllers
+app.use('/_population', require('./app/controllers/_population'));
 app.use('/authentication', require('./app/controllers/authentication'));
 app.use('/category', require('./app/controllers/category'));
 app.use('/order', require('./app/controllers/order'));

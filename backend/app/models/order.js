@@ -5,9 +5,7 @@ var Schema = mongoose.Schema;
 var commonHelper   = require(pathServer + 'app/helpers/common');
 
 var autoIncrement = require('mongoose-auto-increment');
-//autoIncrement.initialize();
 var connection = mongoose.createConnection(config.database);
- 
 autoIncrement.initialize(connection);
 
 
@@ -20,9 +18,10 @@ var schemaOrder = new Schema({
     status: String, 
     city: String, 
     totalTax: String, 
-    orderLines: Array, 
+    orderLines: [ { productId: { type: Schema.Types.ObjectId, ref: 'Product' },  product: { type: Schema.Types.Mixed }, quantity: { type: Number }, total: { type: Number }, totalTax: { type: Number } }],
+    //orderLines: Array, 
     approvalCode: String, 
-    paymentDate: Date, 
+    paymentDate: Date,
     modificationDate: Date 
 });
 
