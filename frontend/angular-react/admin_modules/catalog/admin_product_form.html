@@ -1,0 +1,34 @@
+<div ng-controller="CatalogSearchController">
+    <div class="product_form">
+    	<span>Filter By</span>
+    	<form name="form_catalog_search">
+    		<table>
+    			<tr>
+    				<td>Product name:</td>
+    				<td>
+    					<input type="text" placeholder="Product" ng-model="search_catalog_form.name" name="search_product_name" value="" ng-change="sendCatalogSearchForm()"/>
+    				</td>
+    			</tr>
+    			<tr>
+    				<td>Category:</td>
+    				<td>
+	    				<div >
+	                        <select placeholder="Category" ng-model='category' name='category' onChnage="sendCatalogSearchForm()">
+	                            <option value="">--</option>
+	                            <option ng-repeat="filterRow in search_catalog_form.category_options" value='{{filterRow.value}}'>{{filterRow.name}}</option>
+	                        </select>
+	                    </div>
+    				</td>
+    			</tr>
+    			<tr>
+    				<td>Price:</td>
+    				<td>
+    					<input type="text" placeholder="Price €" ng-model="search_catalog_form.price" name="search_product_price" value="" ng-change="sendCatalogSearchForm()"/>
+    				</td>
+    			</tr>
+    		</table>
+    	</form>
+    	
+    	<div>Filtered By: {{search_catalog_form.product_name}} - {{search_catalog_form.category_name}}</div>
+    </div>
+</div>
