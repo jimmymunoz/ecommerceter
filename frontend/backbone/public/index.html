@@ -5,178 +5,178 @@
 	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
 </head>
 <body>
-<div class = "container">
-<div class="page-header">
-	<h1>Products</h1>
-</div>
-<!--
--->
-<form id="addProduct" class="form-horizontal" enctype="multipart/form-data">
-	<h1>Add Product</h1>
-	<div>
-		<label for="name">Name: </label>
-		<input type="text" id="name" name="name" >
+	<div class = "container">
+		<div class="page-header">
+			<h1>Products</h1>
+		</div>
+		<!--
+		-->
+		<form id="addProduct" class="form-horizontal" enctype="multipart/form-data">
+			<h1>Add Product</h1>
+			<div>
+				<label for="name">Name: </label>
+				<input type="text" id="name" name="name" >
+			</div>
+
+			<div>
+				<label for="description">Description: </label>
+				<input type="text" id="description" name="description" >
+			</div>
+
+			<div>
+				<label for="price">Price:</label>
+				<input type="text" id="price" name="price" >
+			</div>
+			<div>
+				<label for="tax">Tax:</label>
+				<input type="text" id="tax" name="tax" >
+			</div>
+			<div>
+				<label for="buyPrice">Buy Price:</label>
+				<input type="text" id="buyPrice" name="buyPrice" >
+			</div>
+			<div>
+				<label for="quantity">Quantity:</label>
+				<input type="text" id="quantity" name="quantity" >
+			</div>
+			<div>
+				<label for="weight">Weight:</label>
+				<input type="text" id="weight" name="weight" >
+			</div>
+			<div>
+				<label for="category">Category:</label>
+				<input type="text" id="category" name="category" >
+			</div>
+			<div>
+				<label for="CategoryData">CategoryData:</label>
+				<input type="text" id="CategoryData" name="CategoryData" >
+			</div>
+			<div>
+				<label for="image">Image:</label>
+				<input type="file" id="image" name="image"></input>
+			</div>
+			<div >
+				<input type="submit" value="Add Product" class="btn btn-primary" style="margin-top:5px">
+			</div>
+		</form>
+
+		<div id="editProduct">
+
+		</div>
+
+		<table id="allProducts" class="table table-hover">
+			<thead>
+				<tr>	 
+					<th>Name</th>
+					<th>Description</th>
+					<th>Price</th>
+					<th>Tax</th>
+					<th>Buy Price</th>
+					<th>Quantity</th>
+					<th>Weight</th>
+					<th>Category</th>
+					<th>Category Data</th>
+					<th>Creation Date</th>
+					<th>Modification Date</th>
+					<th>Image</th>
+					<th>Config</th>
+				</tr>
+			</thead>
+		</table>
+
 	</div>
 
-	<div>
-		<label for="description">Description: </label>
-		<input type="text" id="description" name="description" >
-	</div>
+	<script id="allProductsTemplate" type="text/template">
 
-	<div>
-		<label for="price">Price:</label>
-		<input type="text" id="price" name="price" >
-	</div>
-	<div>
-		<label for="tax">Tax:</label>
-		<input type="text" id="tax" name="tax" >
-	</div>
-	<div>
-		<label for="buyPrice">Buy Price:</label>
-		<input type="text" id="buyPrice" name="buyPrice" >
-	</div>
-	<div>
-		<label for="quantity">Quantity:</label>
-		<input type="text" id="quantity" name="quantity" >
-	</div>
-	<div>
-		<label for="weight">Weight:</label>
-		<input type="text" id="weight" name="weight" >
-	</div>
-	<div>
-		<label for="category">Category:</label>
-		<input type="text" id="category" name="category" >
-	</div>
-	<div>
-		<label for="CategoryData">CategoryData:</label>
-		<input type="text" id="CategoryData" name="CategoryData" >
-	</div>
-	<div>
-		<label for="image">Image:</label>
-		<input type="file" id="image" name="image"></input>
-	</div>
-	<div >
-		<input type="submit" value="Add Product" class="btn btn-primary" style="margin-top:5px">
-	</div>
-</form>
+		<td><%= name %></td>
+		<td><%= description %></td>
+		<td><%= price %></td>
+		<td><%= tax %></td>
+		<td><%= buyPrice %></td>
+		<td><%= quantity %></td>
+		<td><%= weight %></td>
+		<td><%= category %></td>
+		<td><%= CategoryData %></td>
+		<td><%= creationDate %></td>
+		<td><%= modificationDate %></td>
+		<!--<td></td>-->
+		<td><img src="<%= image %>" /></td>
+		<td><a href="#products/<%= _id %>/edit" class="edit btn">Edit</a></td>
+		<td><a href="#products/<%= _id %>" class="delete btn">Delete</a></td>
+	</script>
 
-<div id="editProduct">
+	<script id="editProductTemplate" type="text/template">
+		<h2>Edit Product: <%= name %> </h2>
+		<form id="editProductForm">
+			<div>
+				<label for="edit_name">Name: </label>
+				<input type="text" id="edit_name" name="edit_name" value="<%= name %>">
+			</div>
 
-</div>
-
-<table id="allProducts" class="table table-hover">
-	<thead>
-		<tr>	 
-			<th>Name</th>
-			<th>Description</th>
-			<th>Price</th>
-			<th>Tax</th>
-			<th>Buy Price</th>
-			<th>Quantity</th>
-			<th>Weight</th>
-			<th>Category</th>
-			<th>Category Data</th>
-			<th>Creation Date</th>
-			<th>Modification Date</th>
-			<th>Image</th>
-			<th>Config</th>
-		</tr>
-	</thead>
-</table>
-
-</div>
-
-<script id="allProductsTemplate" type="text/template">
-
-	<td><%= name %></td>
-	<td><%= description %></td>
-	<td><%= price %></td>
-	<td><%= tax %></td>
-	<td><%= buyPrice %></td>
-	<td><%= quantity %></td>
-	<td><%= weight %></td>
-	<td><%= category %></td>
-	<td><%= CategoryData %></td>
-	<td><%= creationDate %></td>
-	<td><%= modificationDate %></td>
-	<!--<td></td>-->
-	<td><img src="<%= image %>" /></td>
-	<td><a href="#products/<%= _id %>/edit" class="edit btn">Edit</a></td>
-	<td><a href="#products/<%= _id %>" class="delete btn">Delete</a></td>
-</script>
-
-<script id="editProductTemplate" type="text/template">
-	<h2>Edit Product: <%= name %> </h2>
-	<form id="editProductForm">
-		<div>
-			<label for="edit_name">Name: </label>
-			<input type="text" id="edit_name" name="edit_name" value="<%= name %>">
+			<div>
+			<label for="edit_description">Description: </label>
+			<input type="text" id="edit_description" name="edit_description" value="<%= description %>">
 		</div>
 
 		<div>
-		<label for="edit_description">Description: </label>
-		<input type="text" id="edit_description" name="edit_description" value="<%= description %>">
-	</div>
-
-	<div>
-		<label for="edit_price">Price:</label>
-		<input type="text" id="edit_price" name="edit_price" value="<%= price %>">
-	</div>
-	<div>
-		<label for="edit_tax">Tax:</label>
-		<input type="text" id="edit_tax" name="edit_tax" value="<%= tax %>">
-	</div>
-	<div>
-		<label for="edit_buyPrice">Buy Price:</label>
-		<input type="text" id="edit_buyPrice" name="edit_buyPrice" value="<%= buyPrice %>">
-	</div>
-	<div>
-		<label for="edit_quantity">Quantity:</label>
-		<input type="text" id="edit_quantity" name="edit_quantity" value="<%= quantity %>">
-	</div>
-	<div>
-		<label for="edit_weight">Weight:</label>
-		<input type="text" id="edit_weight" name="edit_weight" value="<%= weight %>">
-	</div>
-	<div>
-		<label for="edit_category">Category:</label>
-		<input type="text" id="edit_category" name="edit_category" value="<%= category %>">
-	</div>
-	<div>
-		<label for="edit_CategoryData">Data Category:</label>
-		<input type="text" id="edit_CategoryData" name="edit_CategoryData" value="<%= CategoryData %>">
-	</div>
-	<div>
-		<label for="edit_image">Image:</label>
-		<input type="text" id="edit_image" name="edit_image" value="<%= image %>"></input>
-	</div>
-		
-		<div>
-			<input type="submit" value="Edit Product" class="btn btn-success">
-			<button type="button" class="cancel btn">Cancel</button>
+			<label for="edit_price">Price:</label>
+			<input type="text" id="edit_price" name="edit_price" value="<%= price %>">
 		</div>
-	</form>
-</script>
+		<div>
+			<label for="edit_tax">Tax:</label>
+			<input type="text" id="edit_tax" name="edit_tax" value="<%= tax %>">
+		</div>
+		<div>
+			<label for="edit_buyPrice">Buy Price:</label>
+			<input type="text" id="edit_buyPrice" name="edit_buyPrice" value="<%= buyPrice %>">
+		</div>
+		<div>
+			<label for="edit_quantity">Quantity:</label>
+			<input type="text" id="edit_quantity" name="edit_quantity" value="<%= quantity %>">
+		</div>
+		<div>
+			<label for="edit_weight">Weight:</label>
+			<input type="text" id="edit_weight" name="edit_weight" value="<%= weight %>">
+		</div>
+		<div>
+			<label for="edit_category">Category:</label>
+			<input type="text" id="edit_category" name="edit_category" value="<%= category %>">
+		</div>
+		<div>
+			<label for="edit_CategoryData">Data Category:</label>
+			<input type="text" id="edit_CategoryData" name="edit_CategoryData" value="<%= CategoryData %>">
+		</div>
+		<div>
+			<label for="edit_image">Image:</label>
+			<input type="text" id="edit_image" name="edit_image" value="<%= image %>"></input>
+		</div>
+			
+			<div>
+				<input type="submit" value="Edit Product" class="btn btn-success">
+				<button type="button" class="cancel btn">Cancel</button>
+			</div>
+		</form>
+	</script>
 
-<script src="js/jquery-latest.js"></script>
-<script src="js/underscore-min.js"></script>
-<script src="js/backbone-min.js"></script>
-<script src="js/main.js"></script>
-<script src="js/models.js"></script>
-<script src="js/collections.js"></script>
-<script src="js/views.js"></script>
-<script src="js/router.js"></script>
-<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery-latest.js"></script>
+	<script src="js/underscore-min.js"></script>
+	<script src="js/backbone-min.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/models.js"></script>
+	<script src="js/collections.js"></script>
+	<script src="js/views.js"></script>
+	<script src="js/router.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 
-<script>
-	new App.Router;
-	Backbone.history.start();
+	<script>
+		new App.Router;
+		Backbone.history.start();
 
-	App.products = new App.Collections.Products;
-	App.products.fetch().then(function() {
-		new App.Views.App({ collection: App.products });
-	});
-</script>
+		App.products = new App.Collections.Products;
+		App.products.fetch().then(function() {
+			new App.Views.App({ collection: App.products });
+		});
+	</script>
 
 </body>
 </html>

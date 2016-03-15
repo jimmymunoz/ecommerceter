@@ -1,7 +1,7 @@
 <div ng-controller="AdminCreateProductController">
     <div class="product_form">
     	<span>Product Manager</span>
-    	<form action="">
+    	<form novalidate class="css-form">
     		<table>
     			<tr>
     				<td>Name:</td>
@@ -58,13 +58,13 @@
                 <tr>
                     <td>Image:</td>
                     <td>
-                        <input type="text" placeholder="Image" ng-model="product_manager_form.image" name="image" value=""/>
+                        <input type="file" placeholder="Image" ng-model="product_manager_form.image" name="image" value="" accept="image/*"/>
                     </td>
                 </tr>
                 <tr>
                     <td></td>
     				<td>
-    					<input type="submit" name="price" value="Create Product"/>
+    					<input type="submit" ng-click="sendProductManagerForm(product_manager_form)" value="Create Product"/>
     				</td>
     			</tr>
     		</table>
