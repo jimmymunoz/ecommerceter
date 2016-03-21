@@ -54,9 +54,13 @@ $(document).ready(function() {
 	$('#style-switcher li').click(function(e){
 		e.preventDefault();
 		var m = $(this);
+		alert("Change to -->" + this.id);
+		/*
+		
 		$('.colors').attr('href', 'css/' + m.attr('id') + '.css');
 		$('#logo').attr('src', 'img/logo-' + m.attr('id') + '.png');
 		$('#navlogo').attr('src', 'img/navlogo-' + m.attr('id') + '.png');
+		 */
 		$('#style-switcher').removeClass('open');
 		return false; 
 	});	

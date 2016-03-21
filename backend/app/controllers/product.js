@@ -40,6 +40,9 @@ moduleRoutes.get('/setup', function(req, res) {
 //Public Methods:
 //http://localhost:8888/product/createProduct
 moduleRoutes.post('/createProduct', function(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    console.log(req);
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     console.log(req.body.name);

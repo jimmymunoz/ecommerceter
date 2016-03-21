@@ -1,76 +1,69 @@
 var ProductItemRow = React.createClass({
     displayName: "ProductItemRow",
 
-    addItemToShoppingCart: function (e) {
-        addToShoppingCart(this.props.product_data);
-        //this.props.product_data.quantity = this.props.product_data.quantity -1;
-        this.setState({ quantity: this.props.product_data.quantity - 1 });
+    editProductItem: function (e) {
+        editProductItem(this.props.row_data);
+        return false;
+    },
+    removeProductItem: function (e) {
+        removeProductItem(this.props.row_data);
         return false;
     },
     render: function () {
-        var product_data = this.props.product_data;
+        var row_data = this.props.row_data;
         return React.createElement(
             "tr",
             null,
             React.createElement(
                 "td",
                 null,
-                product_data.name
+                row_data.name
             ),
             React.createElement(
                 "td",
                 null,
-                product_data.description
+                row_data.price
             ),
             React.createElement(
                 "td",
                 null,
-                product_data.price
+                row_data.tax
             ),
             React.createElement(
                 "td",
                 null,
-                product_data.tax
+                row_data.buyPrice
             ),
             React.createElement(
                 "td",
                 null,
-                product_data.buyPrice
+                row_data.quantity
             ),
             React.createElement(
                 "td",
                 null,
-                product_data.quantity
+                row_data.weight
             ),
             React.createElement(
                 "td",
                 null,
-                product_data.weight
+                row_data.category.name
             ),
             React.createElement(
                 "td",
                 null,
-                product_data.category
+                row_data.modificationDate
             ),
             React.createElement(
                 "td",
                 null,
-                product_data.creationDate
+                React.createElement("img", { className: "product_image_admin", src: row_data.image })
             ),
             React.createElement(
                 "td",
                 null,
-                product_data.modificationDate
-            ),
-            React.createElement(
-                "td",
-                null,
-                product_data.image
-            ),
-            React.createElement(
-                "td",
-                null,
-                product_data.idProduct
+                React.createElement("input", { type: "button", value: "Edit", onClick: this.editProductItem }),
+                React.createElement("input", { type: "button", value: "Remove", onClick: this.removeProductItem })
             )
         );
     }
@@ -81,11 +74,16 @@ var AdminProductListTable = React.createClass({
     render: function () {
         var data = this.props.data;
         var ProductItemRows = this.props.data.map(function (product) {
-            return React.createElement(
+            return React.createElement(ProductItemRow, { row_data: product, key: product.idProduct });
+        });
+        return React.createElement(
+            "div",
+            { className: "product_list_content" },
+            React.createElement(
                 "table",
                 { className: "table table-hover" },
                 React.createElement(
-                    "thead",
+                    "tbody",
                     null,
                     React.createElement(
                         "tr",
@@ -94,11 +92,6 @@ var AdminProductListTable = React.createClass({
                             "th",
                             null,
                             "Name"
-                        ),
-                        React.createElement(
-                            "th",
-                            null,
-                            "Description"
                         ),
                         React.createElement(
                             "th",
@@ -133,11 +126,6 @@ var AdminProductListTable = React.createClass({
                         React.createElement(
                             "th",
                             null,
-                            "Creation Date"
-                        ),
-                        React.createElement(
-                            "th",
-                            null,
                             "Modification Date"
                         ),
                         React.createElement(
@@ -150,19 +138,10 @@ var AdminProductListTable = React.createClass({
                             null,
                             "Config"
                         )
-                    )
-                ),
-                React.createElement(
-                    ProductItemRow,
-                    { product_data: product, key: product.idProduct },
-                    product.text
+                    ),
+                    ProductItemRows
                 )
-            );
-        });
-        return React.createElement(
-            "div",
-            { className: "product_list_content" },
-            ProductItems
+            )
         );
     }
 });
