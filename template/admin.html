@@ -40,8 +40,8 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#showLoginSingUp"><i class="fa fa-user"></i> Account</a></li>
-								<li><a href="#showLoginSingUp"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a data-target="#showLoginSingUp" href="#showLoginSingUp"><i class="fa fa-user"></i> Account</a></li>
+								<li><a data-target="#showLoginSingUp" href="#showLoginSingUp"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>
 					</div>
@@ -58,11 +58,13 @@
 					<div class="category-tab"><!--category-tab-->
 						<div class="col-sm-12">
 							<ul class="nav nav-tabs section_color3">
-								<li class="active"><a href="#products_section" >Products</a></li>
-								<li><a href="#shopping_cart_section" >Categories</a></li>
-								<li><a href="#shopping_cart_section" >Orders</a></li>
-								<li><a href="#payment_section" >Users</a></li>
-								<li><a href="#result_section" >Privileges</a></li>
+								<li class="active"><a data-target="#products_section" href="#products_section" >Products</a></li>
+								<li><a data-target="#shopping_cart_section" href="#shopping_cart_section" >Categories</a></li>
+								<li><a data-target="#"shopping_cart_section href="#shopping_cart_section" >Orders</a></li>
+								<li><a data-target="#payment_section" href="#payment_section" >Users</a></li>
+								<!-- 
+								<li><a data-target="#result_section" href="#result_section" >Privileges</a></li>
+								-->
 							</ul>
 						</div>
 					</div><!--/category-tab-->
@@ -75,54 +77,6 @@
 	<section id="admin_section">
 		<div class="container">
 			<div class="row">
-				<!-- 
-				<div class="col-sm-3">
-					<div class="features_items left-sidebar">
-						<h2> Module </h2>
-						<div id="accordian" class="panel-group category-products">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Kids</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Fashion</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Households</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Interiors</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Clothing</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Bags</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Shoes</a></h4>
-								</div>
-							</div>
-						</div>
-					
-						
-					</div>
-
-				</div>
-				-->
-				
 				<div class="col-sm-12 padding-right">
 					<div class=""><!--features_items-->
 						<h2 class="title text-center">Products</h2>
@@ -177,8 +131,8 @@
 												<img alt="" src="images/cart/one.png" class="admin_items_image">
 											</td>
 											<td class="cart_delete border-none admin_grid_actions">
-												<a href="" class="cart_quantity_delete"><i class="fa ">Edit</i></a>
-												<a href="" class="cart_quantity_delete"><i class="fa ">Remove</i></a>
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Edit</i></a>
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Remove</i></a>
 											</td>
 										</tr>
 										<tr>
@@ -210,8 +164,8 @@
 												<img alt="" src="images/cart/one.png" class="admin_items_image">
 											</td>
 											<td class="cart_delete border-none admin_grid_actions">
-												<a href="" class="cart_quantity_delete"><i class="fa ">Edit</i></a>
-												<a href="" class="cart_quantity_delete"><i class="fa ">Remove</i></a>
+												<a href="javascript:void(0);" onClick="alert('Delete....');" class="cart_quantity_delete"><i class="fa ">Edit</i></a>
+												<a href="javascript:void(0);"  class="cart_quantity_delete"><i class="fa ">Remove</i></a>
 											</td>
 										</tr>
 										
@@ -231,10 +185,10 @@
 				<div class="row">
 					<div class="col-sm-12" style="text-align: center;">
 						<ul class="pagination">
-							<li class="active"><a href="">1</a></li>
-							<li><a href="">2</a></li>
-							<li><a href="">3</a></li>
-							<li><a href="">»</a></li>
+							<li class="active"><a href="javascript:void(0);" onClick="console.log(1)">1</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">2</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">3</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">»</a></li>
 						</ul>
 					</div>
 				</div>
@@ -250,7 +204,8 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<h2>Create / Edit Product</h2>
-							<form>
+							<form  method="post" class="css-form" enctype="multipart/form-data">
+								<input type="hidden" name="idProduct" value="">
 								<div class="container">
 									<div class="col-sm-6">
 										<div class="row">
@@ -258,7 +213,7 @@
 												<label>Product Name</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" placeholder="Product Name">
+												<input type="text" name="name" placeholder="Product Name">
 											</div>	
 										</div>
 										<div class="row">
@@ -266,7 +221,7 @@
 												<label>Product Price</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" placeholder="Product Price">
+												<input type="text" name="price" placeholder="Product Price">
 											</div>	
 										</div>
 										<div class="row">
@@ -274,7 +229,7 @@
 												<label>Buy Price</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" placeholder="Buy Price">
+												<input type="text" name="buyPrice" placeholder="Buy Price">
 											</div>	
 										</div>
 										<div class="row">
@@ -282,7 +237,7 @@
 												<label>Product Tax</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" placeholder="Product Tax">
+												<input type="text" name="tax" placeholder="Product Tax">
 											</div>	
 										</div>
 										<div class="row">
@@ -290,7 +245,7 @@
 												<label>Quantity</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" placeholder="Quantity">
+												<input type="text" name="quantity" placeholder="Quantity">
 											</div>	
 										</div>
 										<div class="row">
@@ -298,7 +253,7 @@
 												<label>Weight</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" placeholder="Weight">
+												<input type="text" name="weight" placeholder="Weight">
 											</div>	
 										</div>
 										<div class="row">
@@ -306,7 +261,7 @@
 												<label>Category</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" placeholder="Category">
+												<input type="text" name="category" placeholder="Category">
 											</div>	
 										</div>
 										<div class="row">
@@ -314,25 +269,23 @@
 												<label>Image</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" placeholder="Image">
+												<input type="text" name="image" placeholder="Image">
 											</div>	
 										</div>
-										<!-- 
 										<div class="row">
-											<div class="col-sm-4">
-												<label>Quantity</label> <span>*</span>
+											<div class="col-sm-5">
+												<label>Description</label> <span>*</span>
 											</div>	
-											<div class="col-sm-7">
+											<div class="col-sm-6">
 												<div class="text-area">
-													<textarea rows="5" name="message"></textarea>
+													<textarea rows="5" name="description"></textarea>
 												</div>
 											</div>	
 										</div>
-										-->
 										<div class="row">
 											<div class="col-sm-11">
 												<div colspan="2">
-													<a href="" class="btn btn-primary pull-right">Create/Update</a>
+													<a href="javascript:void(0);" onClick="console.log(1)" class="btn btn-primary pull-right">Create/Update</a>
 												</div>	
 											</div>	
 										</div>
@@ -347,6 +300,553 @@
 		</div>
 	</div>
 	
+	<section id="admin_section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 padding-right">
+					<div class=""><!--features_items-->
+						<h2 class="title text-center">Categories</h2>
+						<div class="container admin_section_container section_color2">
+							<div class="row ">
+								<a href="#show_category_form" class="btn btn-default admin_button">New Category</a>
+							</div>
+							<div class="row section_color1">
+								<table class="table table-condensed ">
+									<thead>
+										<tr class="cart_menu">
+
+											<th class="col-sm-1">idCategory</th>
+											<th class="col-sm-1">Name</th>
+											<th class="col-sm-1">Parent</th>
+											<th class="col-sm-1">Level</th>
+											<th class="col-sm-1">Modification Date</th>
+											<th class="col-sm-1 border-none"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_delete border-none admin_grid_actions">
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Edit</i></a>
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Remove</i></a>
+											</td>
+										</tr>
+										<tr>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_delete border-none admin_grid_actions">
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Edit</i></a>
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Remove</i></a>
+											</td>
+										</tr>
+										
+										
+										
+										
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+						
+					</div><!--features_items-->
+					
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12" style="text-align: center;">
+						<ul class="pagination">
+							<li class="active"><a href="javascript:void(0);" onClick="console.log(1)">1</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">2</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">3</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">»</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div id="show_category_form" class="modalDialog modalDialogFormAdmin">
+		<div class="marginModalDialogFormAdmin">
+			<a href="#close" title="Close" class="close">X</a>
+			<div class="container">
+				
+				<div class="replay-box">
+					<div class="row">
+						<div class="col-sm-12">
+							<h2>Create / Edit Category</h2>
+							<form  method="post" class="css-form" enctype="multipart/form-data">
+								<input type="hidden" name="idCategory" value="">
+								<div class="container">
+									<div class="col-sm-6">
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Category Name</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="name" placeholder="Category Name">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Category Parent</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="parent.name" placeholder="Category Parent">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Level</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="level" placeholder="Level">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-11">
+												<div colspan="2">
+													<a href="javascript:void(0);" onClick="console.log(1)" class="btn btn-primary pull-right">Create/Update</a>
+												</div>	
+											</div>	
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<section id="admin_section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 padding-right">
+					<div class=""><!--features_items-->
+						<h2 class="title text-center">Orders</h2>
+						<div class="container admin_section_container section_color2">
+							<div class="row ">
+								<a href="#show_order_form" class="btn btn-default admin_button">New Order</a>
+							</div>
+							<div class="row section_color1">
+								<table class="table table-condensed ">
+									<thead>
+										<tr class="cart_menu">
+
+											<th class="col-sm-1">idOrder</th>
+											<th class="col-sm-1">User Name</th>
+											<th class="col-sm-1">Address</th>
+											<th class="col-sm-1">total</th>
+											<th class="col-sm-1">status</th>
+											<th class="col-sm-1">city</th>
+											<th class="col-sm-1">totalTax</th>
+											<th class="col-sm-1">approvalCode</th>
+											<th class="col-sm-1">Modification Date</th>
+											<th class="col-sm-1 border-none"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_delete border-none admin_grid_actions">
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Edit</i></a>
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Remove</i></a>
+											</td>
+										</tr>
+										<tr>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_delete border-none admin_grid_actions">
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Edit</i></a>
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Remove</i></a>
+											</td>
+										</tr>
+										
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+						
+					</div><!--features_items-->
+					
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12" style="text-align: center;">
+						<ul class="pagination">
+							<li class="active"><a href="javascript:void(0);" onClick="console.log(1)">1</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">2</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">3</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">»</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div id="show_order_form" class="modalDialog modalDialogFormAdmin2">
+		<div class="marginModalDialogFormAdmin">
+			<a href="#close" title="Close" class="close">X</a>
+			<div class="">
+				
+				<div class="replay-box">
+					<div class="row">
+						<h2>Create / Edit Order</h2>
+						<form  method="post" class="css-form" enctype="multipart/form-data">
+							<input type="hidden" name="idOrder" value="">
+							<input type="hidden" name="idUser" value="">
+							<div class="col-sm-12">
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-sm-5">
+											<label>Order Name</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="name" placeholder="Order Name">
+										</div>	
+									</div>
+									<div class="row">
+										<div class="col-sm-5">
+											<label>User</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="user.name" placeholder="User">
+										</div>	
+									</div>
+									<div class="row">
+										<div class="col-sm-5">
+											<label>Address</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="address" placeholder="Address">
+										</div>	
+									</div>
+									
+								</div>
+								<div class="col-sm-6">
+									
+									<div class="row">
+										<div class="col-sm-5">
+											<label>status</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="status" placeholder="status">
+										</div>	
+									</div>
+									<div class="row">
+										<div class="col-sm-5">
+											<label>country</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="country" placeholder="country">
+										</div>	
+									</div>
+									<div class="row">
+										<div class="col-sm-5">
+											<label>city</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="city" placeholder="city">
+										</div>	
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="row">
+						<label>Products</label><span>*</span>
+					</div>
+					<div class="row">
+						<div class="row section_color1">
+							<table class="table table-condensed ">
+								<thead>
+									<tr class="cart_menu">
+
+										<th class="col-sm-2">Name</th>
+										<th class="col-sm-1">Price</th>
+										<th class="col-sm-1">Tax</th>
+										<th class="col-sm-1">Quantity</th>
+										<th class="col-sm-1">Image</th>
+										<th class="col-sm-1 border-none"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="cart_total col-sm-2 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<img class="admin_items_image" src="images/cart/one.png" alt="">
+										</td>
+										<td class="cart_delete border-none admin_grid_actions">
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Edit</i></a>
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Remove</i></a>
+										</td>
+									</tr>
+									<tr>
+										<td class="cart_total col-sm-2 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<img class="admin_items_image" src="images/cart/one.png" alt="">
+										</td>
+										<td class="cart_delete border-none admin_grid_actions">
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Edit</i></a>
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Remove</i></a>
+										</td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-11">
+							<div colspan="2">
+								<a href="javascript:void(0);" onClick="console.log(1)" class="btn btn-primary pull-right">Create/Update</a>
+							</div>	
+						</div>	
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<section id="admin_section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 padding-right">
+					<div class=""><!--features_items-->
+						<h2 class="title text-center">Users</h2>
+						<div class="container admin_section_container section_color2">
+							<div class="row ">
+								<a href="#show_user_form" class="btn btn-default admin_button">New User</a>
+							</div>
+							<div class="row section_color1">
+								<table class="table table-condensed ">
+									<thead>
+										<tr class="cart_menu">
+
+											<th class="col-sm-1">idUser</th>
+											<th class="col-sm-1">firstName</th>
+											<th class="col-sm-1">lastName</th>
+											<th class="col-sm-1">email</th>
+											<th class="col-sm-1">rol</th>
+											<th class="col-sm-1 buser-none"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_total col-sm-1 ">
+												<p>$59</p>
+											</td>
+											<td class="cart_delete buser-none admin_grid_actions">
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Edit</i></a>
+												<a href="javascript:void(0);" onClick="console.log(1)" class="cart_quantity_delete"><i class="fa ">Remove</i></a>
+											</td>
+										</tr>
+										
+										
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+						
+					</div><!--features_items-->
+					
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12" style="text-align: center;">
+						<ul class="pagination">
+							<li class="active"><a href="javascript:void(0);" onClick="console.log(1)">1</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">2</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">3</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">»</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div id="show_user_form" class="modalDialog modalDialogFormAdmin">
+		<div class="marginModalDialogFormAdmin">
+			<a href="#close" title="Close" class="close">X</a>
+			<div class="container">
+				
+				<div class="replay-box">
+					<div class="row">
+						<div class="col-sm-12">
+							<h2>Create / Edit User</h2>
+							<form  method="post" class="css-form" enctype="multipart/form-data">
+								<input type="hidden" name="idUser" value="">
+								<div class="container">
+									<div class="col-sm-6">
+										<div class="row">
+											<div class="col-sm-5">
+												<label>firstName</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="firstName" placeholder="firstName">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>lastName</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="lastName" placeholder="lastName">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>email</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="email" placeholder="email">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>rol</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="rol" placeholder="rol">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-11">
+												<div colspan="2">
+													<a href="javascript:void(0);" onClick="console.log(1)" class="btn btn-primary pull-right">Create/Update</a>
+												</div>	
+											</div>	
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 	
 	
 	<footer id="footer_admin"><!--Footer-->

@@ -164,6 +164,10 @@ h2{
   font-size: 1em;
 }
 
+.modalDialogFormAdmin2 > div {
+  width: 900px;
+}
+
 .marginModalDialogFormAdmin{
   margin: 15px auto !important;
 }

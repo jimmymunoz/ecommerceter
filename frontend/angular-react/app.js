@@ -14,7 +14,8 @@ angular.module('app').config(
 		    $routeProvider
 		        .when('/', {//otherwhise
 		            //controller: 'ControllerHome',
-		            templateUrl: 'modules/main/main.html'//Template or templateUrl
+		            //templateUrl: 'modules/main/main.html'//Template or templateUrl
+		            templateUrl: 'modules/main/admin_main.html'//Template or templateUrl
 		        });
 		}
 	]

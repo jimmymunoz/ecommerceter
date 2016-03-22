@@ -16,54 +16,106 @@ var ProductItemRow = React.createClass({
             null,
             React.createElement(
                 "td",
-                null,
-                row_data.name
+                { className: "cart_total col-sm-1 " },
+                React.createElement(
+                    "p",
+                    null,
+                    row_data.name
+                )
             ),
             React.createElement(
                 "td",
-                null,
-                row_data.price
+                { className: "cart_total col-sm-1 " },
+                React.createElement(
+                    "p",
+                    null,
+                    row_data.price
+                )
             ),
             React.createElement(
                 "td",
-                null,
-                row_data.tax
+                { className: "cart_total col-sm-1 " },
+                React.createElement(
+                    "p",
+                    null,
+                    row_data.tax
+                )
             ),
             React.createElement(
                 "td",
-                null,
-                row_data.buyPrice
+                { className: "cart_total col-sm-1 " },
+                React.createElement(
+                    "p",
+                    null,
+                    row_data.buyPrice
+                )
             ),
             React.createElement(
                 "td",
-                null,
-                row_data.quantity
+                { className: "cart_total col-sm-1 " },
+                React.createElement(
+                    "p",
+                    null,
+                    row_data.quantity
+                )
             ),
             React.createElement(
                 "td",
-                null,
-                row_data.weight
+                { className: "cart_total col-sm-1 " },
+                React.createElement(
+                    "p",
+                    null,
+                    row_data.weight
+                )
             ),
             React.createElement(
                 "td",
-                null,
-                row_data.category.name
+                { className: "cart_total col-sm-1 " },
+                React.createElement(
+                    "p",
+                    null,
+                    row_data.category.name
+                )
             ),
             React.createElement(
                 "td",
-                null,
-                row_data.modificationDate
+                { className: "cart_total col-sm-1 " },
+                React.createElement(
+                    "p",
+                    null,
+                    row_data.modificationDate
+                )
             ),
             React.createElement(
                 "td",
-                null,
-                React.createElement("img", { className: "product_image_admin", src: row_data.image })
+                { className: "cart_total col-sm-1 " },
+                React.createElement(
+                    "p",
+                    null,
+                    React.createElement("img", { className: "admin_items_image", src: row_data.image })
+                )
             ),
             React.createElement(
                 "td",
-                null,
-                React.createElement("input", { type: "button", value: "Edit", onClick: this.editProductItem }),
-                React.createElement("input", { type: "button", value: "Remove", onClick: this.removeProductItem })
+                { className: "cart_delete border-none admin_grid_actions" },
+                React.createElement(
+                    "a",
+                    { href: "javascript:void(0);", onClick: this.editProductItem, className: "cart_quantity_delete" },
+                    React.createElement(
+                        "i",
+                        { className: "fa " },
+                        "Edit"
+                    )
+                ),
+                React.createElement(
+                    "a",
+                    { href: "javascript:void(0);", onClick: this.removeProductItem, className: "cart_quantity_delete" },
+                    React.createElement(
+                        "i",
+                        { className: "fa " },
+                        "Remove"
+                    )
+                )
             )
         );
     }
@@ -77,70 +129,62 @@ var AdminProductListTable = React.createClass({
             return React.createElement(ProductItemRow, { row_data: product, key: product.idProduct });
         });
         return React.createElement(
-            "div",
-            { className: "product_list_content" },
+            "table",
+            { className: "table table-condensed" },
             React.createElement(
-                "table",
-                { className: "table table-hover" },
+                "tbody",
+                null,
                 React.createElement(
-                    "tbody",
-                    null,
+                    "tr",
+                    { className: "cart_menu" },
                     React.createElement(
-                        "tr",
-                        null,
-                        React.createElement(
-                            "th",
-                            null,
-                            "Name"
-                        ),
-                        React.createElement(
-                            "th",
-                            null,
-                            "Price"
-                        ),
-                        React.createElement(
-                            "th",
-                            null,
-                            "Tax"
-                        ),
-                        React.createElement(
-                            "th",
-                            null,
-                            "Buy Price"
-                        ),
-                        React.createElement(
-                            "th",
-                            null,
-                            "Quantity"
-                        ),
-                        React.createElement(
-                            "th",
-                            null,
-                            "Weight"
-                        ),
-                        React.createElement(
-                            "th",
-                            null,
-                            "Category"
-                        ),
-                        React.createElement(
-                            "th",
-                            null,
-                            "Modification Date"
-                        ),
-                        React.createElement(
-                            "th",
-                            null,
-                            "Image"
-                        ),
-                        React.createElement(
-                            "th",
-                            null,
-                            "Config"
-                        )
+                        "th",
+                        { className: "col-sm-2" },
+                        "Name"
                     ),
-                    ProductItemRows
-                )
+                    React.createElement(
+                        "th",
+                        { className: "col-sm-1" },
+                        "Price"
+                    ),
+                    React.createElement(
+                        "th",
+                        { className: "col-sm-1" },
+                        "Tax"
+                    ),
+                    React.createElement(
+                        "th",
+                        { className: "col-sm-1" },
+                        "Buy Price"
+                    ),
+                    React.createElement(
+                        "th",
+                        { className: "col-sm-1" },
+                        "Quantity"
+                    ),
+                    React.createElement(
+                        "th",
+                        { className: "col-sm-1" },
+                        "Weight"
+                    ),
+                    React.createElement(
+                        "th",
+                        { className: "col-sm-1" },
+                        "Category"
+                    ),
+                    React.createElement(
+                        "th",
+                        { className: "col-sm-1" },
+                        "Modification Date"
+                    ),
+                    React.createElement(
+                        "th",
+                        { className: "col-sm-1" },
+                        "Image"
+                    ),
+                    React.createElement("th", { className: "col-sm-1 border-none" })
+                ),
+                ProductItemRows
             )
         );
     }

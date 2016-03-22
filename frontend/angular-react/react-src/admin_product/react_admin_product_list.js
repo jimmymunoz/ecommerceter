@@ -11,18 +11,54 @@ var ProductItemRow = React.createClass({
         var row_data = this.props.row_data;
         return (
             <tr>     
-                <td>{row_data.name}</td>
-                <td>{row_data.price}</td>
-                <td>{row_data.tax}</td>
-                <td>{row_data.buyPrice}</td>
-                <td>{row_data.quantity}</td>
-                <td>{row_data.weight}</td>
-                <td>{row_data.category.name}</td>
-                <td>{row_data.modificationDate}</td>
-                <td><img className="product_image_admin" src={row_data.image} /></td>
-                <td>
-                    <input type="button" value="Edit" onClick={this.editProductItem} />
-                    <input type="button" value="Remove" onClick={this.removeProductItem} />
+                <td className="cart_total col-sm-1 ">
+                    <p>
+                        {row_data.name}
+                    </p>
+                </td>
+                <td className="cart_total col-sm-1 ">
+                    <p>
+                        {row_data.price}
+                    </p>
+                </td>
+                <td className="cart_total col-sm-1 ">
+                    <p>
+                        {row_data.tax}
+                    </p>
+                </td>
+                <td className="cart_total col-sm-1 ">
+                    <p>
+                        {row_data.buyPrice}
+                    </p>
+                </td>
+                <td className="cart_total col-sm-1 ">
+                    <p>
+                        {row_data.quantity}
+                    </p>
+                </td>
+                <td className="cart_total col-sm-1 ">
+                    <p>
+                        {row_data.weight}
+                    </p>
+                </td>
+                <td className="cart_total col-sm-1 ">
+                    <p>
+                        {row_data.category.name}
+                    </p>
+                </td>
+                <td className="cart_total col-sm-1 ">
+                    <p>
+                        {row_data.modificationDate}
+                    </p>
+                </td>
+                <td className="cart_total col-sm-1 ">
+                    <p>
+                        <img className="admin_items_image" src={row_data.image} />
+                    </p>
+                </td>
+                <td className="cart_delete border-none admin_grid_actions">
+                    <a href="javascript:void(0);" onClick={this.editProductItem} className="cart_quantity_delete"><i className="fa ">Edit</i></a>
+                    <a href="javascript:void(0);" onClick={this.removeProductItem} className="cart_quantity_delete"><i className="fa ">Remove</i></a>
                 </td>
             </tr>
         );
@@ -40,25 +76,23 @@ var AdminProductListTable = React.createClass({
           );
         });
         return (
-            <div className="product_list_content">
-                <table className="table table-hover">
-                    <tbody>
-                        <tr>     
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Tax</th>
-                            <th>Buy Price</th>
-                            <th>Quantity</th>
-                            <th>Weight</th>
-                            <th>Category</th>
-                            <th>Modification Date</th>
-                            <th>Image</th>
-                            <th>Config</th>
-                        </tr>
-                        {ProductItemRows}
-                    </tbody>
-                </table>
-            </div>
+            <table className="table table-condensed">
+                <tbody>
+                    <tr className="cart_menu">     
+                        <th className="col-sm-2">Name</th>
+                        <th className="col-sm-1">Price</th>
+                        <th className="col-sm-1">Tax</th>
+                        <th className="col-sm-1">Buy Price</th>
+                        <th className="col-sm-1">Quantity</th>
+                        <th className="col-sm-1">Weight</th>
+                        <th className="col-sm-1">Category</th>
+                        <th className="col-sm-1">Modification Date</th>
+                        <th className="col-sm-1">Image</th>
+                        <th className="col-sm-1 border-none"></th>
+                    </tr>
+                    {ProductItemRows}
+                </tbody>
+            </table>
         );
     }
 });
