@@ -1,5 +1,6 @@
-var express 	= require('express');
-var app         = express();
+var express = require('express')
+  , cors = require('cors')
+  , app = express();
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 var mongoose    = require('mongoose');
@@ -13,14 +14,27 @@ var port = 8888;
 mongoose.connect(config.database); // connect to database
 
 //Cross Origin
+
 app.all('/*', function(req, res, next) {
+	//res.header("Access-Control-Allow-Origin", "*");
+	//res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	
 	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+    res.header("Access-Control-Max-Age", "3600");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    
+
 	next();
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 app.use(bodyParser.json());
+//app.use(expressValidator());
+app.use(cors());
 app.use(morgan('dev'));
 
 //Default Paths
