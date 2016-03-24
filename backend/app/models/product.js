@@ -1,8 +1,15 @@
 var pathServer = '../../';
 var mongoose = require('mongoose');
+var path = require('path');
+var filePluginLib = require('mongoose-file');
+var filePlugin = filePluginLib.filePlugin;
+var make_upload_to_model = filePluginLib.make_upload_to_model;
 var config = require(pathServer + 'config'); // get our config file
 var Schema = mongoose.Schema;
 var commonHelper   = require(pathServer + 'app/helpers/common');
+
+var uploads_base = path.join("", "uploads");
+var uploads = path.join(uploads_base, "u");
 
 var autoIncrement = require('mongoose-auto-increment');
 var connection = mongoose.createConnection(config.database);
@@ -18,7 +25,7 @@ var schemaProduct = new Schema({
     tax: Number,
     buyPrice: Number,
     price: Number,
-    image: String,
+    //image: String,
     quantity: Number,
     weight: Number,
     //category: Number,
@@ -30,6 +37,12 @@ var schemaProduct = new Schema({
     productEvaluation: [ { user: { type: Schema.Types.ObjectId, ref: 'User' }, evaluation: { type: Number } , evaluationDate: { type: Date } }],
     creationDate: Date,
     modificationDate: Date
+});
+
+schemaProduct.plugin(filePlugin, {
+    name: 'image',
+    upload_to: make_upload_to_model(uploads, 'photo'),
+    relative_to: uploads_base
 });
 
 
