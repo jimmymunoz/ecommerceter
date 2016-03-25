@@ -1,78 +1,160 @@
 <div ng-controller="AdminCreateProductController">
-    <div class="product_form">
-    	<span>Product Manager</span>
-    	<form novalidate class="css-form">
-    		<table>
-    			<tr>
-    				<td>Name:</td>
-    				<td>
-    					<input type="text" placeholder="Product" ng-model="product_manager_form.name" name="name" value=""/>
-    				</td>
-    			</tr>
-    			<tr>
-                    <td>Description:</td>
-                    <td>
-                        <input type="text" placeholder="Description" ng-model="product_manager_form.description" name="description" value=""/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Price:</td>
-                    <td>
-                        <input type="text" placeholder="Price €" ng-model="product_manager_form.price" name="price" value=""/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Tax:</td>
-                    <td>
-                        <input type="text" placeholder="Tax €" ng-model="product_manager_form.tax" name="tax" value=""/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Buy Price:</td>
-                    <td>
-                        <input type="text" placeholder="Buy Price €" ng-model="product_manager_form.buyPrice" name="buyPrice" value=""/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Quantity:</td>
-                    <td>
-                        <input type="text" placeholder="Quantity" ng-model="product_manager_form.quantity" name="quantity" value=""/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Weight:</td>
-                    <td>
-                        <input type="text" placeholder="Weight €" ng-model="product_manager_form.weight" name="weight" value=""/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Category:</td>
-                    <td>
-                        <div >
-                            <select placeholder="Category" ng-model='product_manager_form.category' name='category' >
-                                <option ng-repeat="filterRow in product_manager_form.category_options" value='{{filterRow.value}}'>{{filterRow.name}}</option>
-                            </select>
+    <section id="admin_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 padding-right">
+                    <div class=""><!--features_items-->
+                        <h2 class="title text-center">Products</h2>
+                        <div class="container admin_section_container section_color2">
+                            <div class="row ">
+                                <a data-target="#show_product_form"  class="btn btn-default admin_button">New Product</a>
+                            </div>
+                            <div class="row section_color1">
+                                <admin-product-list data="admin_product_list_data"></admin-product-list>
+                                
+
+                            </div>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Image:</td>
-                    <td>
-                        <input type="file" placeholder="Image" ng-model="product_manager_form.image" name="image" value="" accept="image/*"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-    				<td>
-    					<input type="submit" ng-click="sendProductManagerForm(product_manager_form)" value="Create Product"/>
-    				</td>
-    			</tr>
-    		</table>
-    	</form>
+                        
+                    </div><!--features_items-->
+                    
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center;">
+                        <ul class="pagination">
+                            <li class="active"><a href="javascript:void(0);" onClick="console.log(1)">1</a></li>
+                            <li><a href="javascript:void(0);" onClick="console.log(1)">2</a></li>
+                            <li><a href="javascript:void(0);" onClick="console.log(1)">3</a></li>
+                            <li><a href="javascript:void(0);" onClick="console.log(1)">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="show_product_form" class="modalDialog- modalDialogFormAdmin-" data-backdrop="static">
+        <div class="marginModalDialogFormAdmin">
+            <a href="#close" title="Close" class="close">X</a>
+            <div class="container">
+                
+                <div class="replay-box">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2 ng-if="product_manager_form.idProduct == ''">
+                                Create New Product
+                            </h2>
+                            <h2 ng-if="product_manager_form.idProduct > 0 ">
+                                Edit Product {{product_manager_form.idProduct}}
+                            </h2>
+                            <form novalidate ng-submit="sendProductManagerForm(product_manager_form)" method="post" class="css-form" enctype="multipart/form-data">
+                                <input type="hidden" ng-model="product_manager_form.idProduct" name="idProduct"/>
+                                <div class="container">
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Product Name</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="text" placeholder="Product" ng-model="product_manager_form.name" name="name" value=""/>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Product Price</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="text" placeholder="Price €" ng-model="product_manager_form.price" name="price" value=""/>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Buy Price</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="text" placeholder="Buy Price €" ng-model="product_manager_form.buyPrice" name="buyPrice" value=""/>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Product Tax</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="text" placeholder="Tax €" ng-model="product_manager_form.tax" name="tax" value=""/>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Quantity</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="text" placeholder="Quantity" ng-model="product_manager_form.quantity" name="quantity" value=""/>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Weight</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="text" placeholder="Weight €" ng-model="product_manager_form.weight" name="weight" value=""/>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Category</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <div >
+                                                    <select placeholder="Category" name="category" 
+                                                      ng-options="option.name for option in options.category_options track by option.id"
+                                                      ng-model='product_manager_form.categorySelected'></select>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Image</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="file" ng-model="product_manager_form.image" name="image" placeholder="Image">
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Description</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <div class="text-area">
+                                                    <textarea rows="5" placeholder="Description" ng-model="product_manager_form.description" name="description"></textarea>  
+                                                </div>
+                                            </div>  
+                                        </div>
+                                        <!-- 
+                                        -->
+                                        <div class="row">
+                                            <div class="col-sm-11">
+                                                <div class="col-sm-5">
+                                                </div> 
+                                                <div class="col-sm-6">
+                                                    <!-- 
+                                                    <a href="javascript:void(0);" onClick="console.log(1)" class="btn btn-primary pull-right">Create/Update</a>
+                                                    -->
+                                                    <input ng-if="product_manager_form.idProduct  == '' " type="submit" class="btn btn-primary pull-right admin_button" value="Create Product"/>
+                                                    <input ng-if="product_manager_form.idProduct > 0 " type="submit" class="btn btn-primary pull-right admin_button" value="Update Product"/>
+                                                </div>  
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-    <!-- 
-    <div class="product_list">
-        <admin-product-list data="product_list_data"></admin-product-list>
-    </div>
-    -->
+    
 </div>

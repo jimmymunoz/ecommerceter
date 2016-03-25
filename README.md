@@ -10,6 +10,7 @@ cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend
 npm install express body-parser morgan mongoose jsonwebtoken --save
 npm install finalhandler serve-static	
 npm install --save mongoose-auto-increment
+npm install cors
 
 sudo npm install -g nodemon
 sudo npm install -g n
@@ -80,12 +81,10 @@ bower install --save backbone
 --------
 REACT:
 
-cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/frontend/angular-react
 npm install --save react react-dom babel-preset-react
+npm install babel-preset-es2015 
 
-
+cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/frontend/angular-react
 babel --presets react react-src/ --watch --out-dir react-build/
-
-
 
 

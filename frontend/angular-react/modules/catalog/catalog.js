@@ -1,12 +1,12 @@
 function addToShoppingCart(item){
-	console.log("addToShoppingCart");
-	console.log(item);
 	var $body = angular.element(document.body);
 	var $rootScope = $body.scope().$root;      
 	$rootScope.$apply(function () {            
 		$rootScope.shopping_cart_data.push( {name: item.name, product: item, quantity: 1} );
 	});
 }
+
+
 
 angular.module('catalog', ['ngRoute']);
 
@@ -22,7 +22,6 @@ angular.module('catalog').run(function($rootScope, $location, $routeParams, $htt
     $rootScope.searchProducts = function($event){
     	var strSearchFormParams = $httpParamSerializer($rootScope.search_catalog_form);
     	$http.get (config.pathApiServer + 'product/getProductsList/?' + strSearchFormParams).then(function(response){
-            console.log(response.data);
             if( response.data.success  ){
             	$rootScope.product_list_data = response.data.data;
             }
