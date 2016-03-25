@@ -1,19 +1,40 @@
 install.txt
 
-cd /Applications/XAMPP/xamppfiles/htdocs/ter/server/app
-
 Tutorial:
-https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
+->Project 
+cd /Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend/
+
+export NODE_PATH=/usr/local/lib/node_modules
+export NODE_PATH=/Applications/XAMPP/xamppfiles/htdocs/ecommerceter/backend/node_modules
 
 npm install express body-parser morgan mongoose jsonwebtoken --save
 
+sudo npm install -g nodemon
+//https://www.npmjs.com/package/validator
+npm install validator
+
+
+
+Terminal 1
+node server webserver.js
+Terminal 2
+node server server.js
+Terminal 3
+mongod
+
+
+POSTMAN
+
+http://localhost:8080/api/
+http://localhost:8080/api/users
+http://localhost:8080/api/users
 
 ---Mongodb----
 
 Start Mongodb:
 https://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/
 /usr/local/bin/mongodb/bin
-
+.
 Server
 /usr/local/bin/mongodb/bin/mongod
 Terminal
@@ -38,3 +59,91 @@ module.exports = {
 	'secret': 'ilovescotchyscotch',
     'database': 'mongodb://localhost:27017/sportster';
 };
+---------
+
+https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
+
+Other links:
+
+Angular react
+
+http://mediatemple.net/blog/tips/angularjs-vs-react-which-one-to-pick/
+
+Using ReactJS with AngularJS
+
+http://blog.500tech.com/using-reactjs-with-angularjs/
+http://codepen.io/borisd/pen/waVJZW
+
+React vs AngularJS – How the two Compare
+https://www.codementor.io/reactjs/tutorial/react-vs-angularjs
+
+https://www.quora.com/Is-React-killing-Angular
+http://codepen.io/chrisharrington/pen/pvEYJv/
+
+Angular + React : google
+https://www.youtube.com/watch?v=XQM0K6YG18s
+
+
+
+
+Architecture:
+
+http://images.google.fr/imgres?imgurl=http%3A%2F%2Fblog.gopivotal.com%2Fwp-content%2Fuploads%2F2012%2F04%2FNodeJS-EventedIOAsyncIO_latest.png&imgrefurl=https%3A%2F%2Fblog.pivotal.io%2Fpivotal-cloud-foundry%2Fproducts%2Ffuture-proofing-your-apps-cloud-foundry-and-node-js&h=582&w=950&tbnid=MNBwcznqXzgncM%3A&docid=uMjHuD3vIJpjBM&ei=v0KrVuP4B8TjO_GWopgG&tbm=isch&iact=rc&uact=3&dur=1276&page=1&start=0&ndsp=15&ved=0ahUKEwij1OPZ687KAhXE8Q4KHXGLCGMQrQMIIDAA
+
+Frameworks NodeJs:
+https://www.devsaran.com/blog/10-best-nodejs-frameworks-developers
+
+http://hapijs.com/api
+
+https://www.meteor.com/case-studies/flowkey
+
+metor React:
+https://www.meteor.com/tutorials/react/components
+Turorial: https://www.meteor.com/tutorials/blaze/next-steps
+
+http://www.angular-meteor.com/tutorials/socially
+
+Express:
+http://expressjs.com/en/guide/routing.html
+
+Serve static:
+https://github.com/expressjs/serve-static#serve-files-with-vanilla-nodejs-http-server
+
+
+File Structure:
+http://sailsjs.org/documentation/anatomy/my-app/app-js
+
+Hosting Node:
+http://www.hostingadvice.com/blog/where-to-find-free-node-js-hosting/
+
+https://aws.amazon.com/es/ec2/
+
+
+
+Git project:
+https://github.com/HighX97/TER_G_EOMO
+
+NodeJs:
+Tokens auth
+https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
+
+http://code.runnable.com/Uxv5tGdglOI7p8__/node-js-login-logout-for-express-node-js-authentication-and-sessions
+
+Modules:
+https://nodejs.org/docs/latest/api/modules.html#modules_modules
+
+http://mongoosejs.com/docs/models.html
+
+postman
+
+https://www.javascripting.com/view/react
+
+Search and Kill process:
+
+lsof -i:8090
+kill -9 <PID>
+
+
+find ./ -type f -name 'Icon*'
+find . -type f -name "Icon*" -exec rm -f {} \;
+
