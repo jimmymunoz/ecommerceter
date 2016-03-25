@@ -43,8 +43,14 @@
                 <div class="replay-box">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h2>Create / Edit Product</h2>
+                            <h2 ng-if="product_manager_form.idProduct == ''">
+                                Create New Product
+                            </h2>
+                            <h2 ng-if="product_manager_form.idProduct > 0 ">
+                                Edit Product {{product_manager_form.idProduct}}
+                            </h2>
                             <form novalidate ng-submit="sendProductManagerForm(product_manager_form)" method="post" class="css-form" enctype="multipart/form-data">
+                                <input type="hidden" ng-model="product_manager_form.idProduct" name="idProduct"/>
                                 <div class="container">
                                     <div class="col-sm-6">
                                         <div class="row">
@@ -101,9 +107,9 @@
                                             </div>  
                                             <div class="col-sm-6">
                                                 <div >
-                                                    <select placeholder="Category" ng-model='product_manager_form.category' name='category' >
-                                                        <option ng-repeat="filterRow in product_manager_form.category_options" value='{{filterRow.value}}'>{{filterRow.name}}</option>
-                                                    </select>
+                                                    <select placeholder="Category" name="category" 
+                                                      ng-options="option.name for option in options.category_options track by option.id"
+                                                      ng-model='product_manager_form.categorySelected'></select>
                                                 </div>
                                             </div>  
                                         </div>
@@ -112,14 +118,14 @@
                                                 <label>Image</label> <span>*</span>
                                             </div>  
                                             <div class="col-sm-6">
-                                                <input type="text" placeholder="Image">
+                                                <input type="file" ng-model="product_manager_form.image" name="image" placeholder="Image">
                                             </div>  
                                         </div>
                                         <div class="row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-5">
                                                 <label>Description</label> <span>*</span>
                                             </div>  
-                                            <div class="col-sm-7">
+                                            <div class="col-sm-6">
                                                 <div class="text-area">
                                                     <textarea rows="5" placeholder="Description" ng-model="product_manager_form.description" name="description"></textarea>  
                                                 </div>
@@ -129,9 +135,14 @@
                                         -->
                                         <div class="row">
                                             <div class="col-sm-11">
-                                                <div colspan="2">
+                                                <div class="col-sm-5">
+                                                </div> 
+                                                <div class="col-sm-6">
+                                                    <!-- 
                                                     <a href="javascript:void(0);" onClick="console.log(1)" class="btn btn-primary pull-right">Create/Update</a>
-                                                    <input type="submit"  value="Create Product ok"/>
+                                                    -->
+                                                    <input ng-if="product_manager_form.idProduct  == '' " type="submit" class="btn btn-primary pull-right admin_button" value="Create Product"/>
+                                                    <input ng-if="product_manager_form.idProduct > 0 " type="submit" class="btn btn-primary pull-right admin_button" value="Update Product"/>
                                                 </div>  
                                             </div>  
                                         </div>

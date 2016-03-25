@@ -5,6 +5,7 @@ function editProductItem(item){
 	var $rootScope = $body.scope().$root;      
 	$rootScope.$apply(function () {            
 		$rootScope.product_manager_form = {
+			idProduct: item.idProduct,
 			name: item.name,
 			description: item.description,
 			price: item.price,
@@ -12,9 +13,12 @@ function editProductItem(item){
 			buyPrice: item.buyPrice,
 			quantity: item.quantity,
 			weight: item.weight,
-			category: item.category,
+			category: item.category.idCategory,
 			image: item.image,
+			product_manager_form: item.image,
+			categorySelected: { id: item.category.idCategory, name: item.category.name },
 		}
+		console.log($rootScope.product_manager_form);
 	});
 }
 
@@ -53,6 +57,7 @@ function mapPostRequestToBody(data) {
 angular.module('admin_product').run(function($rootScope, $location, $routeParams, $http, $httpParamSerializer){ 
     $rootScope.admin_product_list_data = [];
     $rootScope.product_manager_form = {
+		idProduct: '',
 		name: '',
 		description: '',
 		price: '',
@@ -62,116 +67,77 @@ angular.module('admin_product').run(function($rootScope, $location, $routeParams
 		weight: '',
 		category: '',
 		image: '',
+		categorySelected: {},
 	};
+	$rootScope.options =  [];//name - idCategory
+	$rootScope.options.category_options = [];//name - idCategory
 });
 
 angular.module('admin_product').controller('AdminCreateProductController', ['$rootScope', '$http', '$httpParamSerializer', function($rootScope, $http, $httpParamSerializer){
 	$rootScope.sendProductManagerForm = function(product_manager_form){
-   		//product_manager_form = mapPostRequestToBody(product_manager_form);  // this sends your data to the formDataObject provider that we are defining below.
-   		console.log(product_manager_form);
-   
-   		//console.log($rootScope.product_manager_form);
-   		/*
-   		
-   		$http.post(config.pathApiServer + 'product/createProduct/'
-   				,$rootScope.product_manager_form
-   				//, JSON.stringify(product_manager_form)
-   				//,product_manager_form
-	    		//,{'name': 'asaasas', 'key': 'some text'}
-	    		//{ headers: {'Content-Type': undefined, 'Access-Control-Allow-Origin': '*'} }
-	    		/*
-	    		
-	    		,{ 
-	    			//headers: { 'Content-Type': undefined},
-	    			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-	    			//headers: {'Content-Type': 'multipart/form-data'}
-	    			//enctype="multipart/form-data"
-	    		}
-    		).then(function(response){
+		$rootScope.product_manager_form.category = $rootScope.product_manager_form.categorySelected.id;
+		console.log($rootScope.product_manager_form);
+		var postUrl = config.pathApiServer + 'product/createProduct/';
+		if( $rootScope.product_manager_form.idProduct > 0 ){
+			postUrl = config.pathApiServer + 'product/updateProduct/';
+		}
+   		$http.post(postUrl ,$rootScope.product_manager_form
+   			).then(function(response){
 	            console.log(response.data);
 	            if( response.data.success  ){
-	            	$rootScope.admin_product_list_data = response.data.data;
+	            	$rootScope.product_manager_form = {
+						idProduct: '',
+						name: '',
+						description: '',
+						price: '',
+						tax: '',
+						buyPrice: '',
+						quantity: '',
+						weight: '',
+						category: '',
+						image: '',
+						categorySelected: {},
+					};
+	            	$rootScope.getProductsList();
+	            	//$rootScope.admin_product_list_data = response.data.data;
 	            }
 	            else{
 	            	alert(response.data.errors);
 	            }
         	}
         );
-   		 */
-		$http({
-			method: 'POST',
-			url: config.pathApiServer + 'product/createProduct/',
-			data: $rootScope.product_manager_form // your original form data,
-			/*
-			
-			,transformRequest: function(data) {
-				console.log("TEST");
-		        var fd = new FormData();
-		        angular.forEach(data, function(value, key) {
-		            fd.append(key, value);
-		        });
-		        return fd;
-		    }  // this sends your data to the formDataObject provider that we are defining below.
-			 */
-			,headers: {
-				'Access-Control-Allow-Origin': '*'
-				,'Access-Control-Allow-Headers': 'X-Requested-With' 
-				,'Connection': 'keep-alive' 
-				//,'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT'
-				,'Host': undefined
-				,'Origin': undefined
-				//,'Content-Type': undefined
-				,'Content-Type': 'application/json; charset=utf-8'
-				//,'Content-Type': 'multipart/form-data'
-				
-				//,'X-Requested-With': 'XMLHttpRequest'
-			}
-		}).
-		success(function(data, status, headers, config){
-			console.log(data);
-		}).
-		error(function(data, status, headers, config){
-			console.log(data);
-		});
 	}
 	$rootScope.getCategorysList = function($event){
 		var categoryFilters = "";
 		$http.get (config.pathApiServer + 'category/getCategorysList/?' + categoryFilters).then(function(response){
             if( response.data.success  ){
-            	$rootScope.search_admin_product_form.category_options = [];
-            	console.log(response.data.data);
+            	$rootScope.options.category_options = [];
             	for (key in response.data.data){
-            		$rootScope.search_admin_product_form.category_options.push({
+            		$rootScope.options.category_options.push({
             			name: response.data.data[key]['name'],
-            			value: response.data.data[key]['idCategory'],
+            			id: response.data.data[key]['idCategory'],
             		});
             	}
-            	console.log($rootScope.search_admin_product_form.category_options);
-            }
-            else{
-            	alert(response.data.message);
+            	console.log($rootScope.options.category_options);
             }
         });
 	}
 	$rootScope.removeProduct = function(idProduct){
-            	var tmp_old_item = $rootScope.admin_product_list_data;
-            	for (var key in $rootScope.admin_product_list_data ){
-            		if( $rootScope.admin_product_list_data[key]['idProduct'] != idProduct ){
-            			console.log($rootScope.admin_product_list_data[key]);
-            			//delete $rootScope.admin_product_list_data[key]['idProduct'];
-            		}
-            		tmp_old_item = $rootScope.admin_product_list_data[key];
-            	}
-            	$rootScope.admin_product_list_data = tmp_old_item;
-            	return;
-		$http.delete(config.pathApiServer + 'category/removeProduct/?idProduct=' + idProduct).then(function(response){
-            if( response.data.success  ){
-            	console.log(response.data.data);
-            }
-            else{
-            	alert(response.data.message);
-            }
-        });
+    	$http.delete(config.pathApiServer + 'product/removeProduct/' 
+    			,{
+    				data: {idProduct: idProduct}
+    				,headers: {"Content-Type": "application/json;charset=utf-8"}
+    			}
+    		).then(function(response){
+	            if( response.data.success  ){
+	            	$rootScope.getProductsList();
+	            	alert(response.data.message);
+	            }
+	            else{
+	            	alert(response.data.errors);
+	            }
+        	}
+        );
 	}
 	$rootScope.getProductsList = function($event){
     	var strSearchFormParams = $httpParamSerializer($rootScope.search_catalog_form);
@@ -184,7 +150,7 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$ro
             }
         });
 	}
-	//$rootScope.getCategorysList();
+	$rootScope.getCategorysList();
 	$rootScope.getProductsList();
 }]);
 
@@ -193,6 +159,22 @@ angular.module('admin_product').directive('adminProductManager', function(){
 		templateUrl: 'admin_modules/catalog/admin_product_main.html'
 	}
 });
+
+angular.module('admin_product').directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
 
 angular.module('admin_product').directive('adminProductList', function(){
 	return {
@@ -206,7 +188,6 @@ angular.module('admin_product').directive('adminProductList', function(){
 				console.log("inside directive adminProductList");
 				ReactDOM.render(
 			        React.createElement(AdminProductListTable, {data: newValue}),
-			        //React.createElement(ProductListContent, {data: newValue}),
 			        el[0]
 			    );
 			})
