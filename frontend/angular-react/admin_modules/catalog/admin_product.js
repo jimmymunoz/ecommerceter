@@ -1,5 +1,6 @@
 
-function editProductItem(item){
+function editProductItem(item)
+{
 	console.log("editProductItem");
 	var $body = angular.element(document.body);
 	var $rootScope = $body.scope().$root;      
@@ -25,23 +26,8 @@ function editProductItem(item){
 function removeProductItem(item){
 	var $body = angular.element(document.body);
 	var $rootScope = $body.scope().$root;      
-	$rootScope.removeProduct(item.idProduct);
+	$rootScope.removeProduct(item.idProduct, $rootScope);
 }
-
-angular.module('admin_product', ['ngRoute']);
-
-
-angular.module('admin_product')
-    .config(function ($httpProvider) {
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    });
-
-angular.module('admin_product').config(['$httpProvider', function($httpProvider) {
-    $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-        delete $httpProvider.defaults.headers.common['Host'];
-    }
-]);
 
 function mapPostRequestToBody(data) {
     //return {'key': value, 'key': 'some text'};
@@ -53,6 +39,11 @@ function mapPostRequestToBody(data) {
     return fd;
     
  }
+
+
+
+
+angular.module('admin_product', ['ngRoute']);
 
 angular.module('admin_product').run(function($rootScope, $location, $routeParams, $http, $httpParamSerializer){ 
     $rootScope.admin_product_list_data = [];
@@ -69,19 +60,37 @@ angular.module('admin_product').run(function($rootScope, $location, $routeParams
 		image: '',
 		categorySelected: {},
 	};
-	$rootScope.options =  [];//name - idCategory
+	$rootScope.options = ($rootScope.options != undefined)? $rootScope.options :  [];//name - idCategory
 	$rootScope.options.category_options = [];//name - idCategory
 });
 
-angular.module('admin_product').controller('AdminCreateProductController', ['$rootScope', '$http', '$httpParamSerializer', function($rootScope, $http, $httpParamSerializer){
+angular.module('admin_product').controller('AdminCreateProductController', ['$scope', '$rootScope', '$http', '$httpParamSerializer', function($scope, $rootScope, $http, $httpParamSerializer){
+	$scope.pageChanged = function(newPage) {
+        $rootScope.pagination_current_page = (newPage != undefined)? newPage : $rootScope.pagination_current_page;
+        getProductsListAdmin($rootScope.pagination_page_size, $rootScope.pagination_current_page);
+    	
+    };
+
 	$rootScope.sendProductManagerForm = function(product_manager_form){
 		$rootScope.product_manager_form.category = $rootScope.product_manager_form.categorySelected.id;
+		
+		console.log($scope.myFile);
 		console.log($rootScope.product_manager_form);
+		//$rootScope.product_manager_form.imageFile = $scope.myFile;
 		var postUrl = config.pathApiServer + 'product/createProduct/';
 		if( $rootScope.product_manager_form.idProduct > 0 ){
 			postUrl = config.pathApiServer + 'product/updateProduct/';
 		}
-   		$http.post(postUrl ,$rootScope.product_manager_form
+		var fd = mapPostRequestToBody($rootScope.product_manager_form);//Encode Form Data
+        fd.append('file', $scope.myFile);
+   		$http.post(postUrl
+   				,fd
+   				//,$rootScope.product_manager_form
+   				,{
+		            transformRequest: angular.identity,
+		            //headers: {'Content-Type': 'multipart/form-data'}
+		            headers: {'Content-Type': undefined}
+		        }
    			).then(function(response){
 	            console.log(response.data);
 	            if( response.data.success  ){
@@ -98,7 +107,7 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$ro
 						image: '',
 						categorySelected: {},
 					};
-	            	$rootScope.getProductsList();
+	            	$rootScope.getProductsListAdmin();
 	            	//$rootScope.admin_product_list_data = response.data.data;
 	            }
 	            else{
@@ -130,8 +139,9 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$ro
     			}
     		).then(function(response){
 	            if( response.data.success  ){
-	            	$rootScope.getProductsList();
-	            	alert(response.data.message);
+	            	$scope.pageChanged();
+	            	//getProductsListAdmin();
+	            	//alert(response.data.message);
 	            }
 	            else{
 	            	alert(response.data.errors);
@@ -139,11 +149,12 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$ro
         	}
         );
 	}
-	$rootScope.getProductsList = function($event){
-    	var strSearchFormParams = $httpParamSerializer($rootScope.search_catalog_form);
-    	$http.get (config.pathApiServer + 'product/getProductsList/?' + strSearchFormParams).then(function(response){
+	getProductsListAdmin = function(page_size, current_page){
+		var strSearchFormParams = $httpParamSerializer($rootScope.search_catalog_form);
+    	$http.get (config.pathApiServer + 'product/getProductsList/?page_size=' + page_size + "&" + '&page=' + current_page + "&" + strSearchFormParams).then(function(response){
             if( response.data.success  ){
             	$rootScope.admin_product_list_data = response.data.data;
+            	$rootScope.admin_pagination = response.data.pagination;
             }
             else{
             	alert(response.data.message);
@@ -151,7 +162,8 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$ro
         });
 	}
 	$rootScope.getCategorysList();
-	$rootScope.getProductsList();
+	//getProductsListAdmin();
+	$scope.pageChanged();
 }]);
 
 angular.module('admin_product').directive('adminProductManager', function(){
@@ -169,7 +181,7 @@ angular.module('admin_product').directive('fileModel', ['$parse', function ($par
             
             element.bind('change', function(){
                 scope.$apply(function(){
-                    modelSetter(scope, element[0].files[0]);
+                    modelSetter(scope, element[0].files[0]); // $scope.myFile.
                 });
             });
         }
@@ -185,7 +197,6 @@ angular.module('admin_product').directive('adminProductList', function(){
 		link: function(scope, el, attrs){
 			console.log("directive adminProductList");
 			scope.$watchCollection('data', function(newValue, oldValue){
-				console.log("inside directive adminProductList");
 				ReactDOM.render(
 			        React.createElement(AdminProductListTable, {data: newValue}),
 			        el[0]

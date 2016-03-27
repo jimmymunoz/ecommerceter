@@ -20,18 +20,11 @@
                     
                 </div>
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12" style="text-align: center;">
-                        <ul class="pagination">
-                            <li class="active"><a href="javascript:void(0);" onClick="console.log(1)">1</a></li>
-                            <li><a href="javascript:void(0);" onClick="console.log(1)">2</a></li>
-                            <li><a href="javascript:void(0);" onClick="console.log(1)">3</a></li>
-                            <li><a href="javascript:void(0);" onClick="console.log(1)">»</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <!--Pagination-->
+             <div dir-paginate="pagination_item in admin_pagination | itemsPerPage: pagination_page_size" total-items="admin_pagination.total_results" current-page="pagination_current_page"></div>
+
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+
         </div>
     </section>
 
@@ -118,7 +111,7 @@
                                                 <label>Image</label> <span>*</span>
                                             </div>  
                                             <div class="col-sm-6">
-                                                <input type="file" ng-model="product_manager_form.image" name="image" placeholder="Image">
+                                                <input type="file" file-model="myFile" ng-model="product_manager_form.image" name="image" placeholder="Image">
                                             </div>  
                                         </div>
                                         <div class="row">

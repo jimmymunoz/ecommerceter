@@ -12,6 +12,7 @@ var uploads_base = path.join("", "uploads");
 var uploads = path.join(uploads_base, "u");
 
 var autoIncrement = require('mongoose-auto-increment');
+var mongoosePaginate = require('mongoose-paginate');
 var connection = mongoose.createConnection(config.database);
 autoIncrement.initialize(connection);
 
@@ -46,5 +47,11 @@ schemaProduct.plugin(filePlugin, {
 });
 
 
+
 schemaProduct.plugin(autoIncrement.plugin, { model: 'products', field: 'idProduct' });
+//schemaProduct.plugin(mongoosePaginate);
 module.exports = mongoose.model('Product', schemaProduct);
+module.exports.paginate = mongoosePaginate;
+//console.log(  mongoosePaginate );
+//console.log(  module.exports.paginate() );
+

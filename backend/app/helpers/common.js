@@ -136,6 +136,17 @@ var commonHelper = function() {
 	this.getSharedData = function(){
 		return SHAREDDATA;
 	}
+	this.getPaginationResult = function(total_results, pagesize, page){
+		return {
+			total_results: total_results 
+			,pagesize: pagesize 
+			,current_page: page 
+			,total_pages: Math.ceil(total_results/pagesize) 
+			,last_page: Math.ceil(total_results/pagesize) 
+			,firts_page: 1 
+			,data: []//Empty - Angular 
+		};
+	}
 
 }
 

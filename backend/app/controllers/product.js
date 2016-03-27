@@ -1,6 +1,7 @@
 var pathServer = "../../";
 var express 	= require('express');
 var config = require(pathServer + 'config');
+
 //Models:
 var moduleRoutes = express.Router();
 var Product   = require(pathServer + 'app/models/product');
@@ -67,9 +68,12 @@ moduleRoutes.post('/createProduct', function(req, res) {
 		validationResponse.addError("Invalid product buyPrice: " + req.body.buyPrice);
 	}
 	// validation image
+	/*
+	
 	if(! ( HelperValidator.isAscii( req.body.image ) && req.body.image != "" )  ){
 		validationResponse.addError("Invalid product image : " + req.body.image);
 	}
+	 */
 	// validation quantity
 	if(! ( HelperValidator.isNumeric( req.body.quantity) && req.body.quantity!= "" )  ){
 		validationResponse.addError("Invalid product quantity: " + req.body.quantity);
@@ -186,9 +190,13 @@ moduleRoutes.post('/updateProduct', function(req, res) {
 		validationResponse.addError("Invalid product buyPrice: " + req.body.buyPrice);
     }
     // validation image
+    /*Default Empty*/
+    /*
+    
     if(! ( HelperValidator.isAscii( req.body.image ) && req.body.image != "" )  ){
 		validationResponse.addError("Invalid product image : " + req.body.image);
     }
+     */
     // validation quantity
     if(! ( HelperValidator.isNumeric( req.body.quantity) && req.body.quantity!= "" )  ){
 		validationResponse.addError("Invalid product quantity: " + req.body.quantity);
@@ -277,6 +285,7 @@ moduleRoutes.delete('/removeProduct', function(req, res) {
     }
     else {
     	var queryWhere = { idProduct: req.body.idProduct };
+		console.log(queryWhere);	   
 	    Product.findOne( queryWhere ).
 	        select('idProduct').
 	        exec( function(err, product){
@@ -321,26 +330,36 @@ moduleRoutes.get('/getProductsList', function(req, res) {
     	query["price"] = req.query.price
     }
 
-    var ProductList = Product.find(query);
-    //ProductList.where('name').equals(req.query.name);// =
-    //ProductList.where('name').equals(req.query.name);// =
-    //ProductList.where('idCategory').gt(17).lt(66);// gt - lt
-    //ProductList.where('idCategory').in(['idCategory', req.query.idCategory]);// like
-    //ProductList.limit(10).
-    ProductList.sort('-name')
-    ProductList.populate('category')
-    ProductList.populate('productEvaluation.user', 'firstName lastName idUser')
-    ProductList.populate('productComment.user', 'firstName lastName idUser')
-    ProductList.exec(function(err, Products) {
-    	//console.log(Products);
-		var out = [];
-		for(var key in Products){
-			//Products[key]['CategoryData'] = Category.findOne({ idCategory: Products[key].category });
-			//console.log(Products[key]);
-			out.push(Products[key]);
-		}
-		res.json({ success: true, message: 'Product List:', data: out });
+	var page = (req.query.page != undefined )? req.query.page : 1 ;
+	var page_size = (req.query.page_size != undefined )? req.query.page_size : config.default_page_size_pagination ;
+    Product.count(query, function(err, total_results) {
+    	if (err) throw err;
+    	var ProductList = Product.find(query);
+    	//ProductList.where('name').equals(req.query.name);// =
+	    //ProductList.where('name').equals(req.query.name);// =
+	    //ProductList.where('idCategory').gt(17).lt(66);// gt - lt
+	    //ProductList.where('idCategory').in(['idCategory', req.query.idCategory]);// like
+	    if(page_size > 0){
+	    	ProductList.skip( page_size * (page - 1) ); //Jimmy -> pagination offset
+	    	ProductList.limit(page_size); //Jimmy -> pagination limit
+	    } 
+	    ProductList.sort('-name');
+	    ProductList.populate('category')
+	    ProductList.populate('productEvaluation.user', 'firstName lastName idUser')
+	    ProductList.populate('productComment.user', 'firstName lastName idUser')
+	    ProductList.exec(function(err, Products) {
+	    	//console.log(Products);
+			var out = [];
+			for(var key in Products){
+				//Products[key]['CategoryData'] = Category.findOne({ idCategory: Products[key].category });
+				//console.log(Products[key]);
+				out.push(Products[key]);
+			}
+			res.json({ success: true, message: 'Product List:', data: out, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+	    });
     });
+
+
 });
 
 //http://localhost:8888/product/productEvaluation

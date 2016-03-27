@@ -11,6 +11,10 @@ npm install express body-parser morgan mongoose jsonwebtoken --save
 npm install finalhandler serve-static	
 npm install --save mongoose-auto-increment
 npm install cors
+npm install mongoose-file
+npm install mongoose-paginate
+https://www.npmjs.com/package/mongoose-paginate
+
 
 sudo npm install -g nodemon
 sudo npm install -g n
@@ -77,6 +81,7 @@ bower install --save react
 bower install --save angular
 bower install --save ember
 bower install --save backbone
+bower install --save angular-utils-pagination
 
 --------
 REACT:

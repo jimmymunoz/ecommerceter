@@ -3,10 +3,57 @@
 
  */
 angular.module('app', [
+	'angularUtils.directives.dirPagination',
 	'catalog',
 	'shopping_cart',
 	'admin_product',
 ]);
+
+angular.module('admin_product').run(function($rootScope){ 
+	//Pagination - Default config
+	$rootScope.options = ($rootScope.options != undefined)? $rootScope.options :  [];//name - idCategory
+	
+	$rootScope.options.pagination_page_size_options = [
+		{ name: 10, id: 10 }
+		,{ name: 20, id: 20 }
+		,{ name: 30, id: 30 }
+		,{ name: 50, id: 50 }
+	];
+
+	$rootScope.pagination_page_size = 10;
+	$rootScope.pagination_current_page = 1;
+    $rootScope.admin_pagination = {
+		total_results: 0 
+		,pagesize: $rootScope.pagination_page_size 
+		,current_page: $rootScope.pagination_current_page 
+		,total_pages: 1 
+		,last_page: 1 
+		,firts_page: 1 
+		,data: []
+	}
+	$rootScope.pagination = {
+        current: 1
+    };
+});
+
+/*
+
+angular.module('app').directive('pagination', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]); // $scope.myFile.
+                });
+            });
+        }
+    };
+}]);
+ */
 
 angular.module('app').config( 
 	['$routeProvider', '$locationProvider', '$httpProvider', 
@@ -23,3 +70,10 @@ angular.module('app').config(
 		}
 	]
 );
+
+angular.module('app').config(function(paginationTemplateProvider) {
+   // paginationTemplateProvider.setString('<div class="my-page-links">aaaa...</div>');
+
+    // or with e.g. Webpack you might do
+    paginationTemplateProvider.setPath('admin_modules/main/pagination.tpl.html');
+});
