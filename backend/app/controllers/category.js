@@ -7,9 +7,9 @@ var Category   = require(pathServer + 'app/models/category');
 //Helpers:
 var commonHelper   = require(pathServer + 'app/helpers/common');
 //http://localhost:8888/category/
-moduleRoutes.get('/', function(req, res) {
+/* moduleRoutes.get('/', function(req, res) {
     res.json({ success: false, message: 'Invalid Category action', data:req.decoded});
-});
+}); */
 
 //http://localhost:8888/category/setup
 moduleRoutes.get('/setup', function(req, res) {
@@ -31,7 +31,7 @@ moduleRoutes.get('/setup', function(req, res) {
 });
 //Public Methods:
 // http://localhost:8888/category/createCategory
-moduleRoutes.post('/createCategory', function(req, res) {
+moduleRoutes.post('/', function(req, res) {
 	var validationResponse = commonHelper.getValidationResponse();
 	var HelperValidator = commonHelper.validator;
 	console.log(req.body.idParent);
@@ -114,13 +114,22 @@ moduleRoutes.get('/getCategorysList', function(req, res) {
     populate('idParent'). 
     select('idCategory idParent name level creationDate modificationDate ').
     exec(function(err, Categorys) {
+	
         res.json({ success: true, message: 'Category List:', data: Categorys });
     });
 });
 
+// http://localhost:8888/category/Categories
+moduleRoutes.get("/", function(req,res){
+  Category.find({},function(err,docs){
+    if(err) throw err;
+    res.send(docs);
+	//console.log(docs);
+  });
+});
 
 // http://localhost:8888/category/updateCategory?idCategory=1
-moduleRoutes.post('/updateCategory', function(req, res) {
+moduleRoutes.put('/:id', function(req, res) {
 	var validationResponse = commonHelper.getValidationResponse();
 	var HelperValidator = commonHelper.validator;
     //  console.log("Body:");
@@ -129,9 +138,9 @@ moduleRoutes.post('/updateCategory', function(req, res) {
     console.log(req.body.name);
 
     // validation idCategory
-    if(! ( HelperValidator.isNumeric( req.body.idCategory) && req.body.idCategory != "" )  ){
+   /* if(! ( HelperValidator.isNumeric( req.body.idCategory) && req.body.idCategory != "" )  ){
     	validationResponse.addError("Invalid category idCategory: " + req.body.idCategory);
-    }
+    }*/
     // validation name
     if(! ( HelperValidator.isAscii( req.body.name) && req.body.name != "" )  ){
     	validationResponse.addError("Invalid category name: " + req.body.name);
@@ -236,9 +245,9 @@ moduleRoutes.get('/getCategory', function(req, res) {
 
 
 // http://localhost:8888/category/removeCategory?idCategory=1
-moduleRoutes.delete('/removeCategory', function(req, res) {
+moduleRoutes.delete('/:idCategory', function(req, res) {
     Category.remove({
-        idCategory: req.body.idCategory
+        _id: req.params.idCategory
     }, function(err, category) {
         if (err) throw err;
 
@@ -246,7 +255,7 @@ moduleRoutes.delete('/removeCategory', function(req, res) {
             res.json({ success: false, message: 'Error: Category can not deleted', data: Category });
         }
         else if (category) {
-            var queryWhere = { idCategory: req.body.idCategory };
+            var queryWhere = { _id: req.params.idCategory };
             Category.findOne( queryWhere ).
                 select('idCategory').
                 exec( function(err, category){

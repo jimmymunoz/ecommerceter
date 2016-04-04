@@ -10,9 +10,9 @@ var commonHelper   = require(pathServer + 'app/helpers/common');
 
 
 //http://localhost:8888/user/
-moduleRoutes.get('/', function(req, res) {
+/*moduleRoutes.get('/', function(req, res) {
     res.json({ success: false, message: 'Invalid User action', data: req.decoded });
-});
+});*/
 
 //http://localhost:8888/user/getMyUser
 moduleRoutes.get('/getMyUser', function(req, res) {
@@ -92,6 +92,14 @@ moduleRoutes.get('/getUser', function(req, res) {
     }
 });
 
+moduleRoutes.get("/", function(req,res){
+  User.find({},function(err,Users){
+    if(err) throw err;
+	
+    res.send(Users);
+  });
+});
+
 //http://localhost:8888/user/getUsersList
 moduleRoutes.get('/getUsersList', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
@@ -106,11 +114,12 @@ moduleRoutes.get('/getUsersList', function(req, res) {
     select('idUser firstName lastName email password address image phone rol InscriptionDate updateDate ').
     exec(function(err, Users) {
         res.json({ success: true, message: 'User List:', data: Users });
+		
     });
 });
 
 //http://localhost:8888/user/createUser
-moduleRoutes.post('/createUser', function(req, res) {
+moduleRoutes.post('/', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     var rol = ( req.body.rol != undefined )? req.body.rol: '';
@@ -185,7 +194,7 @@ moduleRoutes.post('/createUser', function(req, res) {
 });
 
 //http://localhost:8888/user/updateUser?idUser=1
-moduleRoutes.post('/updateUser', function(req, res) {
+moduleRoutes.put('/:id', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     var rol = ( req.body.rol != undefined )? req.body.rol: '';
@@ -294,7 +303,7 @@ moduleRoutes.get('/setup', function(req, res) {
 });
 
 //http://localhost:8888/user/removeUser?idUser=1
-moduleRoutes.delete('/removeUser', function(req, res) {
+moduleRoutes.delete('/:id', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     if(! ( HelperValidator.isNumeric( req.body.idUser) && req.body.idUser!= "" )  ){

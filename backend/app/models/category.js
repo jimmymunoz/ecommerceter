@@ -11,7 +11,7 @@ var connection = mongoose.createConnection(config.database);
 autoIncrement.initialize(connection);
 
 var CategorySchema =  new Schema({
-	idCategory: Number,
+	idCategory: String,
 	idParent: { type: Schema.Types.ObjectId, ref: 'Category' },//Join.
 	//idParent: { type: Number, ref: 'Category' },//Join.
 	name: String,
@@ -21,7 +21,6 @@ var CategorySchema =  new Schema({
 });
 
 var categoryModel = Model = mongoose.model('Category', CategorySchema);
-
 
 CategorySchema.plugin(autoIncrement.plugin, { model: 'caterories', field: 'idCategory' });
 
