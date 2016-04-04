@@ -86,7 +86,7 @@ h2{
   color: #FFFFFF !important;
   font-size: 15px !important;
   width: auto !important;
-  font-weight: 300;
+  font-weight: bold;
   font-family: "Roboto",sans-serif;
   margin-bottom: 20px; 
     
@@ -430,7 +430,37 @@ h2{
   padding: 5px !important;
 }
 
-/*
+.container-items_admin{
+  height: 400px;
+  overflow-y: scroll; 
+  overflow-x: hidden; 
+
+}
+.padding_none{
+  padding: 0px !important; 
+}
+.admin_title{
+  color: #fe980f;
+  font-family: "Roboto",sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 15px 30px;
+  position: relative;
+  text-transform: uppercase;
+}
+.shop-menu ul li a {
+  font-weight: 700;
+  font-size: 16px;
+}
+.cart_delete a {
+  font-size: 12;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+/*  Green */
+/*  Blue -> fe980f 
+*/
 h2{
   color: #333 !important;
 }
@@ -453,4 +483,119 @@ a#scrollUp, .login-form form button, .signup-form form button{
   background: #23A657;
   color: #fff;
 }
- */
+.admin_button{
+  background: #888888 none repeat scroll 0 0;
+}
+.admin_button:hover{
+  background: #23A657 none repeat scroll 0 0;
+}
+
+.pagination .active a, .pagination .active span, .pagination .active a:hover, .pagination .active span:hover, .pagination .active a:focus, .pagination .active span:focus {
+  background-color: #23A657 !important;
+  border-color: #23A657 !important;
+  color: #ffffff;
+}
+.pagination  li  a, .pagination  li  span {
+  background-color: #f0f0e9;
+  color:#000;
+}
+.pagination  li  a:hover{
+  background:#23A657;
+  color:#fff;
+}
+.shop-menu ul li a:hover {
+  color:#23A657;
+  background:#fff;
+}
+.replay-box span {
+  color: #23A657;
+}
+.category-tab {
+  overflow: hidden;
+}
+
+.category-tab ul {
+  background: #23A657;
+  border-bottom: 1px solid #23A657;
+}
+
+.category-tab ul li a {
+  color: #B3AFA8;
+}
+.category-tab ul  li  a:hover{
+  background:#23A657;
+  color:#fff;
+}
+.product-information span span {
+  color: #23A657;
+}
+#cart_items .cart_info .cart_menu {
+  background: #23A657;
+  color: #fff;
+}
+#cart_items .cart_info .cart_description h4 a {
+  color: #23A657;
+}
+.admin_title {
+    color: #23a657 !important;
+}
+
+.cart_delete a {
+  background: #888888 none repeat scroll 0 0;
+  color: #fff;
+}
+.cart_delete a:hover {
+  background: #23a657 none repeat scroll 0 0;
+}
+.btn.btn-primary{
+  background: #23a657 none repeat scroll 0 0;
+}
+.replay-box form input:hover, 
+.text-area textarea:hover {
+  border: 1px solid #23a657;
+}
+
+/* Background balck replace -> #f0f0e9 -> #101010 */
+/* Background balck replace -> #d6d6d0 -> #101010 */
+
+.header_top {
+  background: #101010 none repeat scroll 0 0;
+  color: #FFF;
+}
+
+.shop-menu ul li a {
+  background: #101010 none repeat scroll 0 0;
+  color: #ffffff;
+}
+
+.footer-bottom { 
+  background: #323A42 none repeat scroll 0 0;
+  color: #ffffff;
+}
+.footer-bottom p{
+  color: #ffffff;
+}
+
+.category-tab ul li a{
+  color: #000;
+}
+
+.cart_menu {
+  background: #000;
+}
+
+
+.project_logo_font {
+  font-size: 30px !important;
+  font-weight: 700;
+  color: #23A657;
+  font-family: "Roboto",sans-serif;
+  line-height: 1.5 !important;
+}
+.project_logo_image {
+  line-height: 1.5 !important;
+  padding: 3px;
+  height: 40px;
+}
+
+

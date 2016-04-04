@@ -1,15 +1,15 @@
 <div ng-controller="AdminCreateProductController">
     <section id="admin_section">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 padding-right">
+        <div class="container padding_none">
+            <div class="row padding_none">
+                <div class="col-sm-12 padding_none padding-right">
                     <div class=""><!--features_items-->
-                        <h2 class="title text-center">Products</h2>
+                        <h2 class="admin_title text-center">Products</h2>
                         <div class="container admin_section_container section_color2">
                             <div class="row ">
-                                <a data-target="#show_product_form"  class="btn btn-default admin_button">New Product</a>
+                                <a href="javascript:createNewProductItem('show_product_form')"  class="btn btn-default admin_button">New Product</a>
                             </div>
-                            <div class="row section_color1">
+                            <div class="row section_color1 container-items_admin" >
                                 <admin-product-list data="admin_product_list_data"></admin-product-list>
                                 
 
@@ -28,9 +28,9 @@
         </div>
     </section>
 
-    <div id="show_product_form" class="modalDialog- modalDialogFormAdmin-" data-backdrop="static">
+    <div id="show_product_form"  class="modalDialog modalDialogFormAdmin" data-backdrop="static" >
         <div class="marginModalDialogFormAdmin">
-            <a href="#close" title="Close" class="close">X</a>
+            <a href="javascript:colseModal()" title="Close" class="close">X</a>
             <div class="container">
                 
                 <div class="replay-box">

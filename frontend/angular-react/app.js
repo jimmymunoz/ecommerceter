@@ -62,6 +62,21 @@ angular.module('app').config(
 			delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
 		    $routeProvider
+		        .when('/products', {//otherwhise
+		            templateUrl: 'admin_modules/catalog/admin_products.html'//Template or templateUrl
+		        })
+		         .when('/categories', {//otherwhise
+		            templateUrl: 'admin_modules/catalog/admin_categories.html'//Template or templateUrl
+		        })
+		         .when('/orders', {//otherwhise
+		            templateUrl: 'admin_modules/orders/admin_orders.html'//Template or templateUrl
+		        })
+		        .when('/users', {//otherwhise
+		            templateUrl: 'admin_modules/uers/admin_users.html'//Template or templateUrl
+		        })
+		        .when('/privileges', {//otherwhise
+		            templateUrl: 'admin_modules/users/admin_privileges.html'//Template or templateUrl
+		        })
 		        .when('/', {//otherwhise
 		            //controller: 'ControllerHome',
 		            //templateUrl: 'modules/main/main.html'//Template or templateUrl

@@ -130,8 +130,8 @@ moduleRoutes.delete('/removeComment', function(req, res) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
-    if(! ( HelperValidator.isNumeric( req.query.idComment ) && req.query.idComment != "" )  ){
-      validationResponse.addError("Invalid idComment: " + req.query.idComment);
+    if(! ( HelperValidator.isNumeric( req.body.idComment ) && req.body.idComment != "" )  ){
+      validationResponse.addError("Invalid idComment: " + req.body.idComment);
     }
 	
 	if(! ( HelperValidator.isNumeric( req.body.idProduct ) && req.body.idProduct != "" )  ){
@@ -147,7 +147,7 @@ moduleRoutes.delete('/removeComment', function(req, res) {
     }
     else {
     	var queryWhere = { 
-    		idComment: req.query.idComment,
+    		idComment: req.body.idComment,
 			idProduct: req.body.idProduct,
 			idUser: req.body.idUser 
 		};

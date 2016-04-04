@@ -383,7 +383,7 @@ moduleRoutes.delete('/removeOrder', function(req, res) {
                 } 
                 else if (order) {
                     Order.remove({
-                        idOrder: req.query.idOrder
+                        idOrder: req.body.idOrder
                     }, function(err, order) {
                         if (err) throw err;
 

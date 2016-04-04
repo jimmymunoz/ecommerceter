@@ -296,7 +296,7 @@ moduleRoutes.delete('/removeProduct', function(req, res) {
 	            } 
 	            else if (product) {
 				    Product.remove({
-				        idProduct: req.query.idProduct
+				        idProduct: req.body.idProduct
 				    }, function(err, product) {
 				        if (err) throw err;
 

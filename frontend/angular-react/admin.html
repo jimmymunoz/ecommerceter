@@ -27,7 +27,113 @@
 </head><!--/head-->
 
 <body ng-app="app">
+
+	<header id="header"><!--header-->
+		<div class="header_top"><!--header_top-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="logo pull-left">
+							<img src="images/Sports-Running-Man-icon-green.png" class="project_logo_image" />
+						</div>
+						<div class="logo pull-left project_logo_font">
+							 FitShopJS  <span style="color: #fff;">Admin</span> 
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="shop-menu pull-right">
+							<ul class="nav navbar-nav">
+								<li><a data-target="#showLoginSingUp" href="#showLoginSingUp"><i class="fa fa-user"></i> Account</a></li>
+								<li><a data-target="#showLoginSingUp" href="#showLoginSingUp"><i class="fa fa-lock"></i> Login</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header_top-->
+		
+		<div class="header-middle"><!--header-middle-->
+			
+		</div><!--/header-middle-->
+		<div class="header-bottom"><!--header-bottom-->
+			<div class="container">
+				<div class="row">
+					<div class="category-tab"><!--category-tab-->
+						<div class="col-sm-12">
+							<ul class="nav nav-tabs section_color3">
+								<li class="active"><a href="#products" >Products</a></li>
+								<li><a href="#categories" >Categories</a></li>
+								<li><a href="#orders" >Orders</a></li>
+								<li><a href="#users" >Users</a></li>
+								<li><a href="#privileges" >Privileges</a></li>
+							</ul>
+						</div>
+					</div><!--/category-tab-->
+				</div>
+			</div>
+		</div>
+	</header><!--/header-->
+	<div id="header_space"></div>
+
+	<!--Products-->
 	<ng-view></ng-view>
+
+	<footer id="footer_admin"><!--Footer-->
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row">
+					<p class="pull-left"> UM2 Faculté de Sciences .</p>
+					<p class="pull-right">MAIGA Mariam - BOUHASI Meriam - MUNOZ Jimmy</span></p>
+				</div>
+			</div>
+		</div>
+	</footer><!--/Footer-->
+	<section id="style-switcher" class="">
+		<h2> Framework View <a href="#"><div class="icon_settings"></div></a></h2>
+		<ul>
+			<li id="framework_backbone" class="icon_backbone"></li>
+			<li id="framework_angular_react" class="icon_angular-react"></li>
+			<li id="framework_ember" class="icon_ember"></li>
+		</ul>
+	</section>
+
+	<div id="showLoginSingUp" class="modalDialog">
+		<div>
+			<div>
+				
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="login-form"><!--login form-->
+								<h2 class="login_subtitre_color">Login to your account</h2>
+								<form action="#">
+									<input type="email" name="email" placeholder="Email Address">
+									<input type="password" name="password" placeholder="Password">
+									<button class="btn btn-default" type="submit">Login</button>
+								</form>
+							</div><!--/login form-->
+						</div>
+						<div class="col-sm-1">
+						</div>
+						<div class="col-sm-4">
+							<div class="signup-form"><!--sign up form-->
+								<h2 class="login_subtitre_color">New User Signup!</h2>
+								<form action="#">
+									<input type="text" name="firstName" placeholder="Name">
+									<input type="text" name="lastName" placeholder="Last Name">
+									<input type="email" name="email" placeholder="Email Address">
+									<input type="password" name="password" placeholder="Password">
+									<button class="btn btn-default" type="submit">Signup</button>
+								</form>
+							</div><!--/sign up form-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
 	
 	<!-- Jimmy Template-->
     <script src="js/jquery.js"></script>
