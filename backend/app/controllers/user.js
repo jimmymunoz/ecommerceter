@@ -10,9 +10,9 @@ var commonHelper   = require(pathServer + 'app/helpers/common');
 
 
 //http://localhost:8888/user/
-moduleRoutes.get('/', function(req, res) {
+/*moduleRoutes.get('/', function(req, res) {
     res.json({ success: false, message: 'Invalid User action', data: req.decoded });
-});
+});*/
 
 //http://localhost:8888/user/getMyUser
 moduleRoutes.get('/getMyUser', function(req, res) {
@@ -92,8 +92,18 @@ moduleRoutes.get('/getUser', function(req, res) {
     }
 });
 
+/*
+moduleRoutes.get("/", function(req,res){
+  User.find({},function(err,Users){
+    if(err) throw err;
+	
+    res.send(Users);
+  });
+});
+*/
+
 //http://localhost:8888/user/getUsersList
-moduleRoutes.get('/getUsersList', function(req, res) {
+moduleRoutes.get('/', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
 
@@ -106,11 +116,12 @@ moduleRoutes.get('/getUsersList', function(req, res) {
     select('idUser firstName lastName email password address image phone rol InscriptionDate updateDate ').
     exec(function(err, Users) {
         res.json({ success: true, message: 'User List:', data: Users });
+		
     });
 });
 
 //http://localhost:8888/user/createUser
-moduleRoutes.post('/createUser', function(req, res) {
+moduleRoutes.post('/', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     var rol = ( req.body.rol != undefined )? req.body.rol: '';
@@ -185,7 +196,7 @@ moduleRoutes.post('/createUser', function(req, res) {
 });
 
 //http://localhost:8888/user/updateUser?idUser=1
-moduleRoutes.post('/updateUser', function(req, res) {
+moduleRoutes.put('/:id', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     var rol = ( req.body.rol != undefined )? req.body.rol: '';
@@ -193,10 +204,10 @@ moduleRoutes.post('/updateUser', function(req, res) {
     var email = (req.body.email == undefined)? "": req.body.email;
     email = email.toLowerCase();
 
-    if(! HelperValidator.isNumeric( req.body.idUser) 
+    /*if(! HelperValidator.isNumeric( req.body.idUser) 
         && req.body.idUser != "" ){ 
         validationResponse.addError("Invalid idUser: " + req.body.idUser);
-    }
+    }*/
 
     if(! HelperValidator.isEmail( email) ){ 
         validationResponse.addError("Invalid email: " + email);
@@ -294,8 +305,8 @@ moduleRoutes.get('/setup', function(req, res) {
 });
 
 //http://localhost:8888/user/removeUser?idUser=1
-moduleRoutes.delete('/removeUser', function(req, res) {
-    var validationResponse = commonHelper.getValidationResponse();
+moduleRoutes.delete('/:idUser', function(req, res) {
+   /* var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
     if(! ( HelperValidator.isNumeric( req.body.idUser) && req.body.idUser!= "" )  ){
         validationResponse.addError("Invalid idUser: " + req.body.idUser);
@@ -303,10 +314,11 @@ moduleRoutes.delete('/removeUser', function(req, res) {
     if(! validationResponse.success){
         res.json(validationResponse);
     }
-    else {
-        var queryWhere = { idProduct: req.body.idProduct };
+    else {*/
+	console.log(req.params.idUser);
+        var queryWhere = { _id: req.params.idUser };
         User.findOne( queryWhere ).
-            select('idUser, email').
+            select('_id, email').
             exec( function(err, user){
                 if (err) throw err;
 
@@ -315,7 +327,7 @@ moduleRoutes.delete('/removeUser', function(req, res) {
                 } 
                 else if (user) {
                     User.remove({
-                        idUser: req.body.idUser
+                        _id: req.params.idUser
                     }, function(err, user) {
                         if (err) throw err;
 
@@ -333,7 +345,7 @@ moduleRoutes.delete('/removeUser', function(req, res) {
                 }
             });
 
-    }
+  //  }
     
 });
 

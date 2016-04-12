@@ -1,0 +1,9 @@
+on a un corpus 
+1- par document
+    pour chaque mot 
+		corriger le mot 
+		lematisation
+	comparer au stop words
+	tf-idf
+	arff
+	Recuperer les mots par document
