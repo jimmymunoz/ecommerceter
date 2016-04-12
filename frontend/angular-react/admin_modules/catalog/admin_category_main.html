@@ -1,0 +1,94 @@
+<div ng-controller="AdminCreateCategoryController">
+    <section id="admin_section">
+        <div class="container padding_none">
+            <div class="row padding_none">
+                <div class="col-sm-12 padding_none padding-right">
+                    <div class=""><!--features_items-->
+                        <h2 class="admin_title text-center">Categories</h2>
+                        <div class="container admin_section_container section_color2">
+                            <div class="row ">
+                                <a href="javascript:createNewCategoryItem('show_category_form')"  class="btn btn-default admin_button">New Category</a>
+                            </div>
+                            <div class="row section_color1 container-items_admin" >
+                                <admin-category-list data="admin_category_list_data"></admin-category-list>
+                                
+
+                            </div>
+                        </div>
+                        
+                    </div><!--features_items-->
+                    
+                </div>
+            </div>
+            <!--Pagination-->
+             <div dir-paginate="pagination_item in admin_pagination | itemsPerPage: pagination_page_size" total-items="admin_pagination.total_results" current-page="pagination_current_page"></div>
+
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+
+        </div>
+    </section>
+
+    <section id="show_category_form"  class="modalDialog modalDialogFormAdmin" data-backdrop="static" >
+        <div class="marginModalDialogFormAdmin">
+            <a href="javascript:colseModal()" title="Close" class="close">X</a>
+            <div class="container">
+                
+                <div class="replay-box">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2 ng-if="category_manager_form.idCategory == ''">
+                                Create New Category
+                            </h2>
+                            <h2 ng-if="category_manager_form.idCategory > 0 ">
+                                Edit Category {{category_manager_form.idCategory}}
+                            </h2>
+                            <form novalidate ng-submit="sendCategoryManagerForm(category_manager_form)" method="post" class="css-form" enctype="multipart/form-data">
+                                <input type="hidden" ng-model="category_manager_form.idCategory" name="idCategory"/>
+                                <div class="container">
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Category Name</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="text" ng-model="category_manager_form.name" name="name" placeholder="Category Name">
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Category Parent</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <select placeholder="Category" name="category" 
+                                                      ng-options="option.name for option in options.category_options track by option.id"
+                                                      ng-model='category_manager_form.categorySelected'></select>
+                                                <!--
+                                                <input type="text" ng-model="category_manager_form.idParent" name="parent.name" placeholder="Category Parent">
+                                                 -->
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-11">
+                                                <div class="col-sm-5">
+                                                </div> 
+                                                <div class="col-sm-6">
+                                                    <!-- 
+                                                    <a href="javascript:void(0);" onClick="console.log(1)" class="btn btn-primary pull-right">Create/Update</a>
+                                                    -->
+                                                    <input ng-if="category_manager_form.idCategory  == '' " type="submit" class="btn btn-primary pull-right admin_button" value="Create Category"/>
+                                                    <input ng-if="category_manager_form.idCategory > 0 " type="submit" class="btn btn-primary pull-right admin_button" value="Update Category"/>
+                                                </div>  
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+</div>

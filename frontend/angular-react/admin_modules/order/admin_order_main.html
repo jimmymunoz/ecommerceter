@@ -1,0 +1,178 @@
+<div ng-controller="AdminCreateOrderController">
+    <section id="admin_section">
+        <div class="container padding_none">
+            <div class="row padding_none">
+                <div class="col-sm-12 padding_none padding-right">
+                    <div class=""><!--features_items-->
+                        <h2 class="admin_title text-center">Orders</h2>
+                        <div class="container admin_section_container section_color2">
+                            <div class="row ">
+                                <a href="javascript:createNewOrderItem('show_order_form')"  class="btn btn-default admin_button">New Order</a>
+                            </div>
+                            <div class="row section_color1 container-items_admin" >
+                                <admin-order-list data="admin_order_list_data"></admin-order-list>
+                                
+
+                            </div>
+                        </div>
+                        
+                    </div><!--features_items-->
+                    
+                </div>
+            </div>
+            <!--Pagination-->
+             <div dir-paginate="pagination_item in admin_pagination | itemsPerPage: pagination_page_size" total-items="admin_pagination.total_results" current-page="pagination_current_page"></div>
+
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+
+        </div>
+    </section>
+
+    <section id="show_order_form"  class="modalDialog modalDialogFormAdmin2" data-backdrop="static" >
+        <div class="marginModalDialogFormAdmin">
+            <a href="javascript:colseModal()" title="Close" class="close">X</a>
+            <div class="">
+                <div class="replay-box">
+                    <form novalidate ng-submit="sendOrderManagerForm(order_manager_form)" method="post" class="css-form" enctype="multipart/form-data">
+                        <input type="hidden" ng-model="order_manager_form.idOrder" name="idOrder"/>
+                        <input type="hidden" ng-model="order_manager_form.idUser" name="idUser"/>
+                        <div class="row">
+                            <h2 ng-if="order_manager_form.idOrder == ''">
+                                Create New Order
+                            </h2>
+                            <h2 ng-if="order_manager_form.idOrder > 0 ">
+                                Edit Order {{order_manager_form.idOrder}}
+                            </h2>
+                            <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <label>User</label> <span>*</span>
+                                        </div>  
+                                        <div class="col-sm-6">
+                                            <input type="text" disabled="true" ng-model="order_manager_form.user_name" name="user.name" placeholder="User">
+                                        </div>  
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <label>Address</label> <span>*</span>
+                                        </div>  
+                                        <div class="col-sm-6">
+                                            <input type="text" ng-model="order_manager_form.address" name="address" placeholder="Address">
+                                        </div>  
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-sm-6">
+                                                
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <label>status</label> <span>*</span>
+                                        </div>  
+                                        <div class="col-sm-6">
+                                            <select placeholder="Category" name="status" 
+                                                      ng-options="option.name for option in options.status_options track by option.id"
+                                                      ng-model='order_manager_form.statusSelected'></select>
+                                        </div>  
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <label>country</label> <span>*</span>
+                                        </div>  
+                                        <div class="col-sm-6">
+                                            <input type="text" ng-model="order_manager_form.country" name="country" placeholder="country">
+                                        </div>  
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <label>city</label> <span>*</span>
+                                        </div>  
+                                        <div class="col-sm-6">
+                                            <input type="text" ng-model="order_manager_form.city" name="city" placeholder="city">
+                                        </div>  
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label>Products</label><span>*</span>
+                        </div>
+                        <div class="row">
+                            <div class="row section_color1">
+                                <table class="table table-condensed ">
+                                    <thead>
+                                        <tr class="cart_menu">
+
+                                            <th class="col-sm-2">Name</th>
+                                            <th class="col-sm-1">Price</th>
+                                            <th class="col-sm-1">Tax</th>
+                                            <th class="col-sm-1">Quantity</th>
+                                            <th class="col-sm-1">Image</th>
+                                            <th class="col-sm-1 border-none"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="cart_total col-sm-2 ">
+                                                <p>$59</p>
+                                            </td>
+                                            <td class="cart_total col-sm-1 ">
+                                                <p>$59</p>
+                                            </td>
+                                            <td class="cart_total col-sm-1 ">
+                                                <p>$59</p>
+                                            </td>
+                                            <td class="cart_total col-sm-1 ">
+                                                <p>$59</p>
+                                            </td>
+                                            <td class="cart_total col-sm-1 ">
+                                                <img class="admin_items_image" src="images/cart/one.png" alt="">
+                                            </td>
+                                            <td class="cart_delete border-none admin_grid_actions">
+                                                <a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Edit</i></a>
+                                                <a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Remove</i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cart_total col-sm-2 ">
+                                                <p>$59</p>
+                                            </td>
+                                            <td class="cart_total col-sm-1 ">
+                                                <p>$59</p>
+                                            </td>
+                                            <td class="cart_total col-sm-1 ">
+                                                <p>$59</p>
+                                            </td>
+                                            <td class="cart_total col-sm-1 ">
+                                                <p>$59</p>
+                                            </td>
+                                            <td class="cart_total col-sm-1 ">
+                                                <img class="admin_items_image" src="images/cart/one.png" alt="">
+                                            </td>
+                                            <td class="cart_delete border-none admin_grid_actions">
+                                                <a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Remove</i></a>
+                                            </td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <div colspan="2">
+                                    <!-- 
+                                    <a href="javascript:void(0);" onClick="console.log(1)" class="btn btn-primary pull-right">Create/Update</a>
+                                    -->
+                                    <input ng-if="order_manager_form.idOrder  == '' " type="submit" class="btn btn-primary pull-right admin_button" value="Create Order"/>
+                                    <input ng-if="order_manager_form.idOrder > 0 " type="submit" class="btn btn-primary pull-right admin_button" value="Update Order"/>
+                                </div>  
+                            </div>  
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+</div>

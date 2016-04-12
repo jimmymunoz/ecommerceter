@@ -97,16 +97,25 @@ moduleRoutes.get('/getUsersList', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
 
-    User.find({}).
-    //where('idCategory').equals(req.query.idCategory).// =
-    //where('idCategory').gt(17).lt(66).// gt - lt
-    //where('idCategory').in(['idCategory', req.query.idCategory]).// like
-    //limit(10).
-    sort('-idCategory').
-    select('idUser firstName lastName email password address image phone rol InscriptionDate updateDate ').
-    exec(function(err, Users) {
-        res.json({ success: true, message: 'User List:', data: Users });
+    var query = {};
+    var page = (req.query.page != undefined )? req.query.page : 1 ;
+    var page_size = (req.query.page_size != undefined )? req.query.page_size : config.default_page_size_pagination ;
+    User.count(query, function(err, total_results) {
+        if (err) throw err;
+        //  res.json({ success: true, message: 'Product List:', data: out, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+        User.find({}).
+        //where('idCategory').equals(req.query.idCategory).// =
+        //where('idCategory').gt(17).lt(66).// gt - lt
+        //where('idCategory').in(['idCategory', req.query.idCategory]).// like
+        //limit(10).
+        sort('-idCategory').
+        select('idUser firstName lastName email password address image phone rol InscriptionDate updateDate ').
+        exec(function(err, Users) {
+            res.json({ success: true, message: 'User List:', data: Users, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+        });
+        
     });
+    
 });
 
 //http://localhost:8888/user/createUser

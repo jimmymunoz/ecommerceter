@@ -54,16 +54,30 @@ $(document).ready(function() {
 	$('#style-switcher li').click(function(e){
 		e.preventDefault();
 		var m = $(this);
-		alert("Change to -->" + this.id);
-		/*
-		
-		$('.colors').attr('href', 'css/' + m.attr('id') + '.css');
-		$('#logo').attr('src', 'img/logo-' + m.attr('id') + '.png');
-		$('#navlogo').attr('src', 'img/navlogo-' + m.attr('id') + '.png');
-		 */
+		var newlocation = window.location.href.toString().split(window.location.host)[1];
+		switch( $(this).attr('id') ){
+			case 'framework_backbone':
+				newlocation = "../backbone" + newlocation;
+				break;
+			case 'framework_ember':
+				newlocation = "../ember" + newlocation;
+				break;
+			case 'framework_angular_react':
+			default:
+				newlocation = "../angular-react" + newlocation;
+				break;
+		}
+		$('#img_style_switcher').attr('class', $(this).attr('class'));
 		$('#style-switcher').removeClass('open');
+		document.location.href = "../angular_react/";
 		return false; 
-	});	
+	});
+
+	
+	$('.nav-tabs > li > a').click( function() {
+	    $('.nav-tabs > li.active').removeClass('active');
+	    $(this).parent().addClass('active');
+	} )
 });
 
 

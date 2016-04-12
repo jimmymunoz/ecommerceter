@@ -61,7 +61,7 @@ angular.module('catalog').controller('CatalogSearchController', ['$rootScope', '
 
 angular.module('catalog').directive('catalogContainer', function(){
 	return {
-		templateUrl: 'modules/catalog/catalog_container.html'
+		//templateUrl: 'modules/catalog/catalog_container.html'
 	}
 });
 

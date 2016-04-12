@@ -39,16 +39,25 @@ moduleRoutes.get('/getPayment', function(req, res) {
 
 //http://localhost:8888/payment/getPaymentsList
 moduleRoutes.get('/getPaymentsList', function(req, res) {
-    Payment.find({}).
-    //where('idCategory').equals(req.query.idCategory).// =
-    //where('idCategory').gt(17).lt(66).// gt - lt
-    //where('idCategory').in(['idCategory', req.query.idCategory]).// like
-    //limit(10).
-    sort('-idCategory').
-    select('code status creationDate ').
-    exec(function(err, Payments) {
-        res.json({ success: true, message: 'Payment List:', data: Payments });
+    var query = {};
+    var page = (req.query.page != undefined )? req.query.page : 1 ;
+    var page_size = (req.query.page_size != undefined )? req.query.page_size : config.default_page_size_pagination ;
+    Payment.count(query, function(err, total_results) {
+        if (err) throw err;
+        //  res.json({ success: true, message: 'Product List:', data: out, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+        
+        Payment.find({}).
+        //where('idCategory').equals(req.query.idCategory).// =
+        //where('idCategory').gt(17).lt(66).// gt - lt
+        //where('idCategory').in(['idCategory', req.query.idCategory]).// like
+        //limit(10).
+        sort('-idCategory').
+        select('code status creationDate ').
+        exec(function(err, Payments) {
+            res.json({ success: true, message: 'Payment List:', data: Payments, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+        });
     });
+
 });
 
 //http://localhost:8888/payment/createPayment

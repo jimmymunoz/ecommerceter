@@ -50,12 +50,20 @@ moduleRoutes.get('/getOrder', function(req, res) {
 
 //http://localhost:8888/order/getAdminOrders/
 moduleRoutes.get('/getAdminOrders', function(req, res) {
-    Order.find({}).
-    sort('-idCategory').
-    select('idUser idOrder address creationDate total status city totalTax orderLines approvalCode paymentDate modificationDate ').
-    exec(function(err, Orders) {
-        res.json({ success: true, message: 'Order List:', data: Orders });
+    var query = {};
+    var page = (req.query.page != undefined )? req.query.page : 1 ;
+    var page_size = (req.query.page_size != undefined )? req.query.page_size : config.default_page_size_pagination ;
+    Order.count(query, function(err, total_results) {
+        if (err) throw err;
+        //  res.json({ success: true, message: 'Product List:', data: out, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+        Order.find({}).
+        sort('-idCategory').
+        select('idUser idOrder address creationDate total status city totalTax orderLines approvalCode paymentDate modificationDate ').
+        exec(function(err, Orders) {
+            res.json({ success: true, message: 'Order List:', data: Orders, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+        });
     });
+        
 });
 //http://localhost:8888/order/getClientOrder?idUser=1
 moduleRoutes.get('/getClientOrder', function(req, res) {
@@ -195,19 +203,23 @@ moduleRoutes.post('/createOrder', function(req, res) {
     //if(! ( HelperValidator.isJSON( req.body['orderLines[]'] ) && req.body['orderLines[]'] != "" )  ){
     //    validationResponse.addError("Invalid orderLines: " + req.body['orderLines[]']);
     //}
-    var arrRequestProduct = (typeof req.body['product[]'] == "string")? [req.body['product[]']]: req.body['product[]'];
-    var arrRequestQuantity = (typeof req.body['quantity[]'] == "string")? [req.body['quantity[]']]: req.body['quantity[]'];
+    //
+    req.body['product'] = (req.body['product'] == undefined)? []: req.body['product'];
+    req.body['quantity'] = (req.body['quantity'] == undefined)? []: req.body['quantity'];
+
+    var arrRequestProduct = (typeof req.body['product'] == "string")? [req.body['product']]: req.body['product'];
+    var arrRequestQuantity = (typeof req.body['quantity'] == "string")? [req.body['quantity']]: req.body['quantity'];
     
-    if(! ( HelperValidator.isAscii( req.body['product[]'] ) && typeof arrRequestProduct == "object" )  ){
-        validationResponse.addError("Invalid product: " + req.body['product[]']);
+    if(! ( HelperValidator.isAscii( req.body['product'] ) && typeof arrRequestProduct == "object" )  ){
+        validationResponse.addError("Invalid product: " + req.body['product']);
     }
-    if(! ( HelperValidator.isAscii( req.body['quantity[]'] ) && typeof arrRequestQuantity == "object" )  ){
-        validationResponse.addError("Invalid quantity: " + req.body['quantity[]']);
+    if(! ( HelperValidator.isAscii( req.body['quantity'] ) && typeof arrRequestQuantity == "object" )  ){
+        validationResponse.addError("Invalid quantity: " + req.body['quantity']);
     }
     if(! ( arrRequestProduct.length == arrRequestQuantity.length  && arrRequestProduct.length > 0  && arrRequestQuantity.length > 0) ){
         validationResponse.addError("Invalid quanties x product: (" + arrRequestProduct.length + " - " + arrRequestQuantity.length + ") ");
     }
-
+    console.log(req.body);
 
     if(! validationResponse.success){
         res.json(validationResponse);
@@ -259,10 +271,10 @@ moduleRoutes.post('/createOrder', function(req, res) {
                         idUser: user.idUser,
                         address: req.body.address, 
                         creationDate: Date(), 
-                        total: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
+                        //total: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
                         status: "unpaid", 
                         city: req.body.city, 
-                        totalTax: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
+                        //totalTax: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
                         orderLines: arrOrderLines, 
                         //orderLines: req.body['orderLines[]'], 
                         //approvalCode: "bien", 

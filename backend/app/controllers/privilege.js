@@ -40,12 +40,21 @@ moduleRoutes.get('/getPrivilege', function(req, res) {
 
 //http://localhost:8888/privilege/getPrivilegesList
 moduleRoutes.get('/getPrivilegesList', function(req, res) {
-    Privilege.find({}).
-    sort('-idCategory').
-    select('action rol ').
-    exec(function(err, Privileges) {
-        res.json({ success: true, message: 'Privilege List:', data: Privileges });
+    var query = {};
+    var page = (req.query.page != undefined )? req.query.page : 1 ;
+    var page_size = (req.query.page_size != undefined )? req.query.page_size : config.default_page_size_pagination ;
+    Privilege.count(query, function(err, total_results) {
+        if (err) throw err;
+        //  res.json({ success: true, message: 'Product List:', data: out, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+        
+        Privilege.find({}).
+        sort('-idCategory').
+        select('action rol ').
+        exec(function(err, Privileges) {
+            res.json({ success: true, message: 'Privilege List:', data: Privileges, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+        });
     });
+    
 });
 
 //http://localhost:8888/privilege/createPrivilege

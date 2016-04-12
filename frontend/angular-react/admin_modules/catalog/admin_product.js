@@ -28,7 +28,7 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$sc
 
 	$rootScope.sendProductManagerForm = function(product_manager_form){
 		$rootScope.product_manager_form.category = $rootScope.product_manager_form.categorySelected.id;
-		
+			
 		//$rootScope.product_manager_form.imageFile = $scope.myFile;
 		var postUrl = config.pathApiServer + 'product/createProduct/';
 		if( $rootScope.product_manager_form.idProduct > 0 ){
@@ -43,24 +43,7 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$sc
 	            if( response.data.success  ){
 	            	alert(response.data.message);
 	            	colseModal();
-	            	/*
-	            	
-	            	$rootScope.product_manager_form = {
-						idProduct: '',
-						name: '',
-						description: '',
-						price: '',
-						tax: '',
-						buyPrice: '',
-						quantity: '',
-						weight: '',
-						category: '',
-						image: '',
-						categorySelected: {},
-					};
-	            	 */
 	            	getProductsListAdmin();
-	            	//$rootScope.admin_product_list_data = response.data.data;
 	            }
 	            else{
 	            	alert(response.data.errors);
@@ -92,8 +75,6 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$sc
     		).then(function(response){
 	            if( response.data.success  ){
 	            	$scope.pageChanged();
-	            	//getProductsListAdmin();
-	            	//alert(response.data.message);
 	            }
 	            else{
 	            	alert(response.data.errors);
@@ -115,8 +96,6 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$sc
 	}
 	createNewProductItem = function()
 	{
-		//var $body = angular.element(document.body);
-		//var $rootScope = $body.scope().$root;      
 		$rootScope.$apply(function () {            
 			$rootScope.product_manager_form = {
 				idProduct: '',
@@ -137,8 +116,6 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$sc
 
 	editProductItem = function(item)
 	{
-		//var $body = angular.element(document.body);
-		//var $rootScope = $body.scope().$root;      
 		$rootScope.$apply(function () {            
 			$rootScope.product_manager_form = {
 				idProduct: item.idProduct,
@@ -160,14 +137,10 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$sc
 	}
 
 	removeProductItem = function(item){
-		//var $body = angular.element(document.body);
-		//var $rootScope = $body.scope().$root;      
 		$rootScope.removeProduct(item.idProduct, $rootScope);
 	}
 
 	mapPostRequestToBody = function(data) {
-	    //return {'key': value, 'key': 'some text'};
-	    
 	    var fd = new FormData();
 	    angular.forEach(data, function(value, key) {
 	        fd.append(key, value);
@@ -176,7 +149,6 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$sc
 	    
 	}
 	$rootScope.getCategorysList();
-	//getProductsListAdmin();
 	$scope.pageChanged();
 }]);
 
@@ -219,3 +191,5 @@ angular.module('admin_product').directive('adminProductList', function(){
 		}
 	}
 });
+
+

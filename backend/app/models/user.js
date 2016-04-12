@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 var commonHelper   = require(pathServer + 'app/helpers/common');
 
 var autoIncrement = require('mongoose-auto-increment');
+var mongoosePaginate = require('mongoose-paginate');
 var connection = mongoose.createConnection(config.database);
 autoIncrement.initialize(connection);
 
@@ -78,3 +79,4 @@ UserModel.createUser = function (res, data, callback){
 }
 
 module.exports = UserModel;
+module.exports.paginate = mongoosePaginate;

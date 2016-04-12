@@ -1,0 +1,122 @@
+<div ng-controller="AdminCreateUserController">
+    <section id="admin_section">
+        <div class="container padding_none">
+            <div class="row padding_none">
+                <div class="col-sm-12 padding_none padding-right">
+                    <div class=""><!--features_items-->
+                        <h2 class="admin_title text-center">Users</h2>
+                        <div class="container admin_section_container section_color2">
+                            <div class="row ">
+                                <a href="javascript:createNewUserItem('show_user_form')"  class="btn btn-default admin_button">New User</a>
+                            </div>
+                            <div class="row section_color1 container-items_admin" >
+                                <admin-user-list data="admin_user_list_data"></admin-user-list>
+                                
+
+                            </div>
+                        </div>
+                        
+                    </div><!--features_items-->
+                    
+                </div>
+            </div>
+            <!--Pagination-->
+             <div dir-paginate="pagination_item in admin_pagination | itemsPerPage: pagination_page_size" total-items="admin_pagination.total_results" current-page="pagination_current_page"></div>
+
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+
+        </div>
+    </section>
+
+    <div id="show_user_form"  class="modalDialog modalDialogFormAdmin" data-backdrop="static" >
+        <div class="marginModalDialogFormAdmin">
+            <a href="javascript:colseModal()" title="Close" class="close">X</a>
+            <div class="container">
+                
+                <div class="replay-box">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2 ng-if="user_manager_form.idUser == ''">
+                                Create New User
+                            </h2>
+                            <h2 ng-if="user_manager_form.idUser > 0 ">
+                                Edit User {{user_manager_form.idUser}}
+                            </h2>
+                            <form novalidate ng-submit="sendUserManagerForm(user_manager_form)" method="post" class="css-form" enctype="multipart/form-data">
+                                <input type="hidden" ng-model="user_manager_form.idUser" name="idUser"/>
+                                <div class="container">
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>firstName</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="text" ng-model="user_manager_form.firstName" name="firstName" placeholder="firstName">
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>lastName</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="text" ng-model="user_manager_form.lastName" name="lastName" placeholder="lastName">
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Email</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="text" ng-model="user_manager_form.email" name="email" placeholder="email">
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Phone</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="text" ng-model="user_manager_form.phone" name="phone" placeholder="phone">
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Password</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <input type="password" ng-model="user_manager_form.password" name="password" placeholder="password">
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <label>Rol</label> <span>*</span>
+                                            </div>  
+                                            <div class="col-sm-6">
+                                                <select placeholder="Rol" name="rol" 
+                                                      ng-options="option.name for option in options.rol_options track by option.id"
+                                                      ng-model='user_manager_form.rolSelected'></select>
+                                                <!-- 
+                                                <input type="text" ng-model="user_manager_form.idProduct" name="rol" placeholder="rol">
+                                                -->
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-11">
+                                                <div colspan="2">
+                                                    <input ng-if="user_manager_form.idUser  == '' " type="submit" class="btn btn-primary pull-right admin_button" value="Create User"/>
+                                                    <input ng-if="user_manager_form.idUser > 0 " type="submit" class="btn btn-primary pull-right admin_button" value="Update User"/> 
+                                                </div> 
+
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+</div>

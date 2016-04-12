@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 var commonHelper   = require(pathServer + 'app/helpers/common');
 
 var autoIncrement = require('mongoose-auto-increment');
+var mongoosePaginate = require('mongoose-paginate');
 var connection = mongoose.createConnection(config.database);
 autoIncrement.initialize(connection);
 
@@ -27,3 +28,4 @@ var schemaOrder = new Schema({
 
 schemaOrder.plugin(autoIncrement.plugin, { model: 'orders', field: 'idOrder' });
 module.exports = mongoose.model('Order', schemaOrder);
+module.exports.paginate = mongoosePaginate;

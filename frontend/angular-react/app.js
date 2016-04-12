@@ -7,6 +7,10 @@ angular.module('app', [
 	'catalog',
 	'shopping_cart',
 	'admin_product',
+	'admin_category',
+	'admin_user',
+	'admin_order',
+	'admin_privilege',
 ]);
 
 angular.module('admin_product').run(function($rootScope){ 
@@ -18,6 +22,16 @@ angular.module('admin_product').run(function($rootScope){
 		,{ name: 20, id: 20 }
 		,{ name: 30, id: 30 }
 		,{ name: 50, id: 50 }
+	];
+
+	$rootScope.options.rol_options = [
+		{ name: 'client', id: 'client' }
+		,{ name: 'administrator', id: 'administrator' }
+	];
+	$rootScope.options.status_options = [
+		{ name: 'unpaid', id: 'unpaid' }
+		,{ name: 'paid', id: 'paid' }
+		,{ name: 'delivered', id: 'delivered' }
 	];
 
 	$rootScope.pagination_page_size = 10;
@@ -62,25 +76,24 @@ angular.module('app').config(
 			delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
 		    $routeProvider
-		        .when('/products', {//otherwhise
-		            templateUrl: 'admin_modules/catalog/admin_products.html'//Template or templateUrl
+		         .when('/categories', {
+		            template: '<admin-category-manager></admin-category-manager>'//Directive -> React module
 		        })
-		         .when('/categories', {//otherwhise
-		            templateUrl: 'admin_modules/catalog/admin_categories.html'//Template or templateUrl
+		         .when('/orders', {
+		            template: '<admin-order-manager></admin-order-manager>'//Directive -> React module
 		        })
-		         .when('/orders', {//otherwhise
-		            templateUrl: 'admin_modules/orders/admin_orders.html'//Template or templateUrl
+		        .when('/users', {
+		            template: '<admin-user-manager></admin-user-manager>'//Directive -> React module
 		        })
-		        .when('/users', {//otherwhise
-		            templateUrl: 'admin_modules/uers/admin_users.html'//Template or templateUrl
+		        .when('/privileges', {
+		            template: '<admin-privilege-manager></admin-privilege-manager>'//Directive -> React module
 		        })
-		        .when('/privileges', {//otherwhise
-		            templateUrl: 'admin_modules/users/admin_privileges.html'//Template or templateUrl
+		        .when('/products', {
+		            template: '<admin-product-manager></admin-product-manager>'//Directive -> React module
 		        })
 		        .when('/', {//otherwhise
-		            //controller: 'ControllerHome',
-		            //templateUrl: 'modules/main/main.html'//Template or templateUrl
-		            templateUrl: 'modules/main/admin_main.html'//Template or templateUrl
+		            template: '<admin-product-manager></admin-product-manager>'//Directive -> React module
+		            //templateUrl: 'modules/main/admin_main.html'//Template or templateUrl
 		        });
 		}
 	]

@@ -51,12 +51,12 @@ h2{
 .features_items{
   padding-top: 20px; 
   overflow: none; 
-  height: 1400px;
+  height: 1060px;
 }
 
 #products_section, #shopping_cart_section, #payment_section, #result_section{
   padding-top: 100px; 
-  min-height: 650px;
+  min-height: 800px;
 }
 #admin_section{
   padding-top: 50px;
@@ -341,7 +341,8 @@ h2{
 .shopping_cart_bck{
   background: #fff; 
   padding: 5px; 
-  width: 99%
+  width: 99%;
+  min-height: 750px;
 }
 .cart_product{
   margin: -1px -71px 11px 25px
@@ -598,4 +599,12 @@ a#scrollUp, .login-form form button, .signup-form form button{
   height: 40px;
 }
 
+.check_out {
+  background: #23A657 none repeat scroll 0 0 !important;
+  color: #ffffff;
+}
+.update{
+  background: #23A657 none repeat scroll 0 0 !important;
+  color: #ffffff;
+}
 
