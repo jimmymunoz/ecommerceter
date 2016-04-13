@@ -7,9 +7,12 @@ var Category   = require(pathServer + 'app/models/category');
 //Helpers:
 var commonHelper   = require(pathServer + 'app/helpers/common');
 //http://localhost:8888/category/
+/*
+
 moduleRoutes.get('/', function(req, res) {
     res.json({ success: false, message: 'Invalid Category action', data:req.decoded});
 });
+ */
 
 //http://localhost:8888/category/setup
 moduleRoutes.get('/setup', function(req, res) {

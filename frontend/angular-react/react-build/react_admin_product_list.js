@@ -1,12 +1,12 @@
-var ProductItemRow = React.createClass({
-    displayName: "ProductItemRow",
+var CategoryItemRow = React.createClass({
+    displayName: "CategoryItemRow",
 
-    editProductItem: function (e) {
-        editProductItem(this.props.row_data);
+    editCategoryItem: function (e) {
+        editCategoryItem(this.props.row_data);
         return false;
     },
-    removeProductItem: function (e) {
-        removeProductItem(this.props.row_data);
+    removeCategoryItem: function (e) {
+        removeCategoryItem(this.props.row_data);
         return false;
     },
     render: function () {
@@ -100,7 +100,7 @@ var ProductItemRow = React.createClass({
                 { className: "cart_delete border-none admin_grid_actions" },
                 React.createElement(
                     "a",
-                    { href: "javascript:void(0);", onClick: this.editProductItem, className: "cart_quantity_delete" },
+                    { href: "javascript:void(0);", onClick: this.editCategoryItem, className: "cart_quantity_delete" },
                     React.createElement(
                         "i",
                         { className: "fa " },
@@ -109,7 +109,7 @@ var ProductItemRow = React.createClass({
                 ),
                 React.createElement(
                     "a",
-                    { href: "javascript:void(0);", onClick: this.removeProductItem, className: "cart_quantity_delete" },
+                    { href: "javascript:void(0);", onClick: this.removeCategoryItem, className: "cart_quantity_delete" },
                     React.createElement(
                         "i",
                         { className: "fa " },
@@ -120,13 +120,13 @@ var ProductItemRow = React.createClass({
         );
     }
 });
-var AdminProductListTable = React.createClass({
-    displayName: 'AdminProductListTable',
+var AdminCategoryListTable = React.createClass({
+    displayName: 'AdminCategoryListTable',
     data: [],
     render: function () {
         var data = this.props.data;
-        var ProductItemRows = this.props.data.map(function (product) {
-            return React.createElement(ProductItemRow, { row_data: product, key: product.idProduct });
+        var CategoryItemRows = this.props.data.map(function (category) {
+            return React.createElement(CategoryItemRow, { row_data: category, key: category.idCategory });
         });
         return React.createElement(
             "table",
@@ -170,7 +170,7 @@ var AdminProductListTable = React.createClass({
                     React.createElement(
                         "th",
                         { className: "col-sm-1" },
-                        "Product"
+                        "Category"
                     ),
                     React.createElement(
                         "th",
@@ -184,7 +184,7 @@ var AdminProductListTable = React.createClass({
                     ),
                     React.createElement("th", { className: "col-sm-1 border-none" })
                 ),
-                ProductItemRows
+                CategoryItemRows
             )
         );
     }

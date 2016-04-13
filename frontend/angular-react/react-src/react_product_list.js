@@ -1,49 +1,54 @@
-var UserItem = React.createClass({
+var ProductItem = React.createClass({
     addItemToShoppingCart: function(e) {
-        addToShoppingCart(this.props.user_data);
-        //this.props.user_data.quantity = this.props.user_data.quantity -1;
-        this.setState({quantity: (this.props.user_data.quantity -1) });
+        addToShoppingCart(this.props.product_data);
+        //this.props.product_data.quantity = this.props.product_data.quantity -1;
+        this.setState({quantity: (this.props.product_data.quantity -1) });
         return false;
     },
     render: function() {
-        var user_data = this.props.user_data;
+        var product_data = this.props.product_data;
         return (
-            <form className="formAddToShoppingCart" >
-                <input type="hidden" name="idUser" value={user_data.idUser} />
-                <div className="user_list_item" >
-                    <div className="container">
-                        <span className="float-left user_name"><b>{user_data.name}</b></span>
-                        <img className="user_image" src={user_data.image} />
+            <div className="col-sm-4">
+                <a href="#showProductDetail">
+                    <div className="product-image-wrapper">
+                        <div className="single-products">
+                            <div className="product_container">
+                                <div className="productinfo text-left">
+                                    <img src={product_data.image} alt="" />
+                                    <div><b>{product_data.name}</b></div>
+                                    <span>{product_data.category.name}</span>
+                                    <div className="row">
+                                        <div className="col-sm-6"><img alt="" src="images/product-details/rating.png" /></div>
+                                        <div className="col-sm-6"><span className="price_product">{product_data.price} €</span></div>
+                                    </div>
+                                </div>
+                                <div className="productinfo text-center">
+                                    <a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+                                    <input type="button" value="Add" onClick={this.addItemToShoppingCart} />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="user_description">
-                        <span className="float-left user_category">{user_data.category.name}</span>
-                        <br/>
-                        <span className="float-left user_price">{user_data.price} €</span>
-                        <span className="float-left user_quantiy">{user_data.quantity} Available</span>
-                        <span className="float-left description">{user_data.description}</span>
-                        <br/>
-                        <input type="button" value="Add" onClick={this.addItemToShoppingCart} />
-                    </div>
-                </div>
-            </form>
+                </a>
+            </div>
         );
     }
 });
-var UserListContent = React.createClass({
-    displayName: 'UserListContent',
+var ProductListContent = React.createClass({
+    displayName: 'ProductListContent',
     data: [],
     render: function() {
         var data = this.props.data;
-        var UserItems = this.props.data.map(function(user) {
+        var ProductItems = this.props.data.map(function(product) {
           return (
-            <UserItem user_data={user} key={user.idUser}>
-              {user.text}
-            </UserItem>
+            <ProductItem product_data={product} key={product.idProduct}>
+              {product.text}
+            </ProductItem>
           );
         });
         return (
-            <div className="user_list_content">
-                {UserItems}
+            <div className="product_list_content">
+                {ProductItems}
             </div>
         );
     }

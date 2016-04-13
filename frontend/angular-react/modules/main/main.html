@@ -1,15 +1,82 @@
-<div class="header">
-	<div ng-app--="header">
-		header
-	</div>
-</div>
-<div class="body">
-	<!-- 
-	<div>-------------- FRONT - END ---------------------</div>
-	<catalog-container></catalog-container>
-	<shopping-cart-container></shopping-cart-container>
-	-->
-	<div>-------------- BACK - END ---------------------</div>
-	<admin-product-manager></admin-product-manager>
+	<header id="header"><!--header-->
+		<div class="header_top"><!--header_top-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="logo pull-left">
+							<img src="images/Sports-Running-Man-icon-green.png" class="project_logo_image" />
+						</div>
+						<div class="logo pull-left project_logo_font">
+							 FitShopJS  <span style="color: #fff;"></span> 
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="shop-menu pull-right">
+							<ul class="nav navbar-nav">
+								<li><a href="#showLoginSingUp"><i class="fa fa-user"></i> Account</a></li>
+								<li><a href="#showLoginSingUp"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="#shopping_cart_section"><i class="fa fa-shopping-cart"></i> Cart (0)</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header_top-->
+		
+		<div class="header-middle"><!--header-middle-->
+			
+		</div><!--/header-middle-->
+		<div class="header-bottom"><!--header-bottom-->
+			<div class="container">
+				<div class="row">
+					<div class="category-tab"><!--category-tab-->
+						<div class="col-sm-12">
+							<ul class="nav nav-tabs section_color3">
+								<li class="active"><a href="#products_section" >Products</a></li>
+								<li><a href="#shopping_cart_section" >Shopping Cart</a></li>
+								<li><a href="#payment_section" >Payment</a></li>
+								<li><a href="#result_section" >Result</a></li>
+							</ul>
+						</div>
+					</div><!--/category-tab-->
+				</div>
+			</div>
+		</div>
+	</header><!--/header-->
+	<div id="header_space"></div>
 	
-</div>
+	<!--Offers-->
+	<offer-container></offer-container>
+	<!--Products-->
+	<catalog-container></catalog-container>
+	<!--Shopping Cart-->
+	<shopping-cart-container></shopping-cart-container>
+	<!--Payment-->
+	<payment-container></payment-container>
+	<!--Result-->
+	<order-container></order-container>
+	<!--Account-->
+	<account-container></account-container>
+	
+	<footer id="footer"><!--Footer-->
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row">
+					<p class="pull-left"> UM2 Faculté de Sciences .</p>
+					<p class="pull-right">MAIGA Mariam - BOUHASI Meriam - MUNOZ Jimmy</span></p>
+				</div>
+			</div>
+		</div>
+	</footer><!--/Footer-->
+
+	
+
+	<section id="style-switcher" class="">
+		<h2> Framework View <a href="#"><div id="img_style_switcher" class="icon_angular-react"></div></a></h2>
+		<ul>
+			<li id="framework_backbone" class="icon_backbone"></li>
+			<li id="framework_angular_react" class="icon_angular-react"></li>
+			<li id="framework_ember" class="icon_ember"></li>
+		</ul>
+	</section>
+	

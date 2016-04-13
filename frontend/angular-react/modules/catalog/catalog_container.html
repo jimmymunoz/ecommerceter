@@ -1,6 +1,6 @@
 
-
-<div ng-controller="CatalogSearchController">
+<!--
+<div >
     <div class="product_form">
     	<span>Filter By</span>
     	<form name="form_catalog_search">
@@ -34,6 +34,247 @@
     	<div>Filtered By: {{search_catalog_form.product_name}} - {{search_catalog_form.category_name}}</div>
     </div>
 	<div class="product_list">
-    	<product-list data="product_list_data"></product-list>
+    	
+    </div>
+</div>
+-->
+
+<section id="products_section" class="section_color2" ng-controller="CatalogSearchController">
+    <div class="container container_project_white width_90">
+        <header class="section-header text-center">
+            <div class="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                <h2>Products</h2>
+            </div>
+        </header>
+            <div class="container">
+                <!-- 
+                 <form novalidate ng-submit="sendCatalogSearchForm(product_manager_form)" method="post" class="css-form" enctype="multipart/form-data">
+                -->
+                    <div class="col-sm-3">
+                        <div class="left-sidebar">
+                            <div class="brands_products"><!--brands_products-->
+                                <h2>Custom Search</h2>
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li>
+                                            <div class="form-group">
+                                                <input ng-change="sendCatalogSearchForm()" ng-model="search_catalog_form.name" name="name" placeholder="Product Name" class="form-control" type="text">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <input ng-change="sendCatalogSearchForm()" ng-model="search_catalog_form.brand" name="brand" placeholder="Brand Name" class="form-control" type="text">
+                                            </div>
+                                        </li>
+                                    </ul>
+                            </div><!--/brands_products-->
+                            
+                            <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                                <div class="panel panel-default">
+                                    <h2>Category</h2>
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                                Sportswear
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="sportswear" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li><a href="#">Nike </a></li>
+                                                <li><a href="#">Under Armour </a></li>
+                                                <li><a href="#">Adidas </a></li>
+                                                <li><a href="#">Puma</a></li>
+                                                <li><a href="#">ASICS </a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordian" href="#mens">
+                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                                Mens
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="mens" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li><a href="#">Fendi</a></li>
+                                                <li><a href="#">Guess</a></li>
+                                                <li><a href="#">Valentino</a></li>
+                                                <li><a href="#">Dior</a></li>
+                                                <li><a href="#">Versace</a></li>
+                                                <li><a href="#">Armani</a></li>
+                                                <li><a href="#">Prada</a></li>
+                                                <li><a href="#">Dolce and Gabbana</a></li>
+                                                <li><a href="#">Chanel</a></li>
+                                                <li><a href="#">Gucci</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordian" href="#womens">
+                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                                Womens
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="womens" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li><a href="#">Fendi</a></li>
+                                                <li><a href="#">Guess</a></li>
+                                                <li><a href="#">Valentino</a></li>
+                                                <li><a href="#">Dior</a></li>
+                                                <li><a href="#">Versace</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title"><a href="#">Kids</a></h4>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title"><a href="#">Fashion</a></h4>
+                                    </div>
+                                </div>
+                                
+                            </div><!--/category-products-->
+                            
+                            <div class="price-range"><!--price-range-->
+                                <h2>Price Range</h2>
+                                <div class="well text-center">
+                                     <input ng-change="sendCatalogSearchForm()" ng-model="search_catalog_form.price" type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
+                                     <b class="pull-left">0 €</b> <b class="pull-right">600 €</b>
+                                </div>
+                            </div><!--/price-range-->
+                            
+                        </div>
+                    </div>
+                <!-- 
+                </form>
+                -->
+                
+                <div class="col-sm-9 padding-right">
+                    <div class="features_items"><!--features_items-->
+                        
+                        <product-list data="product_list_data"></product-list>
+                        
+                    </div><!--features_items-->
+                    
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center;">
+                        <ul class="pagination">
+                            <li class="active"><a href="">1</a></li>
+                            <li><a href="">2</a></li>
+                            <li><a href="">3</a></li>
+                            <li><a href="">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="showProductDetail" class="modalDialog modalDialogProduct">
+    <div class="marginModalDialogProduct section_color3">
+        <a href="#close" title="Close" class="close">X</a>
+        <div class="fadeInUp animated modalDialogTitre" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+            <h2>Anne Klein Sleeveless Colorblock Scuba</h2>
+        </div>
+        <div class="container">
+            <div class="col-sm-10 padding-right">
+                <div class="product-details"><!--product-details-->
+                    <div class="col-sm-5">
+                        <div class="view-product">
+                            <img alt="" src="images/product-details/1.jpg">
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="product-information"><!--/product-information-->
+                            <h2>Anne Klein Sleeveless Colorblock Scuba</h2>
+                            <p>Web ID: 1089772</p>
+                            <img alt="" src="images/product-details/rating.png">
+                            <span>
+                                <span>59 €</span>
+                                <label>Quantity:</label>
+                                <input type="text" value="3">
+                                <button class="btn btn-fefault cart" type="button">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    Add to cart
+                                </button>
+                            </span>
+                            <p><b>Brand:</b> E-SHOPPER</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                        </div><!--/product-information-->
+                    </div>
+                </div><!--/product-details-->
+                
+                <div class="category-tab shop-details-tab" style="background:#ffffff;"><!--category-tab-->
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs">
+                            <!-- 
+                            <li class="active"><a data-toggle="tab" href="#details">Details</a></li>
+                            -->
+                            <li class="active" ><a data-toggle="tab" href="#reviews">Reviews (5)</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div id="details" class="tab-pane fade">
+                            <div class="col-sm-3">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            Details...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div id="reviews" class="tab-pane fade active in">
+                            <div class="col-sm-12">
+                                <ul>
+                                    <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
+                                    <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
+                                    <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
+                                </ul>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                <p><b>Write Your Review</b></p>
+                                
+                                <form action="#">
+                                    <span>
+                                        <input type="text" placeholder="Your Name">
+                                        <input type="email" placeholder="Email Address">
+                                    </span>
+                                    <textarea name=""></textarea>
+                                    <b>Rating: </b> <img alt="" src="images/product-details/rating.png">
+                                    <button class="btn btn-default pull-right" type="button">
+                                        Submit
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div><!--/category-tab-->
+            </div>
+        </div>
     </div>
 </div>

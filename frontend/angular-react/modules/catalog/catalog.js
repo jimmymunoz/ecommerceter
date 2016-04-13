@@ -14,8 +14,8 @@ angular.module('catalog', ['ngRoute']);
 angular.module('catalog').run(function($rootScope, $location, $routeParams, $http, $httpParamSerializer){ 
     $rootScope.product_list_data = [];
     $rootScope.search_catalog_form = {
-		product_name : '',
-		product_price : '',
+		name : '',
+		price : '',
 		category_name : '',
 		category_options : [],
 	};
@@ -61,7 +61,7 @@ angular.module('catalog').controller('CatalogSearchController', ['$rootScope', '
 
 angular.module('catalog').directive('catalogContainer', function(){
 	return {
-		//templateUrl: 'modules/catalog/catalog_container.html'
+		templateUrl: 'modules/catalog/catalog_container.html'
 	}
 });
 

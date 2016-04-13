@@ -13,6 +13,11 @@ npm install --save mongoose-auto-increment
 npm install cors
 npm install mongoose-file
 npm install mongoose-paginate
+npm install express-redirect
+npm install validator
+npm uninstall express-redirect
+
+https://www.npmjs.com/package/express-redirect
 https://www.npmjs.com/package/mongoose-paginate
 
 

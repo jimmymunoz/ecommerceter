@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | FitShopJS</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/prettyPhoto.css" rel="stylesheet">
+    <link href="css/price-range.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet">
+	<!-- Jimmy Custom CSS-->
+	<link href="css/our_project.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->       
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+</head><!--/head-->
+
+<body>
+	<header id="header"><!--header-->
+		<div className="header_top"><!--header_top-->
+			<div className="container">
+				<div className="row">
+					<div className="col-sm-4">
+						<div className="logo pull-left">
+							<img src="images/Sports-Running-Man-icon-green.png" className="project_logo_image" />
+						</div>
+						<div className="logo pull-left project_logo_font">
+							 FitShopJS  <span style="color: #fff;"></span> 
+						</div>
+					</div>
+					<div className="col-sm-8">
+						<div className="shop-menu pull-right">
+							<ul className="nav navbar-nav">
+								<li><a href="#showLoginSingUp"><i className="fa fa-user"></i> Account</a></li>
+								<li><a href="#showLoginSingUp"><i className="fa fa-lock"></i> Login</a></li>
+								<li><a href="#shopping_cart_section"><i className="fa fa-shopping-cart"></i> Cart (0)</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header_top-->
+		
+		<div className="header-middle"><!--header-middle-->
+			
+		</div><!--/header-middle-->
+		<div className="header-bottom"><!--header-bottom-->
+			<div className="container">
+				<div className="row">
+					<div className="category-tab"><!--category-tab-->
+						<div className="col-sm-12">
+							<ul className="nav nav-tabs section_color3">
+								<li className="active"><a href="#products_section" >Products</a></li>
+								<li><a href="#shopping_cart_section" >Shopping Cart</a></li>
+								<li><a href="#payment_section" >Payment</a></li>
+								<li><a href="#result_section" >Result</a></li>
+							</ul>
+						</div>
+					</div><!--/category-tab-->
+				</div>
+			</div>
+		</div>
+	</header><!--/header-->
+	<div id="header_space"></div>
+	
+	<!--slider-->
+	<!-- 
+	<section id="slider" >
+		<div className="container">
+			<div className="row">
+				<div className="col-sm-12">
+					<div id="slider-carousel" className="carousel slide" data-ride="carousel">
+						<ol className="carousel-indicators">
+							<li data-target="#slider-carousel" data-slide-to="0" className="active"></li>
+							<li data-target="#slider-carousel" data-slide-to="1"></li>
+							<li data-target="#slider-carousel" data-slide-to="2"></li>
+						</ol>
+						
+						<div className="carousel-inner">
+							<div className="item active">
+								<div className="col-sm-6">
+									<h1><span>E</span>-SHOPPER</h1>
+									<h2>Free E-Commerce Template</h2>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<button type="button" className="btn btn-default get">Get it now</button>
+								</div>
+								<div className="col-sm-6">
+									<img src="images/home/girl1.jpg" className="girl img-responsive" alt="" />
+									<img src="images/home/pricing.png"  className="pricing" alt="" />
+								</div>
+							</div>
+							<div className="item">
+								<div className="col-sm-6">
+									<h1><span>E</span>-SHOPPER</h1>
+									<h2>100% Responsive Design</h2>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<button type="button" className="btn btn-default get">Get it now</button>
+								</div>
+								<div className="col-sm-6">
+									<img src="images/home/girl2.jpg" className="girl img-responsive" alt="" />
+									<img src="images/home/pricing.png"  className="pricing" alt="" />
+								</div>
+							</div>
+							
+							<div className="item">
+								<div className="col-sm-6">
+									<h1><span>E</span>-SHOPPER</h1>
+									<h2>Free Ecommerce Template</h2>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<button type="button" className="btn btn-default get">Get it now</button>
+								</div>
+								<div className="col-sm-6">
+									<img src="images/home/girl3.jpg" className="girl img-responsive" alt="" />
+									<img src="images/home/pricing.png" className="pricing" alt="" />
+								</div>
+							</div>
+							
+						</div>
+						
+						<a href="#slider-carousel" className="left control-carousel hidden-xs" data-slide="prev">
+							<i className="fa fa-angle-left"></i>
+						</a>
+						<a href="#slider-carousel" className="right control-carousel hidden-xs" data-slide="next">
+							<i className="fa fa-angle-right"></i>
+						</a>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	-->
+	<!--/slider-->
+	
+
+
+	<section id="products_section" className="section_color2" >
+		<div className="container container_project_white width_90">
+			<header className="section-header text-center">
+				<div className="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+					<h2>Products</h2>
+				</div>
+			</header>
+				<div className="container">
+					<div className="col-sm-3">
+						<div className="left-sidebar">
+							<div className="brands_products"><!--brands_products-->
+								<h2>Custom Search</h2>
+									<ul className="nav nav-pills nav-stacked">
+										<li>
+											<div className="form-group">
+												<input name="name" placeholder="Product Name" className="form-control" type="text">
+											</div>
+										</li>
+										<li>
+											<div className="form-group">
+												<input name="brand" placeholder="Brand Name" className="form-control" type="text">
+											</div>
+										</li>
+									</ul>
+							</div><!--/brands_products-->
+							
+							<div className="panel-group category-products" id="accordian"><!--category-productsr-->
+								<div className="panel panel-default">
+									<h2>Category</h2>
+									<div className="panel-heading">
+										<h4 className="panel-title">
+											<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+												<span className="badge pull-right"><i className="fa fa-plus"></i></span>
+												Sportswear
+											</a>
+										</h4>
+									</div>
+									<div id="sportswear" className="panel-collapse collapse">
+										<div className="panel-body">
+											<ul>
+												<li><a href="#">Nike </a></li>
+												<li><a href="#">Under Armour </a></li>
+												<li><a href="#">Adidas </a></li>
+												<li><a href="#">Puma</a></li>
+												<li><a href="#">ASICS </a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div className="panel panel-default">
+									<div className="panel-heading">
+										<h4 className="panel-title">
+											<a data-toggle="collapse" data-parent="#accordian" href="#mens">
+												<span className="badge pull-right"><i className="fa fa-plus"></i></span>
+												Mens
+											</a>
+										</h4>
+									</div>
+									<div id="mens" className="panel-collapse collapse">
+										<div className="panel-body">
+											<ul>
+												<li><a href="#">Fendi</a></li>
+												<li><a href="#">Guess</a></li>
+												<li><a href="#">Valentino</a></li>
+												<li><a href="#">Dior</a></li>
+												<li><a href="#">Versace</a></li>
+												<li><a href="#">Armani</a></li>
+												<li><a href="#">Prada</a></li>
+												<li><a href="#">Dolce and Gabbana</a></li>
+												<li><a href="#">Chanel</a></li>
+												<li><a href="#">Gucci</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								
+								<div className="panel panel-default">
+									<div className="panel-heading">
+										<h4 className="panel-title">
+											<a data-toggle="collapse" data-parent="#accordian" href="#womens">
+												<span className="badge pull-right"><i className="fa fa-plus"></i></span>
+												Womens
+											</a>
+										</h4>
+									</div>
+									<div id="womens" className="panel-collapse collapse">
+										<div className="panel-body">
+											<ul>
+												<li><a href="#">Fendi</a></li>
+												<li><a href="#">Guess</a></li>
+												<li><a href="#">Valentino</a></li>
+												<li><a href="#">Dior</a></li>
+												<li><a href="#">Versace</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div className="panel panel-default">
+									<div className="panel-heading">
+										<h4 className="panel-title"><a href="#">Kids</a></h4>
+									</div>
+								</div>
+								<div className="panel panel-default">
+									<div className="panel-heading">
+										<h4 className="panel-title"><a href="#">Fashion</a></h4>
+									</div>
+								</div>
+								
+							</div><!--/category-products-->
+							
+							<div className="price-range"><!--price-range-->
+								<h2>Price Range</h2>
+								<div className="well text-center">
+									 <input type="text" className="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
+									 <b className="pull-left">0 €</b> <b className="pull-right">600 €</b>
+								</div>
+							</div><!--/price-range-->
+							
+						</div>
+					</div>
+					
+					<div className="col-sm-9 padding-right">
+						<div className="features_items"><!--features_items-->
+							<div className="row">
+								<div className="col-sm-4">
+									<a href="#showProductDetail">
+										<div className="product-image-wrapper">
+											<div className="single-products">
+												<div className="product_container">
+													<div className="productinfo text-left">
+														<img src="images/home/gallery1.jpg" alt="" />
+														<div><b>Easy Polo Black Edition</b></div>
+														<span>Brand</span>
+														<div className="row">
+															<div className="col-sm-6"><img alt="" src="images/product-details/rating.png"/></div>
+															<div className="col-sm-6"><span className="price_product">156€</span></div>
+														</div>
+													</div>
+													<div className="productinfo text-center">
+														<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+								<div className="col-sm-4">
+									<a href="#showProductDetail">
+										<div className="product-image-wrapper">
+											<div className="single-products">
+												<div className="product_container">
+													<div className="productinfo text-left">
+														<img src="images/home/gallery2.jpg" alt="" />
+														<div><b>Easy Polo Black Edition</b></div>
+														<span>Brand</span>
+														<div className="row">
+															<div className="col-sm-6"><img alt="" src="images/product-details/rating.png"/></div>
+															<div className="col-sm-6"><span className="price_product">156€</span></div>
+														</div>
+													</div>
+													<div className="productinfo text-center">
+														<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+								<div className="col-sm-4">
+									<a href="#showProductDetail">
+										<div className="product-image-wrapper">
+											<div className="single-products">
+												<div className="product_container">
+													<div className="productinfo text-left">
+														<img src="images/home/gallery2.jpg" alt="" />
+														<div><b>Easy Polo Black Edition</b></div>
+														<span>Brand</span>
+														<div className="row">
+															<div className="col-sm-6"><img alt="" src="images/product-details/rating.png"/></div>
+															<div className="col-sm-6"><span className="price_product">156€</span></div>
+														</div>
+													</div>
+													<div className="productinfo text-center">
+														<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
+							<div className="row">
+								<div className="col-sm-4">
+									<a href="#showProductDetail">
+										<div className="product-image-wrapper">
+											<div className="single-products">
+												<div className="product_container">
+													<div className="productinfo text-left">
+														<img src="images/home/gallery3.jpg" alt="" />
+														<div><b>Easy Polo Black Edition</b></div>
+														<span>Brand</span>
+														<div className="row">
+															<div className="col-sm-6"><img alt="" src="images/product-details/rating.png"/></div>
+															<div className="col-sm-6"><span className="price_product">156€</span></div>
+														</div>
+													</div>
+													<div className="productinfo text-center">
+														<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+								<div className="col-sm-4">
+									<a href="#showProductDetail">
+										<div className="product-image-wrapper">
+											<div className="single-products">
+												<div className="product_container">
+													<div className="productinfo text-left">
+														<img src="images/home/gallery4.jpg" alt="" />
+														<div><b>Easy Polo Black Edition</b></div>
+														<span>Brand</span>
+														<div className="row">
+															<div className="col-sm-6"><img alt="" src="images/product-details/rating.png"/></div>
+															<div className="col-sm-6"><span className="price_product">156€</span></div>
+														</div>
+													</div>
+													<div className="productinfo text-center">
+														<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+								<div className="col-sm-4">
+									<a href="#showProductDetail">
+										<div className="product-image-wrapper">
+											<div className="single-products">
+												<div className="product_container">
+													<div className="productinfo text-left">
+														<img src="images/home/gallery1.jpg" alt="" />
+														<div><b>Easy Polo Black Edition</b></div>
+														<span>Brand</span>
+														<div className="row">
+															<div className="col-sm-6"><img alt="" src="images/product-details/rating.png"/></div>
+															<div className="col-sm-6"><span className="price_product">156€</span></div>
+														</div>
+													</div>
+													<div className="productinfo text-center">
+														<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
+							<div className="row">
+								<div className="col-sm-4">
+									<a href="#showProductDetail">
+										<div className="product-image-wrapper">
+											<div className="single-products">
+												<div className="product_container">
+													<div className="productinfo text-left">
+														<img src="images/home/gallery3.jpg" alt="" />
+														<div><b>Easy Polo Black Edition</b></div>
+														<span>Brand</span>
+														<div className="row">
+															<div className="col-sm-6"><img alt="" src="images/product-details/rating.png"/></div>
+															<div className="col-sm-6"><span className="price_product">156€</span></div>
+														</div>
+													</div>
+													<div className="productinfo text-center">
+														<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+								<div className="col-sm-4">
+									<a href="#showProductDetail">
+										<div className="product-image-wrapper">
+											<div className="single-products">
+												<div className="product_container">
+													<div className="productinfo text-left">
+														<img src="images/home/gallery1.jpg" alt="" />
+														<div><b>Easy Polo Black Edition</b></div>
+														<span>Brand</span>
+														<div className="row">
+															<div className="col-sm-6"><img alt="" src="images/product-details/rating.png"/></div>
+															<div className="col-sm-6"><span className="price_product">156€</span></div>
+														</div>
+													</div>
+													<div className="productinfo text-center">
+														<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+								<div className="col-sm-4">
+									<a href="#showProductDetail">
+										<div className="product-image-wrapper">
+											<div className="single-products">
+												<div className="product_container">
+													<div className="productinfo text-left">
+														<img src="images/home/gallery2.jpg" alt="" />
+														<div><b>Easy Polo Black Edition</b></div>
+														<span>Brand</span>
+														<div className="row">
+															<div className="col-sm-6"><img alt="" src="images/product-details/rating.png"/></div>
+															<div className="col-sm-6"><span className="price_product">156€</span></div>
+														</div>
+													</div>
+													<div className="productinfo text-center">
+														<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
+							
+						</div><!--features_items-->
+						
+					</div>
+				</div>
+				<div className="container">
+					<div className="row">
+						<div className="col-sm-12" style="text-align: center;">
+							<ul className="pagination">
+								<li className="active"><a href="">1</a></li>
+								<li><a href="">2</a></li>
+								<li><a href="">3</a></li>
+								<li><a href="">»</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="shopping_cart_section" className="section_color2" >
+		<div className="container container_project_white width_90">
+			<header className="section-header text-center">
+				<div className="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+					<h2>Shopping Cart</h2>
+				</div>
+			</header>
+			<div className="container">
+				<div className="row">
+					<div className="col-sm-12 col-md-12">
+						<table className="table table-condensed ">
+						<thead>
+							<tr className="cart_menu">
+								<th className="image"></th>
+								<th className="description">Product</th>
+								<th className="price">Price</th>
+								<th className="quantity">Quantity</th>
+								<th className="total">Total</th>
+								<th className="total border-none"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td className="cart_product ">
+									<a href=""><img alt="" src="images/cart/one.png" className="shopping_cart_image"></a>
+								</td>
+								<td className="cart_description ">
+									<h4><a href="#showProductDetail" className="main_font_color">Colorblock Scuba</a></h4>
+									<p>Web ID: 1089772</p>
+								</td>
+								<td className="cart_price ">
+									<p>$59</p>
+								</td>
+								<td className="cart_quantity ">
+									<!-- 
+									<div className="cart_quantity_button">
+										<a href="" className="cart_quantity_up"> + </a>
+										<input type="text" size="2" autocomplete="off" value="1" name="quantity" className="cart_quantity_input">
+										<a href="" className="cart_quantity_down"> - </a>
+									</div>
+									-->
+									<p className="cart_quantity_price">59</p>
+								</td>
+								<td className="cart_total ">
+									<p className="cart_total_price">$59</p>
+								</td>
+								<td className="cart_delete border-none ">
+									<a href="" className="cart_quantity_delete"><i className="fa fa-times"></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td className="cart_product">
+									<a href=""><img alt="" src="images/cart/one.png" className="shopping_cart_image"></a>
+								</td>
+								<td className="cart_description">
+									<h4><a href="#showProductDetail" className="main_font_color">Colorblock Scuba</a></h4>
+									<p>Web ID: 1089772</p>
+								</td>
+								<td className="cart_price">
+									<p>$59</p>
+								</td>
+								<td className="cart_quantity">
+									<div className="cart_quantity_button">
+										<a href="" className="cart_quantity_up"> + </a>
+										<input type="text" size="2" autocomplete="off" value="1" name="quantity" className="cart_quantity_input">
+										<a href="" className="cart_quantity_down"> - </a>
+									</div>
+								</td>
+								<td className="cart_total">
+									<p className="cart_total_price">$59</p>
+								</td>
+								<td className="cart_delete border-none">
+									<a href="" className="cart_quantity_delete"><i className="fa fa-times"></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td className="cart_product">
+									<a href=""><img alt="" src="images/cart/one.png" className="shopping_cart_image"></a>
+								</td>
+								<td className="cart_description">
+									<h4><a href="#showProductDetail" className="main_font_color">Colorblock Scuba</a></h4>
+									<p>Web ID: 1089772</p>
+								</td>
+								<td className="cart_price">
+									<p>$59</p>
+								</td>
+								<td className="cart_quantity">
+									<div className="cart_quantity_button">
+										<a href="" className="cart_quantity_up"> + </a>
+										<input type="text" size="2" autocomplete="off" value="1" name="quantity" className="cart_quantity_input">
+										<a href="" className="cart_quantity_down"> - </a>
+									</div>
+								</td>
+								<td className="cart_total">
+									<p className="cart_total_price">$59</p>
+								</td>
+								<td className="cart_delete border-none">
+									<a href="" className="cart_quantity_delete"><i className="fa fa-times"></i></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>	
+				<div className="row">
+					<div className="col-sm-6">
+						
+					</div>
+					<div className="col-sm-5">
+						<div className="total_area">
+							<ul>
+								<li>Cart Sub Total <span>$59</span></li>
+								<li>Total <span>$61</span></li>
+							</ul>
+							<a href="#payment_section" className="btn btn-default check_out">Payment</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="payment_section" className="section_color2" >
+		<div className="container container_project_white width_90">
+			<header className="section-header text-center">
+				<div className="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+					<h2>Payment</h2>
+				</div>
+			</header>
+			<div className="container">
+
+	
+				<form action="index.html" method="post" novalidate="" id="order-form" className="">
+					
+					<div className="col-sm-6 col-md-6 contact-info">
+						<p className="text-center"><strong>Payment Method</strong></p>
+						<div className="row">
+							<div className="col-sm-8 col-md-8">
+								<div className="form-group">
+									<label className="control-label">Name</label>
+									<input name="Card number" placeholder="Card number" className="form-control input-lg" type="text">
+								</div>
+							</div>
+							<div className="col-sm-4 col-md-4">
+								<div className="form-group">
+									<label className="control-label">Code</label>
+									<input name="Code" placeholder="Code" className="form-control input-lg" type="text">
+								</div>
+							</div>
+						</div>
+						<div className="row">
+							<div className="col-sm-6 col-md-6">
+								<div className="form-group">
+									<label className="control-label" for="contact-mail">month</label>
+									<div className=" controls">
+										<select className="form-control">
+										  <option value="January">January</option>
+										  <option value="February">February</option>
+										  <option value="March">March</option>
+										</select>
+									</div>
+								</div>	
+							</div>	
+							<div className="col-sm-6 col-md-6">
+								<div className="form-group">
+									<label className="control-label" for="contact-mail">year</label>
+									<div className=" controls">
+										<select className="form-control">
+										  <option value="2014">2014</option>
+										  <option value="2015">2015</option>
+										  <option value="2016">2016</option>
+										  <option value="2017">2017</option>
+										  <option value="2018">2018</option>
+										</select>
+									</div>
+								</div>	
+							</div>	
+						</div>	
+						<!-- 
+						<p className="text-center"><strong>Information</strong></p>
+						<div className="row">
+							<div className="col-sm-6 col-md-6">
+								<div className="form-group">
+									<label className="control-label">Name</label>
+									<input name="First name" placeholder="First name" className="form-control input-lg" type="text">
+								</div>
+							</div>
+							<div className="col-sm-6 col-md-6">
+								<div className="form-group">
+									<label className="control-label">Last Name</label>
+									<input name="Last name" placeholder="Last name" className="form-control input-lg" type="text">
+								</div>
+							</div>
+						</div>
+						<div className="form-group">
+							<label className="control-label">Email</label>
+							<input name="email" placeholder="Your email" className="form-control input-lg" type="email">
+						</div>
+						-->
+
+					</div>
+					
+					<div className="col-sm-6 col-md-6">
+						<p className="text-center"><strong>Delivery address</strong></p>
+						<div className="form-group">
+							<label className="control-label">Street</label>
+							<input name="street" placeholder="Street address" className="form-control" type="text">
+						</div>	
+						<div className="form-group">
+							<label className="control-label">City</label>
+							<input name="city" placeholder="City" className="form-control" type="text">
+						</div>	
+						<div className="form-group">
+							<label className="control-label">Country</label>
+							<input name="Country" placeholder="Country" className="form-control" type="text">
+						</div>							
+						
+						<table className="table total_area">
+						  <thead>
+							<tr>
+							  <th colspan="3" className="text-center">Order sumary</th>
+							</tr>
+						  </thead>
+						  <tbody>
+							<tr>
+							  <td>Shipping cost:</td>
+							  <td></td>
+							  <td className="text-right">Free</td>
+							</tr>
+							<tr>
+							  <td>Tax:</td>
+							  <td></td>
+							  <td className="text-right">0.00 €</td>
+							</tr>
+							<tr>
+							  <td>Total:</td>
+							  <td></td>
+							  <td className="text-right">0.00 €</td>
+							</tr>
+						  </tbody>
+						</table>
+						<p>
+							<button name="submit" type="submit" className="btn btn-store btn-block check_out">Order Product</button>
+						</p>
+						<input type="hidden" name="submitted" id="submitted" value="true">
+					</div>
+
+				</form>
+			</div>
+
+		</div>
+	</section>
+
+	<section id="result_section" className="section_color2" >
+		<div className="container container_project_white width_90">
+			<header className="section-header text-center">
+				<div className="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+					<h2>Result</h2>
+				</div>
+			</header>
+			<div className="container">
+			</div>
+		</div>
+	</section>
+
+	
+	
+	<footer id="footer"><!--Footer-->
+		<div className="footer-bottom">
+			<div className="container">
+				<div className="row">
+					<p className="pull-left"> UM2 Faculté de Sciences .</p>
+					<p className="pull-right">MAIGA Mariam - BOUHASI Meriam - MUNOZ Jimmy</span></p>
+				</div>
+			</div>
+		</div>
+	</footer><!--/Footer-->
+
+	
+
+	<div id="showLoginSingUp" className="modalDialog">
+		<div>
+			<a href="#close" title="Close" className="close">X</a>
+			<div className="fadeInUp animated modalDialogTitre" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+				<h2>Login - Sing up</h2>
+			</div>
+			<div>
+				
+				<div className="container">
+					<div className="row">
+						<div className="col-sm-4">
+							<div className="login-form"><!--login form-->
+								<h2 className="login_subtitre_color">Login to your account</h2>
+								<form action="#">
+									<input type="email" name="email" placeholder="Email Address">
+									<input type="password" name="password" placeholder="Password">
+									<button className="btn btn-default" type="submit">Login</button>
+								</form>
+							</div><!--/login form-->
+						</div>
+						<div className="col-sm-1">
+						</div>
+						<div className="col-sm-4">
+							<div className="signup-form"><!--sign up form-->
+								<h2 className="login_subtitre_color">New User Signup!</h2>
+								<form action="#">
+									<input type="text" name="firstName" placeholder="Name">
+									<input type="text" name="lastName" placeholder="Last Name">
+									<input type="email" name="email" placeholder="Email Address">
+									<input type="password" name="password" placeholder="Password">
+									<button className="btn btn-default" type="submit">Signup</button>
+								</form>
+							</div><!--/sign up form-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="showProductDetail" className="modalDialog modalDialogProduct">
+		<div className="marginModalDialogProduct section_color3">
+			<a href="#close" title="Close" className="close">X</a>
+			<div className="fadeInUp animated modalDialogTitre" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+				<h2>Anne Klein Sleeveless Colorblock Scuba</h2>
+			</div>
+			<div className="container">
+				<div className="col-sm-10 padding-right">
+					<div className="product-details"><!--product-details-->
+						<div className="col-sm-5">
+							<div className="view-product">
+								<img alt="" src="images/product-details/1.jpg">
+							</div>
+						</div>
+						<div className="col-sm-7">
+							<div className="product-information"><!--/product-information-->
+								<h2>Anne Klein Sleeveless Colorblock Scuba</h2>
+								<p>Web ID: 1089772</p>
+								<img alt="" src="images/product-details/rating.png"/>
+								<span>
+									<span>59 €</span>
+									<label>Quantity:</label>
+									<input type="text" value="3">
+									<button className="btn btn-fefault cart" type="button">
+										<i className="fa fa-shopping-cart"></i>
+										Add to cart
+									</button>
+								</span>
+								<p><b>Brand:</b> E-SHOPPER</p>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+							</div><!--/product-information-->
+						</div>
+					</div><!--/product-details-->
+					
+					<div className="category-tab shop-details-tab" style="background:#ffffff;"><!--category-tab-->
+						<div className="col-sm-12">
+							<ul className="nav nav-tabs">
+								<!-- 
+								<li className="active"><a data-toggle="tab" href="#details">Details</a></li>
+								-->
+								<li className="active" ><a data-toggle="tab" href="#reviews">Reviews (5)</a></li>
+							</ul>
+						</div>
+						<div className="tab-content">
+							<div id="details" className="tab-pane fade">
+								<div className="col-sm-3">
+									<div className="product-image-wrapper">
+										<div className="single-products">
+											<div className="productinfo text-center">
+												Details...
+											</div>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							
+							<div id="reviews" className="tab-pane fade active in">
+								<div className="col-sm-12">
+									<ul>
+										<li><a href=""><i className="fa fa-user"></i>EUGEN</a></li>
+										<li><a href=""><i className="fa fa-clock-o"></i>12:41 PM</a></li>
+										<li><a href=""><i className="fa fa-calendar-o"></i>31 DEC 2014</a></li>
+									</ul>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+									<p><b>Write Your Review</b></p>
+									
+									<form action="#">
+										<span>
+											<input type="text" placeholder="Your Name">
+											<input type="email" placeholder="Email Address">
+										</span>
+										<textarea name=""></textarea>
+										<b>Rating: </b> <img alt="" src="images/product-details/rating.png"/>
+										<button className="btn btn-default pull-right" type="button">
+											Submit
+										</button>
+									</form>
+								</div>
+							</div>
+							
+						</div>
+					</div><!--/category-tab-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<section id="style-switcher" className="">
+		<h2> Framework View <a href="#"><div id="img_style_switcher" className="icon_angular-react"></div></a></h2>
+		<ul>
+			<li id="framework_backbone" className="icon_backbone"></li>
+			<li id="framework_angular_react" className="icon_angular-react"></li>
+			<li id="framework_ember" className="icon_ember"></li>
+		</ul>
+	</section>
+
+    <script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.scrollUp.min.js"></script>
+	<script src="js/price-range.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
+    <script src="js/jquery-ui/jquery-ui.js"></script>
+    <script src="js/main.js"></script>
+
+ 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  	<!-- Jimmy Custom JS-->
+    <script src="js/our_js.js"></script>
+</body>
+</html>

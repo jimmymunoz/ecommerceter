@@ -4,8 +4,12 @@
  */
 angular.module('app', [
 	'angularUtils.directives.dirPagination',
+	//'offer',
 	'catalog',
 	'shopping_cart',
+	'payment',
+	'order',
+	'account',
 	'admin_product',
 	'admin_category',
 	'admin_user',
@@ -76,7 +80,7 @@ angular.module('app').config(
 			delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
 		    $routeProvider
-		         .when('/categories', {
+		        .when('/categories', {
 		            template: '<admin-category-manager></admin-category-manager>'//Directive -> React module
 		        })
 		         .when('/orders', {
@@ -92,8 +96,8 @@ angular.module('app').config(
 		            template: '<admin-product-manager></admin-product-manager>'//Directive -> React module
 		        })
 		        .when('/', {//otherwhise
-		            template: '<admin-product-manager></admin-product-manager>'//Directive -> React module
-		            //templateUrl: 'modules/main/admin_main.html'//Template or templateUrl
+		            //template: '<catalog-container></catalog-container>'//Directive -> React module
+		            templateUrl: 'modules/main/main.html'//Template or templateUrl
 		        });
 		}
 	]
