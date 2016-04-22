@@ -39,7 +39,6 @@ angular.module('admin_privilege').controller('AdminCreatePrivilegeController', [
         //fd.append('file', $scope.myFile);
    		$http.post(postUrl ,$rootScope.privilege_manager_form
    			).then(function(response){
-	            console.log(response.data);
 	            if( response.data.success  ){
 	            	alert(response.data.message);
 	            	colseModal();
@@ -62,7 +61,6 @@ angular.module('admin_privilege').controller('AdminCreatePrivilegeController', [
             			id: response.data.data[key]['idCategory'],
             		});
             	}
-            	console.log($rootScope.options.category_options);
             }
         });
 	}
@@ -131,7 +129,6 @@ angular.module('admin_privilege').controller('AdminCreatePrivilegeController', [
 				privilege_manager_form: item.image,
 				categorySelected: { id: item.category.idCategory, name: item.category.name },
 			}
-			console.log($rootScope.privilege_manager_form);
 		});
 		openModal('show_privilege_form');
 	}
@@ -181,7 +178,6 @@ angular.module('admin_privilege').directive('adminPrivilegeList', function(){
 			data: '='
 		},
 		link: function(scope, el, attrs){
-			console.log("directive adminPrivilegeList");
 			scope.$watchCollection('data', function(newValue, oldValue){
 				ReactDOM.render(
 			        React.createElement(AdminPrivilegeListTable, {data: newValue}),

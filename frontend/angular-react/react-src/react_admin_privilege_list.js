@@ -71,7 +71,7 @@ var AdminPrivilegeListTable = React.createClass({
         var data = this.props.data;
         var PrivilegeItemRows = this.props.data.map(function(privilege) {
           return (
-            <PrivilegeItemRow row_data={privilege} key={privilege.idPrivilege}>
+            <PrivilegeItemRow row_data={privilege} key={privilege._id}>
             </PrivilegeItemRow>
           );
         });

@@ -36,7 +36,7 @@ var OrderListContent = React.createClass({
         var data = this.props.data;
         var OrderItems = this.props.data.map(function(order) {
           return (
-            <OrderItem order_data={order} key={order.idOrder}>
+            <OrderItem order_data={order} key={order._id}>
               {order.text}
             </OrderItem>
           );

@@ -21,7 +21,7 @@
                 </div>
             </div>
             <!--Pagination-->
-             <div dir-paginate="pagination_item in admin_pagination | itemsPerPage: pagination_page_size" total-items="admin_pagination.total_results" current-page="pagination_current_page"></div>
+            <div dir-paginate="pagination_item in admin_pagination | itemsPerPage: pagination_page_size" total-items="admin_pagination.total_results" current-page="pagination_current_page"></div>
 
             <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
 
@@ -61,7 +61,7 @@
                                             <div class="col-sm-6">
                                                 <select placeholder="Category" name="category" 
                                                       ng-options="option.name for option in options.category_options track by option.id"
-                                                      ng-model='category_manager_form.categorySelected'></select>
+                                                      ng-model='localStorageAdmin.categoryParentSelected'></select>
                                                 <!--
                                                 <input type="text" ng-model="category_manager_form.idParent" name="parent.name" placeholder="Category Parent">
                                                  -->

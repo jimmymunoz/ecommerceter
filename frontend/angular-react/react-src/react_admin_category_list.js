@@ -23,7 +23,7 @@ var CategoryItemRow = React.createClass({
                 </td>
                 <td className="cart_total col-sm-1 ">
                     <p>
-                        {row_data.idCategory.name}
+                        {row_data.parentName}
                     </p>
                 </td>
                 <td className="cart_total col-sm-1 ">
@@ -61,7 +61,7 @@ var AdminCategoryListTable = React.createClass({
         var data = this.props.data;
         var CategoryItemRows = this.props.data.map(function(category) {
           return (
-            <CategoryItemRow row_data={category} key={category.idCategory}>
+            <CategoryItemRow row_data={category} key={category._id}>
             </CategoryItemRow>
           );
         });

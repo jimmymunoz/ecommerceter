@@ -2,9 +2,14 @@ var ProductItem = React.createClass({
     displayName: "ProductItem",
 
     addItemToShoppingCart: function (e) {
-        addToShoppingCart(this.props.product_data);
+        addToShoppingCart(this.props.product_data, 1);
         //this.props.product_data.quantity = this.props.product_data.quantity -1;
-        this.setState({ quantity: this.props.product_data.quantity - 1 });
+        //this.setState({quantity: (this.props.product_data.quantity -1) });
+        return false;
+    },
+    showProductDetail: function (e) {
+        openModal('showProductDetail');
+        showProductDetailWindow(this.props.product_data);
         return false;
     },
     render: function () {
@@ -14,7 +19,7 @@ var ProductItem = React.createClass({
             { className: "col-sm-4" },
             React.createElement(
                 "a",
-                { href: "#showProductDetail" },
+                { href: "javascript:void(0);", onClick: this.showProductDetail },
                 React.createElement(
                     "div",
                     { className: "product-image-wrapper" },
@@ -65,13 +70,7 @@ var ProductItem = React.createClass({
                             React.createElement(
                                 "div",
                                 { className: "productinfo text-center" },
-                                React.createElement(
-                                    "a",
-                                    { href: "#", className: "btn btn-default add-to-cart" },
-                                    React.createElement("i", { className: "fa fa-shopping-cart" }),
-                                    "Add to cart"
-                                ),
-                                React.createElement("input", { type: "button", value: "Add", onClick: this.addItemToShoppingCart })
+                                React.createElement("input", { className: "btn btn-default add-to-cart", type: "button", value: "Add to cart", onClick: this.addItemToShoppingCart })
                             )
                         )
                     )
@@ -80,6 +79,8 @@ var ProductItem = React.createClass({
         );
     }
 });
+//<a className="btn btn-default add-to-cart" href="javascript:void(0);" onClick={this.addItemToShoppingCart} ><span>Add to cart</span></a>
+//<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
 var ProductListContent = React.createClass({
     displayName: 'ProductListContent',
     data: [],
@@ -88,7 +89,7 @@ var ProductListContent = React.createClass({
         var ProductItems = this.props.data.map(function (product) {
             return React.createElement(
                 ProductItem,
-                { product_data: product, key: product.idProduct },
+                { product_data: product, key: product._id },
                 product.text
             );
         });

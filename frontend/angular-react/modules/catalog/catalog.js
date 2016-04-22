@@ -1,62 +1,160 @@
-function addToShoppingCart(item){
+/**
+ * [addToShoppingCart description]
+ * @param {[type]} productData [description]
+ * @param {[type]} quantity    [description]
+ * shoppingCartList[ {
+		'product': productData,
+		'quantity': quantity,
+	} ];
+ */
+function addToShoppingCart(productData, quantity){
 	var $body = angular.element(document.body);
 	var $rootScope = $body.scope().$root;      
-	$rootScope.$apply(function () {            
-		$rootScope.shopping_cart_data.push( {name: item.name, product: item, quantity: 1} );
+	$rootScope.$apply(function () { 
+		addToSessionShoppingCart(productData, quantity);       
+		$rootScope.shopping_cart_data = getToSessionShoppingCart();
+		//updateShoppingCartTotals();
+		colseModal();
+		//$rootScope.shopping_cart_data.push( {name: item.name, product: item, quantity: 1} );
 	});
 }
 
+function removeToShoppingCart(productData){
+	var $body = angular.element(document.body);
+	var $rootScope = $body.scope().$root;      
+	$rootScope.$apply(function () { 
+		removeToSessionShoppingCart(productData.idProduct);
+		$rootScope.shopping_cart_data = getToSessionShoppingCart();
+		//updateShoppingCartTotals();
+		//colseModal();
+		//$rootScope.shopping_cart_data.push( {name: item.name, product: item, quantity: 1} );
+	});
+}
+
+
+function showProductDetailWindow(productData){
+	var $body = angular.element(document.body);
+	var $rootScope = $body.scope().$root;      
+	$rootScope.$apply(function () {            
+		$rootScope.detailProduct = productData;
+		$rootScope.detailProduct.quantity = 1;
+	});
+}
+
+function setCategoryId (obj){
+	var idCategory = $(obj).attr('category-id')
+  	var level = $(obj).attr('level')
+  	var $body = angular.element(document.body);
+	var $rootScope = $body.scope().$root; 
+	$rootScope.$apply(function () {            
+		$rootScope.search_catalog_form.category = idCategory;
+		//$rootScope.search_catalog_form.idCategory = idCategory;
+		$rootScope.search_catalog_form.levelCategory = level;
+		$rootScope.sendCatalogSearchForm();
+	});     
+
+}
 
 
 angular.module('catalog', ['ngRoute']);
 
 
 angular.module('catalog').run(function($rootScope, $location, $routeParams, $http, $httpParamSerializer){ 
+    
     $rootScope.product_list_data = [];
-    $rootScope.search_catalog_form = {
-		name : '',
-		price : '',
-		category_name : '',
-		category_options : [],
+    $rootScope.localstorage = {
+		categorySelected: {},
 	};
-    $rootScope.searchProducts = function($event){
-    	var strSearchFormParams = $httpParamSerializer($rootScope.search_catalog_form);
-    	$http.get (config.pathApiServer + 'product/getProductsList/?' + strSearchFormParams).then(function(response){
-            if( response.data.success  ){
-            	$rootScope.product_list_data = response.data.data;
-            }
-            else{
-            	alert(response.data.message);
-            }
-        });
-	}
+    $rootScope.search_catalog_form = {
+    	idProduct: '',
+		name: '',
+		description: '',
+		price: '',
+		tax: '',
+		buyPrice: '',
+		quantity: '',
+		weight: '',
+		category: '',
+		idCategory: '',
+		levelCategory: '',
+		level: '',
+		minPrice: 10,
+		maxPrice: 2000,
+		image: ''
+	};
+
+	$rootScope.detailProduct = {
+    	idProduct: '',
+		name: '',
+		description: '',
+		price: '',
+		tax: '',
+		brand: '',
+		buyPrice: '',
+		quantity: '',
+		weight: '',
+		category: '',
+		quantity: '',
+		image: ''
+	};
 });
 
-angular.module('catalog').controller('CatalogSearchController', ['$rootScope', '$http', function($rootScope, $http){
-	$rootScope.sendCatalogSearchForm = function($event){
-		$rootScope.searchProducts();
-	}
-	$rootScope.getCategorysList = function($event){
-		var categoryFilters = "";
-		$http.get (config.pathApiServer + 'category/getCategorysList/?' + categoryFilters).then(function(response){
+angular.module('catalog').controller('CatalogSearchController', ['$scope', '$rootScope', '$http', '$httpParamSerializer', function($scope, $rootScope, $http, $httpParamSerializer){
+	$scope.pageChanged = function(newPage) {
+        $rootScope.pagination_current_page = (newPage != undefined)? newPage : $rootScope.pagination_current_page;
+        searchProducts($rootScope.pagination_page_size, $rootScope.pagination_current_page);
+    };
+    
+    searchProducts = function(page_size, current_page){
+    	//$rootScope.search_catalog_form.category = $rootScope.localstorage.categorySelected.id;
+    	var strSearchFormParams = $httpParamSerializer($rootScope.search_catalog_form);
+    	$http.get (config.pathApiServer + 'product/getProductsList/?page_size=' + page_size  + '&page=' + current_page + "&" + strSearchFormParams).then(function(response){
             if( response.data.success  ){
-            	$rootScope.search_catalog_form.category_options = [];
-            	console.log(response.data.data);
-            	for (key in response.data.data){
-            		$rootScope.search_catalog_form.category_options.push({
-            			name: response.data.data[key]['name'],
-            			value: response.data.data[key]['idCategory'],
-            		});
-            	}
-            	console.log($rootScope.search_catalog_form.category_options);
+            	$rootScope.product_list_data = response.data.data;
+            	$rootScope.client_pagination = response.data.pagination;
             }
             else{
             	alert(response.data.message);
             }
         });
 	}
-	//$rootScope.getCategorysList();
-	$rootScope.searchProducts();
+
+	addToShoppingCartDetailProduct = function(){
+		addToSessionShoppingCart($rootScope.detailProduct, $rootScope.detailProduct.quantity);       
+		$rootScope.shopping_cart_data = getToSessionShoppingCart();
+		colseModal();
+	}
+	/*
+	
+	showProductDetailWindow =  function(productData){
+		$rootScope.detailProduct = productData;
+	}
+	 */
+	sendCatalogSearchForm = function($event){
+		$scope.pageChanged(1);
+	}
+	var timers = {};
+    function delayShowData(type, values) {
+      clearTimeout(timers[type]);
+      timers[type] = setTimeout(function() {
+      	console.log("Refresh price: " + values[0] + '  - ' + values[1] + ' ');
+        //$('span.' + type).text(values[0] + 'mm - ' + values[1] + 'mm');
+		$rootScope.search_catalog_form.minPrice = values[0];
+		$rootScope.search_catalog_form.maxPrice = values[1];
+       	sendCatalogSearchForm();
+      }, 500);
+    }
+
+	$('#sl2').slider({});//price range
+	$("#sl2").on("slide", function(slideEvt) {
+		delayShowData('price_products', slideEvt.value);
+		//console.log("Slider: " + slideEvt.value);
+	});
+
+	setCategorysOptions();
+	setCategoryMenuTree();//$rootScope.category_menu_tree
+	//$rootScope.searchProducts();
+	$scope.pageChanged();
 }]);
 
 angular.module('catalog').directive('catalogContainer', function(){

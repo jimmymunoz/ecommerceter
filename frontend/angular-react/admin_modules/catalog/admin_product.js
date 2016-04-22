@@ -39,7 +39,6 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$sc
         //fd.append('file', $scope.myFile);
    		$http.post(postUrl ,$rootScope.product_manager_form
    			).then(function(response){
-	            console.log(response.data);
 	            if( response.data.success  ){
 	            	alert(response.data.message);
 	            	colseModal();
@@ -50,21 +49,6 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$sc
 	            }
         	}
         );
-	}
-	$rootScope.getCategorysList = function($event){
-		var categoryFilters = "";
-		$http.get (config.pathApiServer + 'category/getCategorysList/?' + categoryFilters).then(function(response){
-            if( response.data.success  ){
-            	$rootScope.options.category_options = [];
-            	for (key in response.data.data){
-            		$rootScope.options.category_options.push({
-            			name: response.data.data[key]['name'],
-            			id: response.data.data[key]['idCategory'],
-            		});
-            	}
-            	console.log($rootScope.options.category_options);
-            }
-        });
 	}
 	$rootScope.removeProduct = function(idProduct){
     	$http.delete(config.pathApiServer + 'product/removeProduct/',
@@ -131,7 +115,6 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$sc
 				product_manager_form: item.image,
 				categorySelected: { id: item.category.idCategory, name: item.category.name },
 			}
-			console.log($rootScope.product_manager_form);
 		});
 		openModal('show_product_form');
 	}
@@ -148,7 +131,7 @@ angular.module('admin_product').controller('AdminCreateProductController', ['$sc
 	    return fd;
 	    
 	}
-	$rootScope.getCategorysList();
+	setCategorysOptions();
 	$scope.pageChanged();
 }]);
 
@@ -181,7 +164,6 @@ angular.module('admin_product').directive('adminProductList', function(){
 			data: '='
 		},
 		link: function(scope, el, attrs){
-			console.log("directive adminProductList");
 			scope.$watchCollection('data', function(newValue, oldValue){
 				ReactDOM.render(
 			        React.createElement(AdminProductListTable, {data: newValue}),

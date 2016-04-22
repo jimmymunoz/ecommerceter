@@ -1,4 +1,4 @@
-	<header id="header"><!--header-->
+	<header id="header" ng-controller="AccountController"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
 				<div class="row">
@@ -13,9 +13,13 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#showLoginSingUp"><i class="fa fa-user"></i> Account</a></li>
-								<li><a href="#showLoginSingUp"><i class="fa fa-lock"></i> Login</a></li>
-								<li><a href="#shopping_cart_section"><i class="fa fa-shopping-cart"></i> Cart (0)</a></li>
+								<li><a ng-if="user_session_data.idUser > 0" href="javascript:void(0);" onClick="openModal('showLoginSingUp');" data-href="#showLoginSingUp"><i class="fa fa-user"></i> {{user_session_data.firstName}} {{user_session_data.lastName}} Account</a></li>
+								
+								<li><a  ng-if="!(user_session_data.idUser > 0)" href="javascript:void(0);" onClick="openModal('showLoginSingUp');" data-href="#showLoginSingUp"><i class="fa fa-lock"></i> Login / Singup</a></li>
+								
+								<li><a  ng-if="user_session_data.idUser > 0" href="javascript:void(0);" onClick="logOut();" data-href="#showLoginSingUp"><i class="fa fa-lock"></i> Logout</a></li>
+								
+								<li><a href="javascript:void(0);" onClick="openModal('shopping_cart_section');" data-href="#shopping_cart_section"><i class="fa fa-shopping-cart"></i> Cart (<span class="project_font">{{shopping_cart_totals.q_items}}</span>)</a></li>
 							</ul>
 						</div>
 					</div>
@@ -32,10 +36,10 @@
 					<div class="category-tab"><!--category-tab-->
 						<div class="col-sm-12">
 							<ul class="nav nav-tabs section_color3">
-								<li class="active"><a href="#products_section" >Products</a></li>
-								<li><a href="#shopping_cart_section" >Shopping Cart</a></li>
-								<li><a href="#payment_section" >Payment</a></li>
-								<li><a href="#result_section" >Result</a></li>
+								<li class="active"><a href="javascript:void(0);" onClick="openModal('products_section');" data-href="#products_section" >Products</a></li>
+								<li><a href="javascript:void(0);" onClick="openModal('shopping_cart_section');" data-href="#shopping_cart_section" >Shopping Cart</a></li>
+								<li><a href="javascript:void(0);" onClick="openModal('payment_section');" data-href="#payment_section" >Payment</a></li>
+								<li><a href="javascript:void(0);" onClick="openModal('result_section');" data-href="#result_section" >Result</a></li>
 							</ul>
 						</div>
 					</div><!--/category-tab-->
@@ -72,7 +76,7 @@
 	
 
 	<section id="style-switcher" class="">
-		<h2> Framework View <a href="#"><div id="img_style_switcher" class="icon_angular-react"></div></a></h2>
+		<h2> Framework View <a href="javascript:void(0);" onClick="openModal('');" data-href="#"><div id="img_style_switcher" class="icon_angular-react"></div></a></h2>
 		<ul>
 			<li id="framework_backbone" class="icon_backbone"></li>
 			<li id="framework_angular_react" class="icon_angular-react"></li>

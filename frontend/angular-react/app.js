@@ -17,7 +17,9 @@ angular.module('app', [
 	'admin_privilege',
 ]);
 
-angular.module('admin_product').run(function($rootScope){ 
+angular.module('app').run(function($rootScope, $http, $httpParamSerializer){ 
+	$rootScope.user_session_data = getUserSessionData();
+    
 	//Pagination - Default config
 	$rootScope.options = ($rootScope.options != undefined)? $rootScope.options :  [];//name - idCategory
 	
@@ -49,9 +51,48 @@ angular.module('admin_product').run(function($rootScope){
 		,firts_page: 1 
 		,data: []
 	}
+	$rootScope.client_pagination = {
+		total_results: 0 
+		,pagesize: $rootScope.pagination_page_size 
+		,current_page: $rootScope.pagination_current_page 
+		,total_pages: 1 
+		,last_page: 1 
+		,firts_page: 1 
+		,data: []
+	}
 	$rootScope.pagination = {
         current: 1
     };
+    $rootScope.localstorage = {
+		categorySelected: {},
+	};
+	$rootScope.localStorageAdmin = {
+		categoryParentSelected: {},
+	};
+	$rootScope.category_menu_tree = {};
+	//options
+	setCategorysOptions = function($event){
+		var categoryFilters = "";
+		$http.get (config.pathApiServer + 'category/getCategorysList/?' + categoryFilters).then(function(response){
+            if( response.data.success  ){
+            	$rootScope.options.category_options = [];
+            	for (key in response.data.data){
+            		$rootScope.options.category_options.push({
+            			name: response.data.data[key]['name'],
+            			id: response.data.data[key]['idCategory'],
+            		});
+            	}
+            }
+        });
+	}
+	setCategoryMenuTree = function($event){
+		var categoryFilters = "";
+		$http.get (config.pathApiServer + 'category/getCategorysParentWithChilds/?' + categoryFilters).then(function(response){
+            if( response.data.success  ){
+            	$rootScope.category_menu_tree = response.data.data;
+            }
+        });
+	}
 });
 
 /*
@@ -77,7 +118,8 @@ angular.module('app').config(
 	['$routeProvider', '$locationProvider', '$httpProvider', 
 		function ($routeProvider, $locationProvider, $httpProvider){
 			$httpProvider.defaults.useXDomain = true;
-			delete $httpProvider.defaults.headers.common['X-Requested-With'];
+			delete $httpProvider.defaults.headers.common['X-Requested-With'];	
+			$httpProvider.defaults.headers.common['token'] = getUserToken();
 
 		    $routeProvider
 		        .when('/categories', {

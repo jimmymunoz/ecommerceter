@@ -36,7 +36,7 @@ var CategoryListContent = React.createClass({
         var data = this.props.data;
         var CategoryItems = this.props.data.map(function(category) {
           return (
-            <CategoryItem category_data={category} key={category.idCategory}>
+            <CategoryItem category_data={category} key={category._id}>
               {category.text}
             </CategoryItem>
           );

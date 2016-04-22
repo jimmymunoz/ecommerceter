@@ -22,6 +22,7 @@ var schemaProduct = new Schema({
     idProduct: String,
     name: String,
     description: String,
+    brand: String,
     price: Number,
     tax: Number,
     buyPrice: Number,

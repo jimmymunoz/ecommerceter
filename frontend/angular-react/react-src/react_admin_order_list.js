@@ -75,7 +75,7 @@ var AdminOrderListTable = React.createClass({
         var data = this.props.data;
         var OrderItemRows = this.props.data.map(function(order) {
           return (
-            <OrderItemRow row_data={order} key={order.idOrder}>
+            <OrderItemRow row_data={order} key={order._id}>
             </OrderItemRow>
           );
         });

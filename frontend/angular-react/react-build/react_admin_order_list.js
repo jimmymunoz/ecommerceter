@@ -131,7 +131,7 @@ var AdminOrderListTable = React.createClass({
     render: function () {
         var data = this.props.data;
         var OrderItemRows = this.props.data.map(function (order) {
-            return React.createElement(OrderItemRow, { row_data: order, key: order.idOrder });
+            return React.createElement(OrderItemRow, { row_data: order, key: order._id });
         });
         return React.createElement(
             "table",

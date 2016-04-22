@@ -205,6 +205,13 @@ h2{
   width: auto !important;
 }
 
+.total_area span{
+  float: none !important;
+}
+.float-right{
+  float: right;
+}
+
 .product-information{
   padding-left: 25px !important;
   padding-top: 25px !important;
@@ -374,8 +381,15 @@ h2{
   border-radius: 10px;
   padding: 10px;
 }
+.shopping_cart_bck{
+  background: #fff; 
+  padding: 5px; 
+  width: 99%;
+  min-height: 750px;
+}
 .cart_product{
-  margin: -1px -71px 11px 25px
+  margin: -1px -71px 11px 25px;
+  min-width: 100px;
 }
 .shopping_cart_image{
   max-height: 70px
@@ -587,6 +601,17 @@ a#scrollUp, .login-form form button, .signup-form form button{
   border: 1px solid #23a657;
 }
 
+.slider-selection{
+  background: #23a657 none repeat scroll 0 0;
+}
+
+.tooltip.top .tooltip-arrow{
+  border-top-color: #23a657;
+}
+.tooltip-inner{
+  background-color: #23a657;
+}
+
 /* Background balck replace -> #f0f0e9 -> #101010 */
 /* Background balck replace -> #d6d6d0 -> #101010 */
 
@@ -616,7 +641,9 @@ a#scrollUp, .login-form form button, .signup-form form button{
   background: #000;
 }
 
-
+.project_font {
+  color: #23A657 !important;
+}
 .project_logo_font {
   font-size: 36px !important;
   font-weight: 700;
@@ -650,9 +677,12 @@ a#scrollUp, .login-form form button, .signup-form form button{
 #reviews ul li a i{
   color: #23A657 !important;
 }
+/*
+
 .modalDialog > div{
   padding: 10px 10px 10px 10px;
 }
+ */
 .total_area{
   font-weight: bold;
   font-size: 1.2em;

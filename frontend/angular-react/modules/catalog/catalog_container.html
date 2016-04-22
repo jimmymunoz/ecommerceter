@@ -1,44 +1,3 @@
-
-<!--
-<div >
-    <div class="product_form">
-    	<span>Filter By</span>
-    	<form name="form_catalog_search">
-    		<table>
-    			<tr>
-    				<td>Product name:</td>
-    				<td>
-    					<input type="text" placeholder="Product" ng-model="search_catalog_form.name" name="search_product_name" value="" ng-change="sendCatalogSearchForm()"/>
-    				</td>
-    			</tr>
-    			<tr>
-    				<td>Category:</td>
-    				<td>
-	    				<div >
-	                        <select placeholder="Category" ng-model='category' name='category' onChnage="sendCatalogSearchForm()">
-	                            <option value="">--</option>
-	                            <option ng-repeat="filterRow in search_catalog_form.category_options" value='{{filterRow.value}}'>{{filterRow.name}}</option>
-	                        </select>
-	                    </div>
-    				</td>
-    			</tr>
-    			<tr>
-    				<td>Price:</td>
-    				<td>
-    					<input type="text" placeholder="Price €" ng-model="search_catalog_form.price" name="search_product_price" value="" ng-change="sendCatalogSearchForm()"/>
-    				</td>
-    			</tr>
-    		</table>
-    	</form>
-    	
-    	<div>Filtered By: {{search_catalog_form.product_name}} - {{search_catalog_form.category_name}}</div>
-    </div>
-	<div class="product_list">
-    	
-    </div>
-</div>
--->
-
 <section id="products_section" class="section_color2" ng-controller="CatalogSearchController">
     <div class="container container_project_white width_90">
         <header class="section-header text-center">
@@ -54,100 +13,58 @@
                         <div class="left-sidebar">
                             <div class="brands_products"><!--brands_products-->
                                 <h2>Custom Search</h2>
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li>
-                                            <div class="form-group">
-                                                <input ng-change="sendCatalogSearchForm()" ng-model="search_catalog_form.name" name="name" placeholder="Product Name" class="form-control" type="text">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-group">
-                                                <input ng-change="sendCatalogSearchForm()" ng-model="search_catalog_form.brand" name="brand" placeholder="Brand Name" class="form-control" type="text">
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li>
+                                        <div class="form-group">
+                                            <input ng-change="sendCatalogSearchForm()" ng-model="search_catalog_form.name" name="name" placeholder="Product Name" class="form-control" type="text">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group">
+                                            <input ng-change="sendCatalogSearchForm()" ng-model="search_catalog_form.brand" name="brand" placeholder="Brand Name" class="form-control" type="text">
+                                        </div>
+                                    </li>
+                                </ul>
                             </div><!--/brands_products-->
                             
                             <div class="panel-group category-products" id="accordian"><!--category-productsr-->
                                 <div class="panel panel-default">
                                     <h2>Category</h2>
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                                Sportswear
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="sportswear" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <ul>
-                                                <li><a href="#">Nike </a></li>
-                                                <li><a href="#">Under Armour </a></li>
-                                                <li><a href="#">Adidas </a></li>
-                                                <li><a href="#">Puma</a></li>
-                                                <li><a href="#">ASICS </a></li>
-                                            </ul>
+                                    <!-- 
+                                    <div >
+                                        <select placeholder="Category" ng-change="sendCatalogSearchForm()" name="category" 
+                                          ng-options="option.name for option in options.category_options track by option.id"
+                                          ng-model='localstorage.categorySelected'></select>
+                                    </div> 
+                                    -->
+                                    <!-- 
+                                    <input id="catalog_search_form_category" ng-change="sendCatalogSearchForm()" type="text" name="category" ng-model='search_catalog_form.idCategory' />
+                                    <input id="catalog_search_form_level" ng-change="sendCatalogSearchForm()" type="text" name="level" ng-model='search_catalog_form.levelCategory' />
+                                    -->
+                                    <div class="panel panel-default" ng-repeat="(categoryParentKey, categoryParentValue) in category_menu_tree" >
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordian" href="javascript:void(0)" category-parent-container="category_parent_container{{categoryParentValue.idCategory}}" onclick="categoryPanelCollapse(this)">
+                                                    <span class="badge pull-right">
+                                                        <i ng-if="categoryParentValue.childs.length > 0" class="fa fa-plus"></i>
+                                                    </span>
+                                                </a>
+                                                <a data-toggle="collapse" data-parent="#accordian" href="javascript:void(0)" category-id="{{categoryParentValue.idCategory}}" level="{{categoryParentValue.level}}" onclick="setCategoryId(this)">
+                                                    {{categoryParentValue.name}}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="category_parent_container{{categoryParentValue.idCategory}}" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <ul>
+                                                    <li ng-repeat="(categoryChildKey, categoryChildValue) in categoryParentValue.childs">
+                                                        <a href="javascript:void(0)" category-id="{{categoryChildValue.idCategory}}" level="{{categoryChildValue.level}}" onclick="setCategoryId(this)"  >{{categoryChildValue.name}} </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordian" href="#mens">
-                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                                Mens
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="mens" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <ul>
-                                                <li><a href="#">Fendi</a></li>
-                                                <li><a href="#">Guess</a></li>
-                                                <li><a href="#">Valentino</a></li>
-                                                <li><a href="#">Dior</a></li>
-                                                <li><a href="#">Versace</a></li>
-                                                <li><a href="#">Armani</a></li>
-                                                <li><a href="#">Prada</a></li>
-                                                <li><a href="#">Dolce and Gabbana</a></li>
-                                                <li><a href="#">Chanel</a></li>
-                                                <li><a href="#">Gucci</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordian" href="#womens">
-                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                                Womens
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="womens" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <ul>
-                                                <li><a href="#">Fendi</a></li>
-                                                <li><a href="#">Guess</a></li>
-                                                <li><a href="#">Valentino</a></li>
-                                                <li><a href="#">Dior</a></li>
-                                                <li><a href="#">Versace</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title"><a href="#">Kids</a></h4>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title"><a href="#">Fashion</a></h4>
-                                    </div>
+
                                 </div>
                                 
                             </div><!--/category-products-->
@@ -155,8 +72,8 @@
                             <div class="price-range"><!--price-range-->
                                 <h2>Price Range</h2>
                                 <div class="well text-center">
-                                     <input ng-change="sendCatalogSearchForm()" ng-model="search_catalog_form.price" type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-                                     <b class="pull-left">0 €</b> <b class="pull-right">600 €</b>
+                                     <input ng-model="search_catalog_form.price" type="text" class="span2" value="" data-slider-min="0" data-slider-max="2000" data-slider-step="5" data-slider-value="[10,1900]" id="sl2" ><br />
+                                     <b class="pull-left">{{search_catalog_form.minPrice}} €</b> <b class="pull-right">{{search_catalog_form.maxPrice}} €</b>
                                 </div>
                             </div><!--/price-range-->
                             
@@ -178,12 +95,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12" style="text-align: center;">
-                        <ul class="pagination">
-                            <li class="active"><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                            <li><a href="">»</a></li>
-                        </ul>
+                        <!--Pagination-->
+                        <div dir-paginate="pagination_item in client_pagination | itemsPerPage: pagination_page_size" total-items="client_pagination.total_results" current-page="pagination_current_page"></div>
+
+                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
                     </div>
                 </div>
             </div>
@@ -191,36 +106,36 @@
     </div>
 </section>
 
-<div id="showProductDetail" class="modalDialog modalDialogProduct">
+<div id="showProductDetail" class="modalDialog modalDialogProduct" ng-controller="CatalogSearchController">
     <div class="marginModalDialogProduct section_color3">
-        <a href="#close" title="Close" class="close">X</a>
+       <a href="javascript:void(0)" onclick="colseModal();" title="Close" class="close">X</a>
         <div class="fadeInUp animated modalDialogTitre" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-            <h2>Anne Klein Sleeveless Colorblock Scuba</h2>
+            <h2>{{detailProduct.name}}</h2>
         </div>
         <div class="container">
             <div class="col-sm-10 padding-right">
                 <div class="product-details"><!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img alt="" src="images/product-details/1.jpg">
+                            <img alt="" src="{{detailProduct.image}}">
                         </div>
                     </div>
                     <div class="col-sm-7">
                         <div class="product-information"><!--/product-information-->
-                            <h2>Anne Klein Sleeveless Colorblock Scuba</h2>
-                            <p>Web ID: 1089772</p>
+                            <h2>{{detailProduct.name}}</h2>
+                            <p>Web ID: {{detailProduct.idProduct}}</p>
                             <img alt="" src="images/product-details/rating.png">
                             <span>
-                                <span>59 €</span>
+                                <span>{{detailProduct.price}} €</span>
                                 <label>Quantity:</label>
-                                <input type="text" value="3">
-                                <button class="btn btn-fefault cart" type="button">
+                                <input name="quantity" type="text" ng-model="detailProduct.quantity" value="1">
+                                <button class="btn btn-fefault cart" onclick="addToShoppingCartDetailProduct()" type="button">
                                     <i class="fa fa-shopping-cart"></i>
                                     Add to cart
                                 </button>
                             </span>
-                            <p><b>Brand:</b> E-SHOPPER</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                            <p><b>Brand:</b> {{detailProduct.brand}}</p>
+                            <p>{{detailProduct.description}}</p>
                         </div><!--/product-information-->
                     </div>
                 </div><!--/product-details-->
@@ -231,7 +146,7 @@
                             <!-- 
                             <li class="active"><a data-toggle="tab" href="#details">Details</a></li>
                             -->
-                            <li class="active" ><a data-toggle="tab" href="#reviews">Reviews (5)</a></li>
+                            <li class="active" ><a data-toggle="tab" href="#reviews">Reviews ({{detailProduct.productCommentTotal}})</a></li>
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -256,8 +171,8 @@
                                     <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
                                 </ul>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                <!-- 
                                 <p><b>Write Your Review</b></p>
-                                
                                 <form action="#">
                                     <span>
                                         <input type="text" placeholder="Your Name">
@@ -269,6 +184,7 @@
                                         Submit
                                     </button>
                                 </form>
+                                -->
                             </div>
                         </div>
                         

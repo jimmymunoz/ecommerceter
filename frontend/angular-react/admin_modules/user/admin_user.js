@@ -35,7 +35,6 @@ angular.module('admin_user').controller('AdminCreateUserController', ['$scope', 
         //fd.append('file', $scope.myFile);
    		$http.post(postUrl ,$rootScope.user_manager_form
    			).then(function(response){
-	            console.log(response.data);
 	            if( response.data.success  ){
 	            	alert(response.data.message);
 	            	colseModal();
@@ -105,7 +104,6 @@ angular.module('admin_user').controller('AdminCreateUserController', ['$scope', 
 				rol: item.rol,
 				rolSelected: { id: item.rol, name: item.rol },
 			};
-			console.log($rootScope.user_manager_form);
 		});
 		openModal('show_user_form');
 	}
@@ -154,7 +152,6 @@ angular.module('admin_user').directive('adminUserList', function(){
 			data: '='
 		},
 		link: function(scope, el, attrs){
-			console.log("directive adminUserList");
 			scope.$watchCollection('data', function(newValue, oldValue){
 				ReactDOM.render(
 			        React.createElement(AdminUserListTable, {data: newValue}),

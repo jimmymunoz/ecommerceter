@@ -126,14 +126,13 @@ moduleRoutes.get('/getCategorysList', function(req, res) {
             res.json({ success: true, message: 'Category List:', data: Categorys, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
         });
         
-    });
-    
+    }); 
 });
 
 //http://localhost:8888/category/getCategorysParent
 moduleRoutes.get('/getCategorysParent', function(req, res) {
     var query = {};
-    query["level"] = 0;
+    query["level"] = 1;
     var page = (req.query.page != undefined )? req.query.page : 1 ;
     var page_size = (req.query.page_size != undefined )? req.query.page_size : config.default_page_size_pagination ;
     Category.count(query, function(err, total_results) {
@@ -148,6 +147,48 @@ moduleRoutes.get('/getCategorysParent', function(req, res) {
         select('idCategory name').
         exec(function(err, Categorys) {
             res.json({ success: true, message: 'Category List:', data: Categorys, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+        });
+        
+    });
+    
+});
+
+//http://localhost:8888/category/getCategorysParentWithChilds
+moduleRoutes.get('/getCategorysParentWithChilds', function(req, res) {
+    var query = {};
+    query["level"] = 1;
+    Category.find( query ).
+    sort('-idCategory').
+    //populate('idParent'). 
+    select('idCategory name _id level').
+    exec(function(err, CategorysParent) {
+        if (err) throw err;
+
+        var CategorysParentResponse = {};
+        var query2_in = [];
+        for (var keyParent in CategorysParent){
+            CategorysParentResponse[CategorysParent[keyParent]._id] = (JSON.parse(JSON.stringify(CategorysParent[keyParent])));
+            CategorysParentResponse[CategorysParent[keyParent]._id]["childs"] = [];//Empty array
+            query2_in.push(CategorysParent[keyParent]._id);
+        }
+        //console.log(query2_in);
+        query["level"] = undefined;
+        Category.find( {} ).
+        //where('idCategory').in(['idCategory', query2_in]).// like
+        sort('-idCategory').
+        //populate('idParent'). 
+        select('idCategory name _id idParent').
+        exec(function(err, Categorys) {
+            for (var key in Categorys){
+                if( Categorys[key]['idParent'] != undefined ){
+                    for (var keyParent in CategorysParentResponse){
+                        if(Categorys[key]['idParent'] == CategorysParentResponse[keyParent]['_id'] ){//Child - Parent id
+                            CategorysParentResponse[keyParent]['childs'].push(Categorys[key]);
+                        }
+                    }
+                }
+            }
+            res.json({ success: true, message: 'Category List:', data: CategorysParentResponse });
         });
         
     });

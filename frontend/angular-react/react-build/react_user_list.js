@@ -71,7 +71,7 @@ var ProductListContent = React.createClass({
         var ProductItems = this.props.data.map(function (user) {
             return React.createElement(
                 ProductItem,
-                { user_data: user, key: user.idProduct },
+                { user_data: user, key: user._id },
                 user.text
             );
         });

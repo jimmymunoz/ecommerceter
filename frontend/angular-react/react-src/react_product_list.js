@@ -1,15 +1,20 @@
 var ProductItem = React.createClass({
     addItemToShoppingCart: function(e) {
-        addToShoppingCart(this.props.product_data);
+        addToShoppingCart(this.props.product_data, 1);
         //this.props.product_data.quantity = this.props.product_data.quantity -1;
-        this.setState({quantity: (this.props.product_data.quantity -1) });
+        //this.setState({quantity: (this.props.product_data.quantity -1) });
+        return false;
+    },
+    showProductDetail: function(e) {
+        openModal('showProductDetail')
+        showProductDetailWindow(this.props.product_data);
         return false;
     },
     render: function() {
         var product_data = this.props.product_data;
         return (
             <div className="col-sm-4">
-                <a href="#showProductDetail">
+                <a href="javascript:void(0);" onClick={this.showProductDetail} >
                     <div className="product-image-wrapper">
                         <div className="single-products">
                             <div className="product_container">
@@ -23,8 +28,7 @@ var ProductItem = React.createClass({
                                     </div>
                                 </div>
                                 <div className="productinfo text-center">
-                                    <a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
-                                    <input type="button" value="Add" onClick={this.addItemToShoppingCart} />
+                                    <input className="btn btn-default add-to-cart" type="button" value="Add to cart" onClick={this.addItemToShoppingCart} />
                                 </div>
                             </div>
                         </div>
@@ -34,6 +38,8 @@ var ProductItem = React.createClass({
         );
     }
 });
+                                    //<a className="btn btn-default add-to-cart" href="javascript:void(0);" onClick={this.addItemToShoppingCart} ><span>Add to cart</span></a>
+                                    //<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
 var ProductListContent = React.createClass({
     displayName: 'ProductListContent',
     data: [],
@@ -41,7 +47,7 @@ var ProductListContent = React.createClass({
         var data = this.props.data;
         var ProductItems = this.props.data.map(function(product) {
           return (
-            <ProductItem product_data={product} key={product.idProduct}>
+            <ProductItem product_data={product} key={product._id}>
               {product.text}
             </ProductItem>
           );

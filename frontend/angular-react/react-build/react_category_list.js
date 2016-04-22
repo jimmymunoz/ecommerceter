@@ -71,7 +71,7 @@ var CategoryListContent = React.createClass({
         var CategoryItems = this.props.data.map(function (category) {
             return React.createElement(
                 CategoryItem,
-                { category_data: category, key: category.idCategory },
+                { category_data: category, key: category._id },
                 category.text
             );
         });

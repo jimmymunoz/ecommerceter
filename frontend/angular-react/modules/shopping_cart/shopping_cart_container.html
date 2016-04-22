@@ -6,124 +6,24 @@
 			</div>
 		</header>
 		<div class="container">
-			<div class="row">
-				<div class="col-sm-12 col-md-12">
-					<table class="table table-condensed ">
-					<thead>
-						<tr class="cart_menu">
-							<th class="image"></th>
-							<th class="description">Product</th>
-							<th class="price">Price</th>
-							<th class="quantity">Quantity</th>
-							<th class="total">Total</th>
-							<th class="total border-none"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="cart_product ">
-								<a href=""><img alt="" src="images/cart/one.png" class="shopping_cart_image"></a>
-							</td>
-							<td class="cart_description ">
-								<h4><a href="#showProductDetail" class="main_font_color">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price ">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity ">
-								<!-- 
-								<div class="cart_quantity_button">
-									<a href="" class="cart_quantity_up"> + </a>
-									<input type="text" size="2" autocomplete="off" value="1" name="quantity" class="cart_quantity_input">
-									<a href="" class="cart_quantity_down"> - </a>
-								</div>
-								-->
-								<p class="cart_quantity_price">59</p>
-							</td>
-							<td class="cart_total ">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete border-none ">
-								<a href="" class="cart_quantity_delete"><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img alt="" src="images/cart/one.png" class="shopping_cart_image"></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="#showProductDetail" class="main_font_color">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a href="" class="cart_quantity_up"> + </a>
-									<input type="text" size="2" autocomplete="off" value="1" name="quantity" class="cart_quantity_input">
-									<a href="" class="cart_quantity_down"> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete border-none">
-								<a href="" class="cart_quantity_delete"><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img alt="" src="images/cart/one.png" class="shopping_cart_image"></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="#showProductDetail" class="main_font_color">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a href="" class="cart_quantity_up"> + </a>
-									<input type="text" size="2" autocomplete="off" value="1" name="quantity" class="cart_quantity_input">
-									<a href="" class="cart_quantity_down"> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete border-none">
-								<a href="" class="cart_quantity_delete"><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>	
-			<div class="row">
-				<div class="col-sm-6">
-					
-				</div>
-				<div class="col-sm-5">
-					<div class="total_area">
-						<ul>
-							<li>Cart Sub Total <span>$59</span></li>
-							<li>Total <span>$61</span></li>
-						</ul>
-						<a href="#payment_section" class="btn btn-default check_out">Payment</a>
-					</div>
-				</div>
-			</div>
-		</div>
+			
+			<shopping-cart-items data="shopping_cart_data"></shopping-cart-items>
+            
+            <div class="row">
+                <div class="col-sm-6">
+                    
+                </div>
+                <div class="col-sm-6">
+                    <div class="total_area">
+                        <ul>
+                            <li>Cart Sub Total <span class="float-right">{{shopping_cart_totals.carSubtotal}} €</span></li>
+                            <li>Tax <span class="float-right">{{shopping_cart_totals.carTaxSubtotal}} €</span></li>
+                            <li>Total <span class="float-right">{{shopping_cart_totals.carTotal}} €</span></li>
+                        </ul>
+                        <a href="#payment_section" class="btn btn-default check_out">Payment</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</div>
 </section>
-<!-- WITH REACT -->
-<!-- 
--->
-<div>
-	Items:
-	<br/>
-	<shopping-cart-items data="shopping_cart_data"></shopping-cart-items>
-	Total: 100€
-</div>

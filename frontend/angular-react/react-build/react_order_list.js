@@ -71,7 +71,7 @@ var OrderListContent = React.createClass({
         var OrderItems = this.props.data.map(function (order) {
             return React.createElement(
                 OrderItem,
-                { order_data: order, key: order.idOrder },
+                { order_data: order, key: order._id },
                 order.text
             );
         });

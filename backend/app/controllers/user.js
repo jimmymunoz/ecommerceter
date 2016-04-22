@@ -138,9 +138,10 @@ moduleRoutes.post('/createUser', function(req, res) {
         && req.body.lastName != "" ){ 
         validationResponse.addError("Invalid lastName: " + req.body.lastName);
     }
-    if(! (HelperValidator.isAlphanumeric( req.body.password) 
-        && HelperValidator.isLength(req.body.password, {min: 5, max: 10}) ) ){ 
-        validationResponse.addError("Le mot de pass doit être une chaine de characters Alphanumerique entre (5 - 10) : " + req.body.password);
+    if(! validationResponse.success ){ //Validation errors
+        var msgResponse = validationResponse.formatErrors();
+        console.log(msgResponse);
+        res.json({ success: false, message: msgResponse, data: [] });
     }
     if(! HelperValidator.isAscii( req.body.phone) 
         && req.body.phone != "" ){ 
@@ -163,13 +164,17 @@ moduleRoutes.post('/createUser', function(req, res) {
                 if (err) throw err;
 
                 if (!user){
+
+                    var encryptedPassword = authenticationHelper.encrypt(req.body.password);
+
                     //Email no 
                     var dataUser = new User({ 
                         //idUser: req.body.idUser, 
                         firstName: req.body.firstName, 
                         lastName: req.body.lastName, 
                         email: email, 
-                        password: req.body.password, 
+                        //password: req.body.password, 
+                        password: encryptedPassword,
                         address: req.body.address, 
                         //image: req.body.image, 
                         phone: req.body.phone, 
@@ -186,7 +191,7 @@ moduleRoutes.post('/createUser', function(req, res) {
                     });
                 }
                 else{
-                    res.json({ success: false, message: 'Email (' + email + ') Already Exists ', data: [] });
+                    res.json({ success: false, errors: 'Email (' + email + ') Already Exists ', message: 'Email (' + email + ') Already Exists ', data: [] });
                 }
             });
     }

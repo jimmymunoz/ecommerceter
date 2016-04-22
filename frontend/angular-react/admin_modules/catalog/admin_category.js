@@ -6,7 +6,6 @@ angular.module('admin_category').run(function($rootScope, $location, $routeParam
 		idCategory: '',
 		idParent: '',
 		name: '',
-		categorySelected: {},
 	};
 
 	$rootScope.options = ($rootScope.options != undefined)? $rootScope.options :  [];//name - idCategory
@@ -21,8 +20,8 @@ angular.module('admin_category').controller('AdminCreateCategoryController', ['$
     };
 
 	$rootScope.sendCategoryManagerForm = function(category_manager_form){
-		$rootScope.category_manager_form.idParent = $rootScope.category_manager_form.categorySelected.id;
-			
+		$rootScope.category_manager_form.idParent = $rootScope.localStorageAdmin.id;
+		
 		var postUrl = config.pathApiServer + 'category/createCategory/';
 		if( $rootScope.category_manager_form.idCategory > 0 ){
 			postUrl = config.pathApiServer + 'category/updateCategory/';
@@ -30,7 +29,6 @@ angular.module('admin_category').controller('AdminCreateCategoryController', ['$
 		
 		$http.post(postUrl ,$rootScope.category_manager_form
    			).then(function(response){
-	            console.log(response.data);
 	            if( response.data.success  ){
 	            	alert(response.data.message);
 	            	colseModal();
@@ -62,7 +60,12 @@ angular.module('admin_category').controller('AdminCreateCategoryController', ['$
 		var strSearchFormParams = $httpParamSerializer($rootScope.search_catalog_form);
     	$http.get (config.pathApiServer + 'category/getCategorysList/?page_size=' + page_size + "&" + '&page=' + current_page + "&" + strSearchFormParams).then(function(response){
             if( response.data.success  ){
-            	$rootScope.admin_category_list_data = response.data.data;
+            	var categoryData = response.data.data;
+            	for(key in categoryData){
+	                categoryData[key]['parentName'] = (categoryData[key]['idParent'] != undefined )? categoryData[key]['idParent']['name']: '';
+	                categoryData[key]['parentId'] = (categoryData[key]['idParent'] != undefined )? categoryData[key]['idParent']['idCategory']: '';
+	            }
+            	$rootScope.admin_category_list_data = categoryData;
             	$rootScope.admin_pagination = response.data.pagination;
             }
             else{
@@ -77,7 +80,6 @@ angular.module('admin_category').controller('AdminCreateCategoryController', ['$
 				idCategory: '',
 				idParent: '',
 				name: '',
-				categorySelected: {},
 			};
 		});
 		openModal('show_category_form');
@@ -85,6 +87,8 @@ angular.module('admin_category').controller('AdminCreateCategoryController', ['$
 
 	editCategoryItem = function(item)
 	{
+		item.category = (item.category != undefined)? item.category: [];
+
 		$rootScope.$apply(function () {            
 			$rootScope.category_manager_form = {
 				idCategory: item.idCategory,
@@ -92,9 +96,8 @@ angular.module('admin_category').controller('AdminCreateCategoryController', ['$
 				name: item.name,
 				level: item.level,
 				price: item.price,
-				categorySelected: { id: item.category.idCategory, name: item.category.name },
 			}
-			console.log($rootScope.category_manager_form);
+			$rootScope.localStorageAdmin.categoryParentSelected = { id: item.category.idCategory, name: item.category.name };
 		});
 		openModal('show_category_form');
 	}
@@ -111,6 +114,7 @@ angular.module('admin_category').controller('AdminCreateCategoryController', ['$
 	    return fd;
 	    
 	}
+	setCategorysOptions();
 	$scope.pageChanged();
 }]);
 
@@ -128,7 +132,6 @@ angular.module('admin_category').directive('adminCategoryList', function(){
 			data: '='
 		},
 		link: function(scope, el, attrs){
-			console.log("directive adminCategoryList");
 			scope.$watchCollection('data', function(newValue, oldValue){
 				ReactDOM.render(
 			        React.createElement(AdminCategoryListTable, {data: newValue}),

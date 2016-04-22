@@ -31,14 +31,12 @@ moduleRoutes.post('/singup', function(req, res) {
     }
     if(! (HelperValidator.isAlphanumeric( req.body.password) 
         && HelperValidator.isLength(req.body.password, {min: 5, max: 10}) ) ){ 
-        validationResponse.addError("Le mot de pass doit être une chaine de characters Alphanumerique entre (5 - 10) : " + req.body.password);
+        validationResponse.addError("The password must be Alphanumerique between (5 - 10) : " + req.body.password);
     }
 
     //Validate response
-    if(! validationResponse.success ){ //Validation errors
-        var msgResponse = validationResponse.formatErrors();
-        console.log(msgResponse);
-        res.json({ success: false, message: msgResponse, data: [] });
+    if(! validationResponse.success){
+        res.json(validationResponse);
     }
     else{ //validation ok
         User.findOne({ email: email }).
@@ -64,12 +62,26 @@ moduleRoutes.post('/singup', function(req, res) {
                         var msgResponse = 'User saved successfully';
                         console.log(msgResponse);
                         dataUser.password = undefined;
-                        res.json({ success: true, message: msgResponse, data: dataUser });
+                        User.findOne({ email: email }).
+                            select('idUser firstName lastName email password address image phone rol InscriptionDate updateDate ').
+                            exec(function(err, user) {
+                                var token = authenticationHelper.createToken(user);
+                                res.json({ success: true,
+                                    message: msgResponse,
+                                    data: dataUser,
+                                    token: token
+                                });
+                            });
                     });
 
                 }
                 else{
-                    res.json({ success: false, message: 'Email (' + email + ') Already Exists ', data: [] });
+                    res.json({ 
+                        success: false, 
+                        message: 'Email (' + email + ') Already Exists ', 
+                        errors: ['Email (' + email + ') Already Exists '],
+                        data: [] 
+                    });
                 }
             });
 
@@ -129,6 +141,7 @@ moduleRoutes.post('/login', function(req, res) {
                             res.json({
                                 success: false,
                                 message: 'Invalid Password',
+                                errors: ['Invalid Password'],
                                 data: []
                             });
                         }
@@ -137,6 +150,7 @@ moduleRoutes.post('/login', function(req, res) {
                         res.json({
                             success: false,
                             message: 'Password error',
+                            errors: ['Password error'],
                             data: []
                         });
                     }

@@ -319,44 +319,66 @@ moduleRoutes.delete('/removeProduct', function(req, res) {
 
 // http://localhost:8888/product/getProductsList
 moduleRoutes.get('/getProductsList', function(req, res) {
+    idCategory = 0;
     var query = {};
     if( req.query.name != undefined && req.query.name != "" ){
     	query["name"] = new RegExp(req.query.name, "i");
     }
-    if( req.query.category != undefined && req.query.category != "" ){
-    	query["category"] = req.query.category;
-    }
     if( req.query.price != undefined && req.query.price != "" ){
     	query["price"] = req.query.price
+    }
+    if( req.query.category != undefined && req.query.category != "" ){
+    	idCategory = req.query.category
+    }
+    if(idCategory > 0 ){
+    	query["category"] = "";
     }
 
 	var page = (req.query.page != undefined )? req.query.page : 1 ;
 	var page_size = (req.query.page_size != undefined )? req.query.page_size : config.default_page_size_pagination ;
-    Product.count(query, function(err, total_results) {
-    	if (err) throw err;
-    	var ProductList = Product.find(query);
-    	//ProductList.where('name').equals(req.query.name);// =
-	    //ProductList.where('name').equals(req.query.name);// =
-	    //ProductList.where('idCategory').gt(17).lt(66);// gt - lt
-	    //ProductList.where('idCategory').in(['idCategory', req.query.idCategory]);// like
-	    if(page_size > 0){
-	    	ProductList.skip( page_size * (page - 1) ); //Jimmy -> pagination offset
-	    	ProductList.limit(page_size); //Jimmy -> pagination limit
-	    } 
-	    ProductList.sort('-name');
-	    ProductList.populate('category')
-	    ProductList.populate('productEvaluation.user', 'firstName lastName idUser')
-	    ProductList.populate('productComment.user', 'firstName lastName idUser')
-	    ProductList.exec(function(err, Products) {
-	    	//console.log(Products);
-			var out = [];
-			for(var key in Products){
-				//Products[key]['CategoryData'] = Category.findOne({ idCategory: Products[key].category });
-				//console.log(Products[key]);
-				out.push(Products[key]);
-			}
-			res.json({ success: true, message: 'Product List:', data: out, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+	
+	Category.findOne({
+        idCategory: idCategory
+    }, function (err, categoryJoin) {
+        if (err) throw err;
+
+        if ( categoryJoin ) {
+		    query["category"] = categoryJoin._id
+		} 
+        console.log(categoryJoin);
+        console.log(query);
+	    Product.count(query, function(err, total_results) {
+	    	if (err) throw err;
+	    	var ProductList = Product.find(query);
+	    	//ProductList.where('name').equals(req.query.name);// =
+		    //ProductList.where('name').equals(req.query.name);// =
+		    //ProductList.where('idCategory').gt(17).lt(66);// gt - lt
+		    //ProductList.where('idCategory').in(['idCategory', req.query.idCategory]);// like
+		    if(page_size > 0){
+		    	ProductList.skip( page_size * (page - 1) ); //Jimmy -> pagination offset
+		    	ProductList.limit(page_size); //Jimmy -> pagination limit
+		    } 
+		    ProductList.sort('-name');
+		    ProductList.populate('category')
+		    ProductList.populate('productEvaluation.user', 'firstName lastName idUser')
+		    ProductList.populate('productComment.user', 'firstName lastName idUser')
+		    ProductList.exec(function(err, Products) {
+		    	//console.log(Products);
+				var out = [];
+				for(var key in Products){
+					var tmpobj = JSON.parse(JSON.stringify(Products[key]));
+					tmpobj['productCommentTotal'] = (tmpobj['productComment'] != undefined)? tmpobj['productComment'].length: 0;
+					tmpobj['productEvaluationResult'] = (tmpobj['productEvaluation'] != undefined)? tmpobj['productEvaluation'].length: 0;
+					tmpobj['categoryName'] = (tmpobj['category'] != undefined)? tmpobj['category'].name: '';
+					//Products[key]['CategoryData'] = Category.findOne({ idCategory: Products[key].category });
+					//console.log(Products[key]);
+					out.push(tmpobj);
+
+				}
+				res.json({ success: true, message: 'Product List:', data: out, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+		    });
 	    });
+        
     });
 
 

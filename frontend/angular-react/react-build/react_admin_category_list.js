@@ -38,7 +38,7 @@ var CategoryItemRow = React.createClass({
                 React.createElement(
                     "p",
                     null,
-                    row_data.idCategory.name
+                    row_data.parentName
                 )
             ),
             React.createElement(
@@ -108,7 +108,7 @@ var AdminCategoryListTable = React.createClass({
     render: function () {
         var data = this.props.data;
         var CategoryItemRows = this.props.data.map(function (category) {
-            return React.createElement(CategoryItemRow, { row_data: category, key: category.idCategory });
+            return React.createElement(CategoryItemRow, { row_data: category, key: category._id });
         });
         return React.createElement(
             "table",

@@ -1,10 +1,10 @@
-var CategoryItemRow = React.createClass({
-    editCategoryItem: function(e) {
-        editCategoryItem(this.props.row_data);
+var ProductItemRow = React.createClass({
+    editProductItem: function(e) {
+        editProductItem(this.props.row_data);
         return false;
     },
-    removeCategoryItem: function(e) {
-        removeCategoryItem(this.props.row_data);
+    removeProductItem: function(e) {
+        removeProductItem(this.props.row_data);
         return false;
     },
     render: function() {
@@ -57,22 +57,22 @@ var CategoryItemRow = React.createClass({
                     </p>
                 </td>
                 <td className="cart_delete border-none admin_grid_actions">
-                    <a href="javascript:void(0);" onClick={this.editCategoryItem} className="cart_quantity_delete"><i className="fa ">Edit</i></a>
-                    <a href="javascript:void(0);" onClick={this.removeCategoryItem} className="cart_quantity_delete"><i className="fa ">Remove</i></a>
+                    <a href="javascript:void(0);" onClick={this.editProductItem} className="cart_quantity_delete"><i className="fa ">Edit</i></a>
+                    <a href="javascript:void(0);" onClick={this.removeProductItem} className="cart_quantity_delete"><i className="fa ">Remove</i></a>
                 </td>
             </tr>
         );
     }
 });
-var AdminCategoryListTable = React.createClass({
-    displayName: 'AdminCategoryListTable',
+var AdminProductListTable = React.createClass({
+    displayName: 'AdminProductListTable',
     data: [],
     render: function() {
         var data = this.props.data;
-        var CategoryItemRows = this.props.data.map(function(category) {
+        var ProductItemRows = this.props.data.map(function(product) {
           return (
-            <CategoryItemRow row_data={category} key={category.idCategory}>
-            </CategoryItemRow>
+            <ProductItemRow row_data={product} key={product._id}>
+            </ProductItemRow>
           );
         });
         return (
@@ -85,12 +85,12 @@ var AdminCategoryListTable = React.createClass({
                         <th className="col-sm-1">Buy Price</th>
                         <th className="col-sm-1">Quantity</th>
                         <th className="col-sm-1">Weight</th>
-                        <th className="col-sm-1">Category</th>
+                        <th className="col-sm-1">Product</th>
                         <th className="col-sm-1">Modification Date</th>
                         <th className="col-sm-1">Image</th>
                         <th className="col-sm-1 border-none"></th>
                     </tr>
-                    {CategoryItemRows}
+                    {ProductItemRows}
                 </tbody>
             </table>
         );

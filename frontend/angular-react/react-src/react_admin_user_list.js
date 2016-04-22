@@ -51,7 +51,7 @@ var AdminUserListTable = React.createClass({
         var data = this.props.data;
         var UserItemRows = this.props.data.map(function(user) {
           return (
-            <UserItemRow row_data={user} key={user.idUser}>
+            <UserItemRow row_data={user} key={user._id}>
             </UserItemRow>
           );
         });

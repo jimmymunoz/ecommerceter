@@ -1,6 +1,6 @@
-<div id="showLoginSingUp" class="modalDialog">
+<div id="showLoginSingUp" class="modalDialog" ng-controller="AccountController">
     <div>
-        <a href="#close" title="Close" class="close">X</a>
+        <a href="javascript:void(0)" onclick="colseModal();" title="Close" class="close">X</a>
         <div class="fadeInUp animated modalDialogTitre" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
             <h2>Login - Sing up</h2>
         </div>
@@ -11,9 +11,9 @@
                     <div class="col-sm-4">
                         <div class="login-form"><!--login form-->
                             <h2 class="login_subtitre_color">Login to your account</h2>
-                            <form action="#">
-                                <input type="email" name="email" placeholder="Email Address">
-                                <input type="password" name="password" placeholder="Password">
+                            <form novalidate ng-submit="authenticationLoginForm()" method="post" class="css-form" enctype="multipart/form-data">
+                                <input type="email" ng-model="authentication_login.email" name="email" placeholder="Email Address">
+                                <input type="password" ng-model="authentication_login.password" name="password" placeholder="Password">
                                 <button class="btn btn-default" type="submit">Login</button>
                             </form>
                         </div><!--/login form-->
@@ -23,11 +23,11 @@
                     <div class="col-sm-4">
                         <div class="signup-form"><!--sign up form-->
                             <h2 class="login_subtitre_color">New User Signup!</h2>
-                            <form action="#">
-                                <input type="text" name="firstName" placeholder="Name">
-                                <input type="text" name="lastName" placeholder="Last Name">
-                                <input type="email" name="email" placeholder="Email Address">
-                                <input type="password" name="password" placeholder="Password">
+                            <form novalidate ng-submit="authenticationSingupForm()" method="post" class="css-form" enctype="multipart/form-data">
+                                <input type="text" ng-model="authentication_singup.firstName" name="firstName" placeholder="Name">
+                                <input type="text" ng-model="authentication_singup.lastName" name="lastName" placeholder="Last Name">
+                                <input type="email" ng-model="authentication_singup.email" name="email" placeholder="Email Address">
+                                <input type="password" ng-model="authentication_singup.password" name="password" placeholder="Password">
                                 <button class="btn btn-default" type="submit">Signup</button>
                             </form>
                         </div><!--/sign up form-->
