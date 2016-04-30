@@ -4,6 +4,7 @@
  */
 angular.module('app', [
 	'angularUtils.directives.dirPagination',
+	'ngScrollTo',
 	//'offer',
 	'catalog',
 	'shopping_cart',
@@ -39,6 +40,24 @@ angular.module('app').run(function($rootScope, $http, $httpParamSerializer){
 		,{ name: 'paid', id: 'paid' }
 		,{ name: 'delivered', id: 'delivered' }
 	];
+	$rootScope.options.month_options = [
+		{ name: 'January', id: '1' }
+		,{name:'February',  id: '2' }
+		,{name:'March',  id: '3' }
+		,{name:'April',  id: '4' }
+		,{name:'May',  id: '5' }
+		,{name:'June',  id: '6' }
+		,{name:'July',  id: '7' }
+		,{name:'Augoust',  id: '8' }
+		,{name:'September',  id: '9' }
+		,{name:'October',  id: '10' }
+		,{name:'November',  id: '11' }
+		,{name:'December',  id: '12' }
+	];
+	$rootScope.options.cc_year = [];//year
+	for (var i = 2016; i < 2016 + 10; i++) {
+		$rootScope.options.cc_year.push( { name: i, id: i } );
+	};
 
 	$rootScope.pagination_page_size = 10;
 	$rootScope.pagination_current_page = 1;
@@ -65,6 +84,8 @@ angular.module('app').run(function($rootScope, $http, $httpParamSerializer){
     };
     $rootScope.localstorage = {
 		categorySelected: {},
+		paymentMonthSelected: {},
+		paymentYearSelected: {},
 	};
 	$rootScope.localStorageAdmin = {
 		categoryParentSelected: {},
@@ -144,6 +165,22 @@ angular.module('app').config(
 		}
 	]
 );
+
+/*
+
+angular.module('app').config( 
+	['ngScrollTo', 
+		function(ngScrollToOptionsProvider) {
+
+		    ngScrollToOptionsProvider.extend({
+		        handler: function(el) {
+		            //$(el).scrollintoview();
+		        }
+		    });
+		}
+	]
+);
+ */
 
 angular.module('app').config(function(paginationTemplateProvider) {
    // paginationTemplateProvider.setString('<div class="my-page-links">aaaa...</div>');

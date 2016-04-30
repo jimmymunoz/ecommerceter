@@ -6,6 +6,7 @@ var moduleRoutes = express.Router();
 var Product   = require(pathServer + 'app/models/product');
 var Category   = require(pathServer + 'app/models/category');
 var Order   = require(pathServer + 'app/models/order');
+var Payment   = require(pathServer + 'app/models/payment');
 //Helpers:
 var commonHelper   = require(pathServer + 'app/helpers/common'); 
 var authenticationHelper   = require(pathServer + 'app/helpers/authentication'); 
@@ -189,7 +190,7 @@ moduleRoutes.post('/createOrder', function(req, res) {
     var HelperValidator = commonHelper.validator;
     var token = req.body.token || req.param('token') || req.headers['x-access-token'];
     var user = authenticationHelper.getUserByToken(token);
-
+    
     if(! ( HelperValidator.isNumeric( user.idUser ) && user.idUser != "" )  ){
         validationResponse.addError("Invalid idUser: " + user.idUser);
     }
@@ -198,6 +199,9 @@ moduleRoutes.post('/createOrder', function(req, res) {
     }
     if(! ( HelperValidator.isAscii( req.body.city ) && req.body.city != "" )  ){
         validationResponse.addError("Invalid city: " + req.body.city);
+    }
+    if(! ( HelperValidator.isAscii( req.body.country ) && req.body.country != "" )  ){
+        validationResponse.addError("Invalid country: " + req.body.country);
     }
     
     //if(! ( HelperValidator.isJSON( req.body['orderLines[]'] ) && req.body['orderLines[]'] != "" )  ){
@@ -219,8 +223,7 @@ moduleRoutes.post('/createOrder', function(req, res) {
     if(! ( arrRequestProduct.length == arrRequestQuantity.length  && arrRequestProduct.length > 0  && arrRequestQuantity.length > 0) ){
         validationResponse.addError("Invalid quanties x product: (" + arrRequestProduct.length + " - " + arrRequestQuantity.length + ") ");
     }
-    console.log(req.body);
-
+    
     if(! validationResponse.success){
         res.json(validationResponse);
     }
@@ -294,7 +297,145 @@ moduleRoutes.post('/createOrder', function(req, res) {
         });
         
     }
-   
+});
+
+//http://localhost:8888/order/createOrderWithPayment
+moduleRoutes.post('/createOrderWithPayment', function(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+    var user = authenticationHelper.getUserByToken(token);
+    
+    if(! ( HelperValidator.isNumeric( user.idUser ) && user.idUser != "" )  ){
+        validationResponse.addError("Invalid idUser: " + user.idUser);
+    }
+    if(! ( HelperValidator.isAscii( req.body.address ) && req.body.address != "" )  ){
+        validationResponse.addError("Invalid address: " + req.body.address);
+    }
+    if(! ( HelperValidator.isAscii( req.body.city ) && req.body.city != "" )  ){
+        validationResponse.addError("Invalid city: " + req.body.city);
+    }
+    if(! ( HelperValidator.isAscii( req.body.country ) && req.body.country != "" )  ){
+        validationResponse.addError("Invalid country: " + req.body.country);
+    }
+    
+    //if(! ( HelperValidator.isJSON( req.body['orderLines[]'] ) && req.body['orderLines[]'] != "" )  ){
+    //    validationResponse.addError("Invalid orderLines: " + req.body['orderLines[]']);
+    //}
+    //
+    req.body['product'] = (req.body['product'] == undefined)? []: req.body['product'];
+    req.body['quantity'] = (req.body['quantity'] == undefined)? []: req.body['quantity'];
+
+    var arrRequestProduct = (typeof req.body['product'] == "string")? [req.body['product']]: req.body['product'];
+    var arrRequestQuantity = (typeof req.body['quantity'] == "string")? [req.body['quantity']]: req.body['quantity'];
+    
+    if(! ( HelperValidator.isAscii( req.body['product'] ) && typeof arrRequestProduct == "object" )  ){
+        validationResponse.addError("Invalid product: " + req.body['product']);
+    }
+    if(! ( HelperValidator.isAscii( req.body['quantity'] ) && typeof arrRequestQuantity == "object" )  ){
+        validationResponse.addError("Invalid quantity: " + req.body['quantity']);
+    }
+    if(! ( arrRequestProduct.length == arrRequestQuantity.length  && arrRequestProduct.length > 0  && arrRequestQuantity.length > 0) ){
+        validationResponse.addError("Invalid quanties x product: (" + arrRequestProduct.length + " - " + arrRequestQuantity.length + ") ");
+    }
+    //Credid Card
+    if(! ( HelperValidator.isCreditCard( req.body.cc_number ) && req.body.cc_number != "" )  ){
+        validationResponse.addError("Invalid credid Card: " + req.body.cc_number);
+    }
+    if(! ( HelperValidator.isInt( req.body.cc_code , { min: 100, max: 999 }) && req.body.cc_code != "" )  ){
+        validationResponse.addError("Invalid cc_code: " + req.body.cc_code);
+    }
+    if(! ( HelperValidator.isInt( req.body.cc_month ) && req.body.cc_month != "" )  ){
+        validationResponse.addError("Invalid cc_month: " + req.body.cc_month);
+    }
+    if(! ( HelperValidator.isInt( req.body.cc_year ) && req.body.cc_year != "" )  ){
+        validationResponse.addError("Invalid cc_year: " + req.body.cc_year);
+    }
+    
+    if(! validationResponse.success){
+        res.json(validationResponse);
+    }
+    else { 
+        Product.find({}).
+        where('idProduct').in( arrRequestProduct ).// like
+        //limit(10).
+        sort('-name').
+        populate('category').
+        exec(function(err, Products) {
+            if (err) throw err;
+
+            if (!Products) {
+                res.json({ success: false, message: 'Products not found :(' + arrRequestProduct.join(', ') + ')', data: arrRequestProduct });
+            
+            } 
+            else if (Products) {
+                //Jimmy compare if all products exists
+                var arrUnfoundProducts = [];
+                var arrOrderLines = [];
+                for ( keyRp in arrRequestProduct){
+                    var tmpProduct = null;
+                    for ( keyP in Products){
+                        if( Products[keyP].idProduct == arrRequestProduct[keyRp] ){
+                            tmpProduct = Products[keyP];
+                            break;
+                        }
+                    }
+                    if(! tmpProduct ){
+                        arrUnfoundProducts.push(arrRequestProduct[keyRp]);
+                    }
+                    else{ //Product Found - Add to orderLines
+                        tmpProduct.CategoryData = undefined;
+                        tmpProduct.productEvaluation = undefined;
+                        tmpProduct.productComment = undefined;
+                        tmpProduct.creationDate = undefined;
+                        tmpProduct.modificationDate = undefined;
+                        arrOrderLines.push({ productId : tmpProduct.productId, product : tmpProduct, quantity: arrRequestQuantity[keyRp] });
+                    }
+                }
+                console.log(arrOrderLines);
+
+                if( arrUnfoundProducts.length > 0 ){
+                    res.json({ success: false, message: 'Products not found :(' + arrUnfoundProducts.join(', ') + ')', data: arrUnfoundProducts });
+                }
+                else{//All products found
+                    var dataOrder = new Order({ 
+                        idUser: user.idUser,
+                        address: req.body.address, 
+                        creationDate: Date(), 
+                        //total: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
+                        status: "paid", 
+                        city: req.body.city, 
+                        //totalTax: commonHelper.calculateTotalProd(req.body['orderLines[]']), 
+                        orderLines: arrOrderLines, 
+                        //orderLines: req.body['orderLines[]'], 
+                        //approvalCode: "bien", 
+                        modificationDate: Date() 
+                    });
+                    dataOrder.save(function(err) {
+                        if (err) throw err;
+                        /*Payment*/
+                        var dataPayment = new Payment({ 
+                            code: dataOrder._id, 
+                            status: "approved", 
+                            creationDate: Date() 
+                        }); 
+                        dataPayment.save(function(err) {
+                            if (err) throw err;
+
+                            //res.json({ success: true, message: msgResponse, data: dataPayment });
+                            var msgResponse = 'Order saved successfully\nPayment successfully';
+                            console.log(msgResponse);
+                            res.json({ success: true, message: msgResponse, data: dataOrder, dataPayment: dataPayment });
+                        });
+                    });
+
+                }
+
+            }
+        });
+        
+    }
 });
 
 //http://localhost:8888/order/updateOrder

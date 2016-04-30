@@ -1,5 +1,10 @@
-$(document).ready(function() {
-	
+/**
+ * [onReadyFunctions Methodes to call on ready document]
+ * @return {[type]} [description]
+ */
+function onReadyFunctions(){
+	//$container = $("#container").notify();
+	$container = $("#container-bottom").notify();
 	/* show about more  ======================================= */
 	$("#show-btn").click(function() {
 		$('#showme').slideDown("slow");
@@ -52,6 +57,8 @@ $(document).ready(function() {
 		e.preventDefault();
 		var m = $(this);
 		var newlocation = window.location.href.toString().split(window.location.host)[1];
+		//alert(newlocation)
+		newlocation = "";
 		switch( $(this).attr('id') ){
 			case 'framework_backbone':
 				newlocation = "../backbone" + newlocation;
@@ -66,7 +73,7 @@ $(document).ready(function() {
 		}
 		$('#img_style_switcher').attr('class', $(this).attr('class'));
 		$('#style-switcher').removeClass('open');
-		document.location.href = "../angular_react/";
+		document.location.href = newlocation;
 		return false; 
 	});
 
@@ -124,8 +131,86 @@ $(document).ready(function() {
 		});
 	});
 	*/
+}
 
-});
+
+
+function create( template, vars, opts ){
+	return $container.notify("create", template, vars, opts);
+}
+
+function notifyProductAdded(text, titre){
+	titre = ( titre == undefined)? "Product Added": titre;//Jimmy Default ok
+	text = ( text == undefined)? "": text;//Jimmy Default ok
+	create("default", { title: titre, text: text});
+}
+
+function validateCurrentLogin(){
+	var result = false;
+	var token = getUserToken();
+	if( typeof token == "string" && token.length > 30 ){
+		result = true;
+	}
+	else{
+    	loginRequired();
+    	openModal('showLoginSingUp');//angular - React
+	}
+	return result;
+}
+
+function loginRequired(){
+	notifyError("You can log in using your existing account or you can create a new account", "Login Required");
+	openModal('showLoginSingUp');
+}
+
+function notifyError(text, titre){
+	var icon = "alert.png";
+	titre = ( titre == undefined)? "Error": titre;//Jimmy Default ok
+	text = ( text == undefined)? "": text;//Jimmy Default ok
+	create("withIcon", { title: titre, text: text + ' <a href="#" class="ui-notify-close">Close me.</a>', icon: icon },{ expires:false, queue: 2 });
+}
+
+function notifyServerResponse(response, expires, titre){
+	expires = ( expires == undefined)? true: expires;
+	var icon = "success.png";//Jimmy Default ok
+	titre = ( titre == undefined)? "": titre;//Jimmy Default ok
+	var text = "Success";
+	if(response.data != undefined ){
+		text = (response.data.message != undefined )? response.data.message: '';
+		if( response.data.success  ){
+
+		}
+		else{
+			titre = "Warning";//Jimmy Default ok
+			icon = "alert.png";//Jimmy Default ok
+			//Jimmy-> Errors 
+			if( (response.data.errors != undefined ) ){
+				var errors = (response.data.errors != undefined )?response.data.errors : [];
+				text =  "Errors: <br/>";
+				for(var key in response.data.errors){
+					text += "\n<br/>" + response.data.errors[key] + "";
+				}
+				text += "<br/>\n"
+			}
+
+		}
+		if(expires){
+			create("withIcon", { title: titre, text: text + ' <a href="#" class="ui-notify-close">Close me.</a>', icon: icon },{ queue: 2 });//Jimmy: Max 3 Messages
+		}
+		else{
+			create("withIcon", { title: titre, text: text + ' <a href="#" class="ui-notify-close">Close me.</a>', icon: icon },{ expires:false, queue: 2 });//Jimmy: Max 3 Messages
+		}
+	}
+	/*
+	
+	create("default", { title:'Default Notification', text:'Example of a default notification.  I will fade out after 5 seconds'});
+	create("withIcon", { title:'Warning!', text:'OMG the quick brown fox jumped over the lazy dog.  You\'ve been warned. <a href="#" class="ui-notify-close">Close me.</a>', icon:'alert.png' },{ 
+			expires:true
+		});
+	create("withIcon", { title:'OK', text:'OMG the quick brown fox jumped over the lazy dog.  You\'ve been warned. <a href="#" class="ui-notify-close">Close me.</a>', icon:'success.png' },{ queue: 3 });
+	 */
+
+}
 
 var RGBChange = function() {
   $('#RGB').css('background', 'rgb('+r.getValue()+','+g.getValue()+','+b.getValue()+')')
@@ -145,7 +230,11 @@ function categoryPanelCollapse(obj){
 	  	$("#" + categoryContentId).addClass('in');
   		$("#" + categoryContentId).css('height', 'auto');
   	}
+
+
 }
+
+
 
 function setCategorySearchForm(obj){
   	var categoryId = $(obj).attr('category-id')
@@ -197,6 +286,8 @@ function removeSessionUserData(){
 	sessionStorage.removeItem('userloged');
 	sessionStorage.removeItem('token');
 	sessionStorage.removeItem('shoppingCartList');
+	notifyServerResponse({ data: { success: true, message: "Bye! Closed"} }, false, "Session Closed");
+		
 }
 
 function saveSessionUserData(responseLogin){
@@ -229,7 +320,13 @@ function addToSessionShoppingCart(productData, quantity){
 	for( key in shoppingCartList ){//If already exits
 		if( productData['idProduct'] == shoppingCartList[key]['product']['idProduct'] ){
 			productExist = true;
-			shoppingCartList[key]['quantity'] = parseFloat(shoppingCartList[key]['quantity']) + parseFloat(quantity);
+			if(false){ // Add - Replace
+				shoppingCartList[key]['quantity'] = parseFloat(quantity);
+			}
+			else{
+				shoppingCartList[key]['quantity'] = parseFloat(shoppingCartList[key]['quantity']) + parseFloat(quantity);
+				
+			}
 			shoppingCartList[key]['total'] = ( parseFloat(productData['price']) * parseFloat(shoppingCartList[key]['quantity']) );
 		}
 	}
@@ -242,6 +339,8 @@ function addToSessionShoppingCart(productData, quantity){
 			'totalTax': (parseFloat(productData['tax']) * parseFloat(quantity)),
 		});
 	}
+	notifyProductAdded(quantity + " - <i>" + productData.name + "</i> (" + (parseFloat(productData['price']) * parseFloat(quantity)) + " €)", "Product Added");
+		
 	sessionStorage.shoppingCartList = JSON.stringify(shoppingCartList);
 }
 
@@ -251,6 +350,7 @@ function removeToSessionShoppingCart(idProduct){
 	for( key in shoppingCartList ){//If already exits
 		if( idProduct == shoppingCartList[key]['product']['idProduct'] ){
 			//delete shoppingCartList[key];
+			notifyProductAdded( " <i>" + shoppingCartList[key]['product'].name + "</i> ", "Product Removed");
 		}
 		else{
 			newShoppingCartList.push(shoppingCartList[key]);
@@ -261,3 +361,7 @@ function removeToSessionShoppingCart(idProduct){
 }
 
 
+
+$(document).ready(function() {
+	onReadyFunctions();
+});

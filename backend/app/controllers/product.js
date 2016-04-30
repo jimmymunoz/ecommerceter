@@ -352,7 +352,9 @@ moduleRoutes.get('/getProductsList', function(req, res) {
 	    	var ProductList = Product.find(query);
 	    	//ProductList.where('name').equals(req.query.name);// =
 		    //ProductList.where('name').equals(req.query.name);// =
-		    //ProductList.where('idCategory').gt(17).lt(66);// gt - lt
+		    if( req.query.maxPrice != undefined && req.query.maxPrice >= 0 && req.query.minPrice != undefined && req.query.minPrice >= 0 ){
+		    	ProductList.where('price').gt(req.query.minPrice).lt(req.query.maxPrice);// gt - lt
+		    }
 		    //ProductList.where('idCategory').in(['idCategory', req.query.idCategory]);// like
 		    if(page_size > 0){
 		    	ProductList.skip( page_size * (page - 1) ); //Jimmy -> pagination offset

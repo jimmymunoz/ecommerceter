@@ -62,7 +62,7 @@ moduleRoutes.get('/getPaymentsList', function(req, res) {
 
 //http://localhost:8888/payment/createPayment
 moduleRoutes.post('/createPayment', function(req, res) {
-   var dataPayment = new Payment({ 
+    var dataPayment = new Payment({ 
         code: req.body.code, 
         status: req.body.status, 
         creationDate: req.body.creationDate 
