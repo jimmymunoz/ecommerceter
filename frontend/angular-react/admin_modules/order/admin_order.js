@@ -25,8 +25,7 @@ angular.module('admin_order').controller('AdminCreateOrderController', ['$scope'
    	};
 
 	$rootScope.sendOrderManagerForm = function(order_manager_form){
-	    console.log("sendOrderManagerForm");
-		$rootScope.order_manager_form.category = $rootScope.order_manager_form.statusSelected.id;
+	    $rootScope.order_manager_form.category = $rootScope.order_manager_form.statusSelected.id;
 		
 		var postUrl = config.pathApiServer + 'order/createOrder/';
 		if( $rootScope.order_manager_form.idOrder > 0 ){
@@ -35,7 +34,6 @@ angular.module('admin_order').controller('AdminCreateOrderController', ['$scope'
 		
 		$http.post(postUrl ,$rootScope.order_manager_form
    			).then(function(response){
-	            console.log(response.data);
 	            if( response.data.success  ){
 	            	alert(response.data.message);
 	            	colseModal();

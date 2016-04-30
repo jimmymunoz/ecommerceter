@@ -4,6 +4,7 @@ function logOut (){
 	var $rootScope = $body.scope().$root;      
 	$rootScope.$apply(function () {            
 		$rootScope.user_session_data = getUserSessionData();
+		$rootScope.shopping_cart_data = getToSessionShoppingCart();
 	});
 }
 
@@ -32,6 +33,7 @@ angular.module('account').controller('AccountController', ['$rootScope', '$http'
 		var postUrl = config.pathApiServer + 'authentication/singup/';
 		$http.post(postUrl ,$rootScope.authentication_singup
    			).then(function(response){
+   				notifyServerResponse(response, false);
 	            if( response.data.success  ){
 	            	saveSessionUserData(response.data);//Save Session Data 
 	            	updateAngularSesionData();//updates session Data
@@ -39,7 +41,7 @@ angular.module('account').controller('AccountController', ['$rootScope', '$http'
 	            	colseModal();
 	            }
 	            else{
-	            	alert(response.data.errors);
+	            	//alert(response.data.errors);
 	            }
         	}
         );
@@ -49,6 +51,7 @@ angular.module('account').controller('AccountController', ['$rootScope', '$http'
 		var postUrl = config.pathApiServer + 'authentication/login/';
 		$http.post(postUrl ,$rootScope.authentication_login
    			).then(function(response){
+	            notifyServerResponse(response);
 	            if( response.data.success  ){
 	            	saveSessionUserData(response.data);//Save Session Data 
 	            	updateAngularSesionData();//updates session Data
@@ -56,7 +59,7 @@ angular.module('account').controller('AccountController', ['$rootScope', '$http'
 	            	colseModal();
 	            }
 	            else{
-	            	alert(response.data.errors);
+	            	//alert(response.data.errors);
 	            }
         	}
         );

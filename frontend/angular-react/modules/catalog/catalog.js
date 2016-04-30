@@ -50,7 +50,7 @@ function setCategoryId (obj){
 		$rootScope.search_catalog_form.category = idCategory;
 		//$rootScope.search_catalog_form.idCategory = idCategory;
 		$rootScope.search_catalog_form.levelCategory = level;
-		$rootScope.sendCatalogSearchForm();
+		sendCatalogSearchForm();
 	});     
 
 }
@@ -114,7 +114,8 @@ angular.module('catalog').controller('CatalogSearchController', ['$scope', '$roo
             	$rootScope.client_pagination = response.data.pagination;
             }
             else{
-            	alert(response.data.message);
+            	notifyServerResponse(response);
+            	//alert(response.data.message);
             }
         });
 	}
@@ -130,13 +131,16 @@ angular.module('catalog').controller('CatalogSearchController', ['$scope', '$roo
 		$rootScope.detailProduct = productData;
 	}
 	 */
-	sendCatalogSearchForm = function($event){
+	$rootScope.sendCatalogSearchFormBridge = function(){
+		sendCatalogSearchForm();
+	}
+	sendCatalogSearchForm = function(){
 		$scope.pageChanged(1);
 	}
 	var timers = {};
     function delayShowData(type, values) {
-      clearTimeout(timers[type]);
-      timers[type] = setTimeout(function() {
+		clearTimeout(timers[type]);
+		timers[type] = setTimeout(function() {
       	console.log("Refresh price: " + values[0] + '  - ' + values[1] + ' ');
         //$('span.' + type).text(values[0] + 'mm - ' + values[1] + 'mm');
 		$rootScope.search_catalog_form.minPrice = values[0];

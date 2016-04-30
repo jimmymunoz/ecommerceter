@@ -14,10 +14,10 @@ var ProductItem = React.createClass({
         var product_data = this.props.product_data;
         return (
             <div className="col-sm-4">
-                <a href="javascript:void(0);" onClick={this.showProductDetail} >
-                    <div className="product-image-wrapper">
-                        <div className="single-products">
-                            <div className="product_container">
+                <div className="product-image-wrapper">
+                    <div className="single-products">
+                        <div className="product_container">
+                            <a href="javascript:void(0);" onClick={this.showProductDetail} >
                                 <div className="productinfo text-left">
                                     <img src={product_data.image} alt="" />
                                     <div><b>{product_data.name}</b></div>
@@ -27,13 +27,13 @@ var ProductItem = React.createClass({
                                         <div className="col-sm-6"><span className="price_product">{product_data.price} €</span></div>
                                     </div>
                                 </div>
-                                <div className="productinfo text-center">
-                                    <input className="btn btn-default add-to-cart" type="button" value="Add to cart" onClick={this.addItemToShoppingCart} />
-                                </div>
+                            </a>
+                            <div className="productinfo text-center">
+                                <input className="btn btn-default add-to-cart" type="button" value="Add to cart" onClick={this.addItemToShoppingCart} />
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
         );
     }

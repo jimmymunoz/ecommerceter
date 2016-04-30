@@ -5,6 +5,11 @@ var ShoppingCartItem = React.createClass({
         removeToShoppingCart(this.props.shopping_cart_line.product);
         return false;
     },
+    showProductDetail: function (e) {
+        openModal('showProductDetail');
+        showProductDetailWindow(this.props.shopping_cart_line.product);
+        return false;
+    },
     render: function () {
         var shopping_cart_line = this.props.shopping_cart_line;
         return React.createElement(
@@ -27,7 +32,7 @@ var ShoppingCartItem = React.createClass({
                     null,
                     React.createElement(
                         "a",
-                        { href: "#showProductDetail", className: "main_font_color" },
+                        { href: "javascript:void(0);", className: "main_font_color", onClick: this.showProductDetail },
                         shopping_cart_line.product.name
                     )
                 ),

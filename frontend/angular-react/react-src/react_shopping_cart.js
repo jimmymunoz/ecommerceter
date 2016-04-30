@@ -3,6 +3,11 @@ var ShoppingCartItem = React.createClass({
         removeToShoppingCart(this.props.shopping_cart_line.product);
         return false;
     },
+    showProductDetail: function(e) {
+        openModal('showProductDetail')
+        showProductDetailWindow(this.props.shopping_cart_line.product);
+        return false;
+    },
     render: function() {
         var shopping_cart_line = this.props.shopping_cart_line;
         return (
@@ -11,7 +16,11 @@ var ShoppingCartItem = React.createClass({
                     <a href=""><img alt="" src={shopping_cart_line.product.image} className="shopping_cart_image" /></a>
                 </td>
                 <td className="cart_description ">
-                    <h4><a href="#showProductDetail" className="main_font_color">{shopping_cart_line.product.name}</a></h4>
+                    <h4>
+                        <a href="javascript:void(0);" className="main_font_color" onClick={this.showProductDetail} >
+                            {shopping_cart_line.product.name}
+                        </a>
+                        </h4>
                     <p>Web ID: {shopping_cart_line.product.idProduct}</p>
                 </td>
                 <td className="cart_price ">

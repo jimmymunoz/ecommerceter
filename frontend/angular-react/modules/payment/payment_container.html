@@ -1,5 +1,5 @@
-<section id="payment_section" class="section_color2" >
-    <div class="container container_project_white width_90">
+<section id="payment_section" class="section_color2" ng-controller="PaymentController" >
+    <div class="container container_project_white width_container_section">
         <header class="section-header text-center">
             <div class="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
                 <h2>Payment</h2>
@@ -8,48 +8,42 @@
         <div class="container">
 
 
-            <form action="index.html" method="post" novalidate="" id="order-form" class="">
+            <form ng-submit="sendPaymentForm()" novalidate="" id="order-form" class=""  >
                 
                 <div class="col-sm-6 col-md-6 contact-info">
                     <p class="text-center"><strong>Payment Method</strong></p>
                     <div class="row">
                         <div class="col-sm-8 col-md-8">
                             <div class="form-group">
-                                <label class="control-label">Name</label>
-                                <input name="Card number" placeholder="Card number" class="form-control input-lg" type="text">
+                                <label class="control-label">Card number Number</label>
+                                <input name="Card number" placeholder="Card number" class="form-control input-lg" ng-model="payment_form.cc_number"  maxlength="16" type="text">
                             </div>
                         </div>
                         <div class="col-sm-4 col-md-4">
                             <div class="form-group">
                                 <label class="control-label">Code</label>
-                                <input name="Code" placeholder="Code" class="form-control input-lg" type="text">
+                                <input name="Code" placeholder="Code" class="form-control input-lg" maxlength="3" ng-model="payment_form.cc_code" type="text">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="contact-mail">month</label>
+                                <label class="control-label" for="contact-mail">Month</label>
                                 <div class=" controls">
-                                    <select class="form-control">
-                                      <option value="January">January</option>
-                                      <option value="February">February</option>
-                                      <option value="March">March</option>
-                                    </select>
+                                    <select placeholder="Month" class="form-control" 
+                                      ng-options="option.name for option in options.month_options track by option.id"
+                                      ng-model='localstorage.paymentMonthSelected'></select>
                                 </div>
                             </div>  
                         </div>  
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="contact-mail">year</label>
+                                <label class="control-label" for="contact-mail">Year</label>
                                 <div class=" controls">
-                                    <select class="form-control">
-                                      <option value="2014">2014</option>
-                                      <option value="2015">2015</option>
-                                      <option value="2016">2016</option>
-                                      <option value="2017">2017</option>
-                                      <option value="2018">2018</option>
-                                    </select>
+                                    <select placeholder="Year" class="form-control" 
+                                      ng-options="option.name for option in options.cc_year track by option.id"
+                                      ng-model='localstorage.paymentYearSelected'></select>
                                 </div>
                             </div>  
                         </div>  
@@ -60,13 +54,13 @@
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Name</label>
-                                <input name="First name" placeholder="First name" class="form-control input-lg" type="text">
+                                <input name="First name" placeholder="First name" class="form-control input-lg" ng-model="payment_form.cc_number" type="text">
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Last Name</label>
-                                <input name="Last name" placeholder="Last name" class="form-control input-lg" type="text">
+                                <input name="Last name" placeholder="Last name" class="form-control input-lg" ng-model="payment_form.cc_number" type="text">
                             </div>
                         </div>
                     </div>
@@ -82,15 +76,15 @@
                     <p class="text-center"><strong>Delivery address</strong></p>
                     <div class="form-group">
                         <label class="control-label">Street</label>
-                        <input name="street" placeholder="Street address" class="form-control" type="text">
+                        <input name="street" placeholder="Street address" class="form-control" ng-model="payment_form.address" type="text">
                     </div>  
                     <div class="form-group">
                         <label class="control-label">City</label>
-                        <input name="city" placeholder="City" class="form-control" type="text">
+                        <input name="city" placeholder="City" class="form-control" ng-model="payment_form.city" type="text">
                     </div>  
                     <div class="form-group">
                         <label class="control-label">Country</label>
-                        <input name="Country" placeholder="Country" class="form-control" type="text">
+                        <input name="Country" placeholder="Country" class="form-control" ng-model="payment_form.country" type="text">
                     </div>                          
                     
                     <table class="table total_area">
@@ -101,6 +95,11 @@
                       </thead>
                       <tbody>
                         <tr>
+                          <td>Subtotal:</td>
+                          <td></td>
+                          <td class="text-right">{{shopping_cart_totals.carSubtotal}} €</td>
+                        </tr>
+                        <tr>
                           <td>Shipping cost:</td>
                           <td></td>
                           <td class="text-right">Free</td>
@@ -108,12 +107,12 @@
                         <tr>
                           <td>Tax:</td>
                           <td></td>
-                          <td class="text-right">0.00 €</td>
+                          <td class="text-right">{{shopping_cart_totals.carTaxSubtotal}} €</td>
                         </tr>
                         <tr>
                           <td>Total:</td>
                           <td></td>
-                          <td class="text-right">0.00 €</td>
+                          <td class="text-right">{{shopping_cart_totals.carTotal}} €</td>
                         </tr>
                       </tbody>
                     </table>

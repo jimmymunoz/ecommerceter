@@ -18,17 +18,17 @@ var ProductItem = React.createClass({
             "div",
             { className: "col-sm-4" },
             React.createElement(
-                "a",
-                { href: "javascript:void(0);", onClick: this.showProductDetail },
+                "div",
+                { className: "product-image-wrapper" },
                 React.createElement(
                     "div",
-                    { className: "product-image-wrapper" },
+                    { className: "single-products" },
                     React.createElement(
                         "div",
-                        { className: "single-products" },
+                        { className: "product_container" },
                         React.createElement(
-                            "div",
-                            { className: "product_container" },
+                            "a",
+                            { href: "javascript:void(0);", onClick: this.showProductDetail },
                             React.createElement(
                                 "div",
                                 { className: "productinfo text-left" },
@@ -66,12 +66,12 @@ var ProductItem = React.createClass({
                                         )
                                     )
                                 )
-                            ),
-                            React.createElement(
-                                "div",
-                                { className: "productinfo text-center" },
-                                React.createElement("input", { className: "btn btn-default add-to-cart", type: "button", value: "Add to cart", onClick: this.addItemToShoppingCart })
                             )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "productinfo text-center" },
+                            React.createElement("input", { className: "btn btn-default add-to-cart", type: "button", value: "Add to cart", onClick: this.addItemToShoppingCart })
                         )
                     )
                 )

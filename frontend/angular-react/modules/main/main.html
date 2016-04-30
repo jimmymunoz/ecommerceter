@@ -36,10 +36,10 @@
 					<div class="category-tab"><!--category-tab-->
 						<div class="col-sm-12">
 							<ul class="nav nav-tabs section_color3">
-								<li class="active"><a href="javascript:void(0);" onClick="openModal('products_section');" data-href="#products_section" >Products</a></li>
-								<li><a href="javascript:void(0);" onClick="openModal('shopping_cart_section');" data-href="#shopping_cart_section" >Shopping Cart</a></li>
-								<li><a href="javascript:void(0);" onClick="openModal('payment_section');" data-href="#payment_section" >Payment</a></li>
-								<li><a href="javascript:void(0);" onClick="openModal('result_section');" data-href="#result_section" >Result</a></li>
+								<li class="active"><a scroll-to="products_section" data-href="#products_section" >Products</a></li>
+								<li><a scroll-to="shopping_cart_section" data-href="#shopping_cart_section" >Shopping Cart</a></li>
+								<li><a scroll-to="payment_section" data-href="#payment_section" >Payment</a></li>
+								<li><a scroll-to="result_section" data-href="#result_section" >Result</a></li>
 							</ul>
 						</div>
 					</div><!--/category-tab-->
@@ -67,7 +67,7 @@
 			<div class="container">
 				<div class="row">
 					<p class="pull-left"> UM2 Faculté de Sciences .</p>
-					<p class="pull-right">MAIGA Mariam - BOUHASI Meriam - MUNOZ Jimmy</span></p>
+					<p class="pull-right">MAIGA Mariam <!-- BOUHASI Meriam - -->- MUNOZ Jimmy</span></p>
 				</div>
 			</div>
 		</div>
@@ -83,4 +83,47 @@
 			<li id="framework_ember" class="icon_ember"></li>
 		</ul>
 	</section>
+
+	<!-- Notify -->
+	<!--- second container -  bottom notifications-->
+	<div id="container-bottom" style="top:auto; left:0; bottom:0; margin:0 0 10px 10px">
+		<div id="default">
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+		</div>
+		
+		<div id="sticky">
+			<a class="ui-notify-close ui-notify-cross" href="#">x</a>
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+		</div>
+		
+		<div id="themeroller" class="ui-state-error" style="padding:10px; -moz-box-shadow:0 0 6px #980000; -webkit-box-shadow:0 0 6px #980000; box-shadow:0 0 6px #980000;">
+			<a class="ui-notify-close" href="#"><span class="ui-icon ui-icon-close" style="float:right"></span></a>
+			<span style="float:left; margin:2px 5px 0 0;" class="ui-icon ui-icon-alert"></span>
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+			<p style="text-align:center"><a class="ui-notify-close" href="#">Close Me</a></p>
+		</div>
+		
+		<div id="withIcon">
+			<a class="ui-notify-close ui-notify-cross" href="#">x</a>
+			<div style="float:left;margin:0 10px 0 0"><img src="js/jquery-notify/#{icon}" alt="warning" /></div>
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+		</div>
+		
+		<div id="buttons">
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+			<p style="margin-top:10px;text-align:center">
+				<input type="button" class="confirm" value="Close Dialog" />
+			</p>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			onReadyFunctions();
+		});
+	</script>
 	

@@ -1,5 +1,5 @@
 <section id="products_section" class="section_color2" ng-controller="CatalogSearchController">
-    <div class="container container_project_white width_90">
+    <div class="container container_project_white width_container_sectioncontainer_project_white width_container_section">
         <header class="section-header text-center">
             <div class="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
                 <h2>Products</h2>
@@ -16,12 +16,12 @@
                                 <ul class="nav nav-pills nav-stacked">
                                     <li>
                                         <div class="form-group">
-                                            <input ng-change="sendCatalogSearchForm()" ng-model="search_catalog_form.name" name="name" placeholder="Product Name" class="form-control" type="text">
+                                            <input ng-change="sendCatalogSearchFormBridge()" ng-model="search_catalog_form.name" name="name" placeholder="Product Name" class="form-control" type="text">
                                         </div>
                                     </li>
                                     <li>
                                         <div class="form-group">
-                                            <input ng-change="sendCatalogSearchForm()" ng-model="search_catalog_form.brand" name="brand" placeholder="Brand Name" class="form-control" type="text">
+                                            <input ng-change="sendCatalogSearchFormBridge()" ng-model="search_catalog_form.brand" name="brand" placeholder="Brand Name" class="form-control" type="text">
                                         </div>
                                     </li>
                                 </ul>
@@ -30,17 +30,6 @@
                             <div class="panel-group category-products" id="accordian"><!--category-productsr-->
                                 <div class="panel panel-default">
                                     <h2>Category</h2>
-                                    <!-- 
-                                    <div >
-                                        <select placeholder="Category" ng-change="sendCatalogSearchForm()" name="category" 
-                                          ng-options="option.name for option in options.category_options track by option.id"
-                                          ng-model='localstorage.categorySelected'></select>
-                                    </div> 
-                                    -->
-                                    <!-- 
-                                    <input id="catalog_search_form_category" ng-change="sendCatalogSearchForm()" type="text" name="category" ng-model='search_catalog_form.idCategory' />
-                                    <input id="catalog_search_form_level" ng-change="sendCatalogSearchForm()" type="text" name="level" ng-model='search_catalog_form.levelCategory' />
-                                    -->
                                     <div class="panel panel-default" ng-repeat="(categoryParentKey, categoryParentValue) in category_menu_tree" >
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
@@ -73,7 +62,7 @@
                                 <h2>Price Range</h2>
                                 <div class="well text-center">
                                      <input ng-model="search_catalog_form.price" type="text" class="span2" value="" data-slider-min="0" data-slider-max="2000" data-slider-step="5" data-slider-value="[10,1900]" id="sl2" ><br />
-                                     <b class="pull-left">{{search_catalog_form.minPrice}} €</b> <b class="pull-right">{{search_catalog_form.maxPrice}} €</b>
+                                     <b class="pull-left">0 €</b> <b class="pull-right">2000 €</b>
                                 </div>
                             </div><!--/price-range-->
                             
