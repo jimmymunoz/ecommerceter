@@ -1,182 +1,1346 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title></title>
-	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
-</head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Admin | FitShopJS</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/prettyPhoto.css" rel="stylesheet">
+    <link href="css/price-range.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet">
+	<!-- Jimmy Custom CSS-->
+	<link href="css/our_project.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->       
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+</head><!--/head-->
+
 <body>
-	<div class = "container">
-		<div class="page-header">
-			<h1>Products</h1>
+	<header id="header"><!--header-->
+		<div class="header_top"><!--header_top-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="logo pull-left">
+							Admin
+							
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="shop-menu pull-right">
+							<ul class="nav navbar-nav">
+								<li><a data-target="#showLoginSingUp" href="#showLoginSingUp"><i class="fa fa-user"></i> Account</a></li>
+								<li><a data-target="#showLoginSingUp" href="#showLoginSingUp"><i class="fa fa-lock"></i> Login</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header_top-->
+		
+		<div class="header-middle"><!--header-middle-->
+			
+		</div><!--/header-middle-->
+		<div class="header-bottom"><!--header-bottom-->
+			<div class="container">
+				<div class="row">
+					<div class="category-tab"><!--category-tab-->
+						<div class="col-sm-12">
+							<ul class="nav nav-tabs section_color3">
+								<li class="active"><a data-target="#products_section" href="#products_section" >Products</a></li>
+								<li><a data-target="#shopping_cart_section" href="#shopping_cart_section" >Categories</a></li>
+								<li><a data-target="#"shopping_cart_section href="#shopping_cart_section" >Orders</a></li>
+								<li><a data-target="#payment_section" href="#payment_section" >Users</a></li>
+								<!-- 
+								<li><a data-target="#result_section" href="#result_section" >Privileges</a></li>
+								-->
+							</ul>
+						</div>
+					</div><!--/category-tab-->
+				</div>
+			</div>
 		</div>
-		<!--
-		-->
-		<form id="addProduct" class="form-horizontal" enctype="multipart/form-data">
-			<h1>Add Product</h1>
-			<div>
-				<label for="name">Name: </label>
-				<input type="text" id="name" name="name" >
-			</div>
+	</header><!--/header-->
+	<div id="header_space"></div>
+	
+	<section id="admin_section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 padding-right">
+					<div class=""><!--features_items-->
+						<h2 class="title text-center">Products</h2>
+						<div class="container admin_section_container section_color2">
+							<div class="row ">
+								<a href="#show_product_form" class="btn btn-default admin_button">New Product</a>
+							</div>
+							<div class="row section_color1">
+<!--
+<table id = "vuePrincipale"><tr>
+<td><a href="" class="Client btn">Client</a></td>
+<td>////*******////</td>
+<td><a href="" class="Administrateur btn">Administrateur</a></td>
+</tr>
+</table>
+ <script type="text/template" id="view-template">
+    <input name="name" placeholder="name"/>
+    <input name="description" placeholder="description"/>
+    <input name="price" placeholder="price"/>
+    <div id="results">Results populate here</div>
+  </script>
+  
+  <div id="view"></div> -->
+ <!--
+<div id = "MaVueCliente">
+<table width="100%">
+    <thead>
+        <tr>
+            <th class="sort sortable" data-sortBy="name">Product Name</th>
+            <th class="sort sortable" data-sortBy="description">Description</th>
+            <th class="sort sortable" data-sortBy="Price">Price</th>
+            <th class="sort sortable" data-sortBy="tax">Tax</th>
+			<th class="sort sortable" data-sortBy="quantity">Quantity</th>
+			<th class="sort sortable" data-sortBy="weight">Weight</th>
+			<th class="sort sortable" data-sortBy="category">Category</th>
+			<th class="sort sortable" data-sortBy="image">Image</th>	
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<input type="text" id="filter" placeholder="filter me" />
 
-			<div>
-				<label for="description">Description: </label>
-				<input type="text" id="description" name="description" >
-			</div>
 
-			<div>
-				<label for="price">Price:</label>
-				<input type="text" id="price" name="price" >
-			</div>
-			<div>
-				<label for="tax">Tax:</label>
-				<input type="text" id="tax" name="tax" >
-			</div>
-			<div>
-				<label for="buyPrice">Buy Price:</label>
-				<input type="text" id="buyPrice" name="buyPrice" >
-			</div>
-			<div>
-				<label for="quantity">Quantity:</label>
-				<input type="text" id="quantity" name="quantity" >
-			</div>
-			<div>
-				<label for="weight">Weight:</label>
-				<input type="text" id="weight" name="weight" >
-			</div>
-			<div>
-				<label for="category">Category:</label>
-				<input type="text" id="category" name="category" >
-			</div>
-			<div>
-				<label for="CategoryData">CategoryData:</label>
-				<input type="text" id="CategoryData" name="CategoryData" >
-			</div>
-			<div>
-				<label for="image">Image:</label>
-				<input type="file" id="image" name="image"></input>
-			</div>
-			<div >
-				<input type="submit" value="Add Product" class="btn btn-primary" style="margin-top:5px">
-			</div>
-		</form>
+<script type="text/template" id="ClientTmpl">
 
-		<div id="editProduct">
 
-		</div>
+< _.each(administrators, function(administrator){ %>
+    <tr data-id="< administrator.get("_id") %>">
+        <td class="editable editfn" title="name">< administrator.get("name") %></td>
+        <td class="editable editln" title="description">< administrator.get("description") %></td>
+        <td class="editable editTel" title="price">< administrator.get("price") %></td>
+        <td class="editable editEmail" title="tax">< administrator.get("tax") %></td>
+		<td class="editable editquantity" title="quantity">< administrator.get("quantity") %></td>
+		<td class="editable editweight" title="weight">< administrator.get("weight") %></td>
+		<td class="editable editcategory" title="category">< administrator.get("category") %></td>
+		<td class="editable editmodificationDate" title="image"><img src="< administrator.get("image") %>" style="width:40px; height:40px;"/></td>
+		
+    </tr>
+< }) %>
 
-		<table id="allProducts" class="table table-hover">
-			<thead>
-				<tr>	 
-					<th>Name</th>
-					<th>Description</th>
-					<th>Price</th>
-					<th>Tax</th>
-					<th>Buy Price</th>
-					<th>Quantity</th>
-					<th>Weight</th>
-					<th>Category</th>
-					<th>Category Data</th>
-					<th>Creation Date</th>
-					<th>Modification Date</th>
-					<th>Image</th>
-					<th>Config</th>
-				</tr>
-			</thead>
-		</table>
-
+</script>
+</div>
+<div id = "MaVueAdministratrice">
+<form id="addProduct" class="form-horizontal" enctype="multipart/form-data">
+	<h1>Add Product</h1>
+	<div>
+		<label for="name">Product Name: </label>
+		<input type="text" id="name" name="name" required>
 	</div>
 
-	<script id="allProductsTemplate" type="text/template">
+	<div>
+		<label for="description">Description: </label>
+		<input type="text" id="description" name="description">
+	</div>
 
-		<td><%= name %></td>
-		<td><%= description %></td>
-		<td><%= price %></td>
-		<td><%= tax %></td>
-		<td><%= buyPrice %></td>
-		<td><%= quantity %></td>
-		<td><%= weight %></td>
-		<td><%= category %></td>
-		<td><%= CategoryData %></td>
-		<td><%= creationDate %></td>
-		<td><%= modificationDate %></td>
-		<!--<td></td>-->
-		<td><img src="<%= image %>" /></td>
-		<td><a href="#products/<%= _id %>/edit" class="edit btn">Edit</a></td>
-		<td><a href="#products/<%= _id %>" class="delete btn">Delete</a></td>
-	</script>
+	<div>
+		<label for="price">Price:</label>
+		<input type="text" id="price" name="price" required>
+	</div>
+	<div>
+		<label for="tax">Tax:</label>
+		<input type="text" id="tax" name="tax" required>
+	</div>
+	<div>
+		<label for="buyPrice">Buy Price:</label>
+		<input type="text" id="buyPrice" name="buyPrice" required>
+	</div>
+	<div>
+		<label for="quantity">Quantity:</label>
+		<input type="text" id="quantity" name="quantity" required>
+	</div>
+	<div>
+		<label for="weight">Weight:</label>
+		<input type="text" id="weight" name="weight" >
+	</div>
+	<div>
+		<label for="category">Category:</label>
+		<input type="text" id="category" name="category" >
+	</div>
+	
+	<div>
+		<label for="image">Image:</label>
+		<input type="file" id="image" name="image"></input>
+	</div>
+	<div >
+		<input type="submit" value="Add Product" class="btn btn-primary" style="margin-top:5px">
+	</div>
+</form>
 
-	<script id="editProductTemplate" type="text/template">
-		<h2>Edit Product: <%= name %> </h2>
-		<form id="editProductForm">
-			<div>
-				<label for="edit_name">Name: </label>
-				<input type="text" id="edit_name" name="edit_name" value="<%= name %>">
+<div id="editProduct">
+
+</div>
+<!--
+-->
+
+
+<!--
+-->
+
+
+
+
+<table id="allProducts" class="table table-hover">
+	<thead>
+		<tr class="cart_menu">
+
+											<th class="col-sm-1">Name</th>
+											<th class="col-sm-1">Price</th>
+											<th class="col-sm-1">Tax</th>
+											<th class="col-sm-1">Buy Price</th>
+											<th class="col-sm-1">Quantity</th>
+											<th class="col-sm-1">Weight</th>
+											<th class="col-sm-1">Category</th>
+											<th class="col-sm-1">Modification Date</th>
+											<th class="col-sm-1">Image</th>
+											<th class="col-sm-1 border-none"></th>
+										</tr>
+	</thead>
+</table>
+
+
+
+<script id="allProductsTemplate" type="text/template">
+
+	<td><%= name %></td>
+	<td><%= price %>$</td>
+	<!--<td>< description %></td>-->
+	<td><%= tax %></td>
+	<td><%= buyPrice %>$</td>
+	<td><%= quantity %></td>
+	<td><%= weight %>KG</td>
+	<td><%= category %></td>
+	<!--<td>< creationDate %></td>-->
+	<td><%= modificationDate %></td>
+	<!--<td></td>-->
+	<td><img src="<%= image %>" class="admin_items_image"/></td>
+	<td class="cart_delete border-none admin_grid_actions">
+	<a href="#editProduct" class="edit btn">Edit</a>
+	<a href="#product/<%= _id %>" class="delete btn">Delete</a></td>
+</script>
+
+
+
+</div>
+						</div>
+						
+					</div><!--features_items-->
+					
+				</div>
 			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12" style="text-align: center;">
+						<ul class="pagination">
+							<li class="active"><a href="javascript:void(0);" onClick="console.log(1)">1</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">2</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">3</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">»</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div id="show_product_form" class="modalDialog modalDialogFormAdmin">
+		<div class="marginModalDialogFormAdmin">
+			<a href="#close" title="Close" class="close">X</a>
+			<div class="container">
+				
+				<div class="replay-box">
+					<div class="row">
+						<div class="col-sm-12">
+							<h2>Create / Edit Product</h2>
+							<form  method="post" class="css-form" enctype="multipart/form-data" id="addProduct">
+								<input type="hidden" name="idProduct" value="">
+								<div class="container">
+									<div class="col-sm-6">
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Product Name</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="name" id="name" placeholder="Product Name" required> 
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Product Price</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="price" placeholder="Product Price" id="price" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Buy Price</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="buyPrice" placeholder="Buy Price" id="buyPrice" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Product Tax</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="tax" placeholder="Product Tax" id="tax" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Quantity</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="quantity" placeholder="Quantity" id="quantity" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Weight</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="weight" placeholder="Weight" id="weight" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Category</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="category" placeholder="Category" id="category" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Image</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="image" placeholder="Image" id="image">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Description</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<div class="text-area">
+													<textarea rows="5" name="description" id="description"></textarea>
+												</div>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-11">
+												<div colspan="2">
+													<input type="submit" value="Add Product" class="btn btn-primary" style="margin-top:5px">
+												</div>	
+											</div>	
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 
-			<div>
-			<label for="edit_description">Description: </label>
-			<input type="text" id="edit_description" name="edit_description" value="<%= description %>">
+			</div>
 		</div>
+	</div>
+	
+	<div id="editProduct" class="modalDialog modalDialogFormAdmin">
+		<div class="marginModalDialogFormAdmin">
+			<a href="#close" title="Close" class="close">X</a>
+			<div class="container">
+				<div class="replay-box">
+					<div class="row">
+						<div class="col-sm-12">
+						<div id="editProductId" class="col-sm-12">
+							
+							</div>
+								</div>
+								</div>
+							<script id="editProductTemplate" type="text/template">
+								
+								<h2>Create / Edit Product</h2>
+								<form id="editProductForm" class="css-form" >
+								<div class="container">
+									<div class="col-sm-6">
+									<div class="row">
+											<div class="col-sm-5">
+												<label>Product Name</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" id="edit_name" name="edit_name" value="<%= name %>" required> 
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Product Price</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_price" id="edit_price" value="<%= price %>" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Buy Price</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_buyPrice" id="edit_buyPrice" value="<%= buyPrice %>" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Product Tax</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_tax" id="edit_tax" value="<%= tax %>" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Quantity</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_quantity" id="edit_quantity" value="<%= quantity %>" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Weight</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_weight" id="edit_weight" value="<%= weight %>" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Category</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_category" id="edit_category" value="<%= category %>" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Image</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_image" id="edit_image" value="<%= image %>">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Description</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<div class="text-area">
+													<textarea rows="5" name="edit_description" id="edit_description"><%= description %></textarea>
+												</div>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-11">
+												<div colspan="2">
+													<input type="submit" value="Edit Product" class="btn btn-success">
+													<button type="button" class="cancel btn">Cancel</button>
+												</div>	
+											</div>	
+										</div>
+									</div>
+									</div>
+								</form>
+							</script>
+							
+						</div>
+					</div>
+				</div>
 
-		<div>
-			<label for="edit_price">Price:</label>
-			<input type="text" id="edit_price" name="edit_price" value="<%= price %>">
-		</div>
-		<div>
-			<label for="edit_tax">Tax:</label>
-			<input type="text" id="edit_tax" name="edit_tax" value="<%= tax %>">
-		</div>
-		<div>
-			<label for="edit_buyPrice">Buy Price:</label>
-			<input type="text" id="edit_buyPrice" name="edit_buyPrice" value="<%= buyPrice %>">
-		</div>
-		<div>
-			<label for="edit_quantity">Quantity:</label>
-			<input type="text" id="edit_quantity" name="edit_quantity" value="<%= quantity %>">
-		</div>
-		<div>
-			<label for="edit_weight">Weight:</label>
-			<input type="text" id="edit_weight" name="edit_weight" value="<%= weight %>">
-		</div>
-		<div>
-			<label for="edit_category">Category:</label>
-			<input type="text" id="edit_category" name="edit_category" value="<%= category %>">
-		</div>
-		<div>
-			<label for="edit_CategoryData">Data Category:</label>
-			<input type="text" id="edit_CategoryData" name="edit_CategoryData" value="<%= CategoryData %>">
-		</div>
-		<div>
-			<label for="edit_image">Image:</label>
-			<input type="text" id="edit_image" name="edit_image" value="<%= image %>"></input>
-		</div>
+			</div>
+		
+	
+	<section id="admin_section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 padding-right">
+					<div class=""><!--features_items-->
+						<h2 class="title text-center">Categories</h2>
+						<div class="container admin_section_container section_color2">
+							<div class="row ">
+								<a href="#show_category_form" class="btn btn-default admin_button">New Category</a>
+							</div>
+							<div class="row section_color1">
+								<table class="table table-condensed " id="allcategories">
+									<thead>
+										<tr class="cart_menu">
+
+											<th class="col-sm-1">idCategory</th>
+											<th class="col-sm-1">Name</th>
+											<th class="col-sm-1">Parent</th>
+											<th class="col-sm-1">Level</th>
+											<th class="col-sm-1">Modification Date</th>
+											<th class="col-sm-1 border-none"></th>
+										</tr>
+									</thead>
+									
+								</table>
+								
+									<script id="allCategoriesTemplate" type="text/template">
+										<td><%= idCategory %></td>
+										<td><%= name %></td>
+										<td><%= idParent %></td>
+										<td><%= level %></td>
+										<td><%= modificationDate %></td>
+										<td class="cart_delete border-none admin_grid_actions">
+										<a href="#editCategory" class="edit btn">Edit</a>
+										<a href="#category/<%= _id %>" class="delete btn">Delete</a></td>
+									</script>
+
+
+							</div>
+						</div>
+						
+					</div><!--features_items-->
+					
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12" style="text-align: center;">
+						<ul class="pagination">
+							<li class="active"><a href="javascript:void(0);" onClick="console.log(1)">1</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">2</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">3</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">»</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 			
-			<div>
-				<input type="submit" value="Edit Product" class="btn btn-success">
-				<button type="button" class="cancel btn">Cancel</button>
+			<!--  -->
+			
+		</div>
+	</section>
+	<div id="show_category_form" class="modalDialog modalDialogFormAdmin">
+		<div class="marginModalDialogFormAdmin">
+			<a href="#close" title="Close" class="close">X</a>
+			<div class="container">
+				
+				<div class="replay-box">
+					<div class="row">
+						<div class="col-sm-12">
+							<h2>Create / Edit Category</h2>
+							<form  method="post" class="css-form" enctype="multipart/form-data" id="addCategory">
+								<input type="hidden" name="idCategory" value="">
+								<div class="container">
+									<div class="col-sm-6">
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Category Name</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="name_Cat" placeholder="Category Name" id="name_Cat" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Category Parent</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="parent_name" placeholder="Category Parent" id="parent_name">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Level</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="level" placeholder="Level" id="level" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-11">
+												<div colspan="2">
+													<input type="submit" value="Add Category" class="btn btn-primary" style="margin-top:5px">
+												</div>	
+											</div>	
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
 			</div>
-		</form>
-	</script>
+		</div>
+	</div>
+	
+	<div id="editCategory" class="modalDialog modalDialogFormAdmin">
+		<div class="marginModalDialogFormAdmin">
+			<a href="#close" title="Close" class="close">X</a>
+			<div class="container">
+				<div class="replay-box">
+				
+					<div class="col-sm-12">
+						<div class="row">
+							<div id="editCategoryId" class="col-sm-12">
+								</div>
+							</div>
+						</div>
+						<script id="editCategoryTemplate" type="text/template">
+							<h2>Create / Edit Category</h2>
+							<form class="css-form"  id="editCategoryForm">
+								
+								<div class="container">
+									<div class="col-sm-6">
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Category Name</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_name_Cat"  id="edit_name_Cat" value="<%= name %>" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Category Parent</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_idParent" id="edit_idParent" value="<%= idParent %>">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>Level</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_level" id="edit_level" value="<%= level %>" required>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-11">
+												<div colspan="2">
+													<input type="submit" value="Edit Contact" class="btn btn-success">
+													<button type="button" class="cancel btn">Cancel</button>
+												</div>	
+											</div>	
+										</div>
+									</div>
+								</div>
+							</form>
+						</script>
+						
+				</div>
 
-	<script src="js/jquery-latest.js"></script>
-	<script src="js/underscore-min.js"></script>
-	<script src="js/backbone-min.js"></script>
-	<script src="js/main.js"></script>
-	<script src="js/models.js"></script>
-	<script src="js/collections.js"></script>
-	<script src="js/views.js"></script>
-	<script src="js/router.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+			</div>
+		</div>
+	</div>
 
-	<script>
-		new App.Router;
-		Backbone.history.start();
 
-		App.products = new App.Collections.Products;
-		App.products.fetch().then(function() {
-			new App.Views.App({ collection: App.products });
-		});
-	</script>
+	<section id="admin_section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 padding-right">
+					<div class=""><!--features_items-->
+						<h2 class="title text-center">Orders</h2>
+							
+						<div class="container admin_section_container section_color2">
+							<div class="row ">
+								<a href="#show_order_form" class="btn btn-default admin_button">New Order</a>
+							</div>
+							<div class="row section_color1">
+								<table class="table table-condensed " id="allorders">
+									<thead>
+										<tr class="cart_menu">
+
+											<th class="col-sm-1">idOrder</th>
+											<!-- <th class="col-sm-1">User Name</th> -->
+											<th class="col-sm-1">Address</th>
+											<th class="col-sm-1">total</th>
+											<th class="col-sm-1">status</th>
+											<th class="col-sm-1">city</th>
+											<th class="col-sm-1">totalTax</th>
+											<th class="col-sm-1">approvalCode</th>
+											<th class="col-sm-1">Modification Date</th>
+											<th class="col-sm-1 border-none"></th>
+										</tr>
+									</thead>
+									
+								</table>
+	
+								<script id="allOrdersTemplate" type="text/template">
+										<td><%= idOrder %></td>
+										<td><%= address %></td>
+										<td><%= total %></td>
+										<td><%= status %></td>
+										<td><%= city %></td>
+										<td><%= totalTax %></td>
+										<td><%= approvalCode %></td>
+										<td><%= modificationDate %></td>
+										<td class="cart_delete border-none admin_grid_actions">
+										<a href="#editOrder" class="edit btn">Edit</a>
+										<a href="#order/<%= _id %>" class="delete btn">Delete</a></td>
+									</script>
+								<!--
+								<script id="editOrderTemplate" type="text/template">
+								<h2>Edit Order: idOrder %> </h2>
+								<form id="editProductForm">
+									<div>
+										<label for="edit_address">Address: </label>
+										
+									</div>
+
+									<div>
+									<label for="edit_total">total: </label>
+									<input type="text" id="edit_total" name="edit_total" value="< total %>">
+								</div>
+
+								<div>
+									<label for="edit_status">status:</label>
+									
+								</div>
+								<div>
+									<label for="edit_city">city:</label>
+									
+								</div>
+								<div>
+									<label for="edit_totalTax">total Tax:</label>
+									<input type="text" id="edit_totalTax" name="edit_totalTax" value="< totalTax %>">
+								</div>
+								<div>
+									</div>
+								<div>
+									<label for="edit_modificationDate">modificationDate:</label>
+									<input type="text" id="edit_modificationDate" name="edit_modificationDate" value="< modificationDate %>">
+								</div>									
+								<div>
+									<input type="submit" value="Edit Product" class="btn btn-success">
+									<button type="button" class="cancel btn">Cancel</button>
+								</div>
+								</form>
+							</script>-->
+							</div>
+						</div>
+						
+					</div><!--features_items-->
+					
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12" style="text-align: center;">
+						<ul class="pagination">
+							<li class="active"><a href="javascript:void(0);" onClick="console.log(1)">1</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">2</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">3</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">»</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div id="show_order_form" class="modalDialog modalDialogFormAdmin2">
+		<div class="marginModalDialogFormAdmin">
+			<a href="#close" title="Close" class="close">X</a>
+			<div class="">
+				
+				<div class="replay-box">
+					<div class="row">
+						<h2>Create / Edit Order</h2>
+						<form  method="post" class="css-form" enctype="multipart/form-data">
+							<input type="hidden" name="idOrder" value="">
+							<input type="hidden" name="idUser" value="">
+							<div class="col-sm-12">
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-sm-5">
+											<label>Order Name</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="name" placeholder="Order Name">
+										</div>	
+									</div>
+									<div class="row">
+										<div class="col-sm-5">
+											<label>User</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="user.name" placeholder="User">
+										</div>	
+									</div>
+									<div class="row">
+										<div class="col-sm-5">
+											<label>Address</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="address" placeholder="Address">
+										</div>	
+									</div>
+									
+								</div>
+								<div class="col-sm-6">
+									
+									<div class="row">
+										<div class="col-sm-5">
+											<label>status</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="status" placeholder="status">
+										</div>	
+									</div>
+									<div class="row">
+										<div class="col-sm-5">
+											<label>country</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="country" placeholder="country">
+										</div>	
+									</div>
+									<div class="row">
+										<div class="col-sm-5">
+											<label>city</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" name="city" placeholder="city">
+										</div>	
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="row">
+						<label>Products</label><span>*</span>
+					</div>
+					<div class="row">
+						<div class="row section_color1">
+							<table class="table table-condensed ">
+								<thead>
+									<tr class="cart_menu">
+
+										<th class="col-sm-2">Name</th>
+										<th class="col-sm-1">Price</th>
+										<th class="col-sm-1">Tax</th>
+										<th class="col-sm-1">Quantity</th>
+										<th class="col-sm-1">Image</th>
+										<th class="col-sm-1 border-none"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="cart_total col-sm-2 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<img class="admin_items_image" src="images/cart/one.png" alt="">
+										</td>
+										<td class="cart_delete border-none admin_grid_actions">
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Edit</i></a>
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Remove</i></a>
+										</td>
+									</tr>
+									<tr>
+										<td class="cart_total col-sm-2 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<img class="admin_items_image" src="images/cart/one.png" alt="">
+										</td>
+										<td class="cart_delete border-none admin_grid_actions">
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Edit</i></a>
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Remove</i></a>
+										</td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-11">
+							<div colspan="2">
+								<a href="javascript:void(0);" onClick="console.log(1)" class="btn btn-primary pull-right">Create/Update</a>
+							</div>	
+						</div>	
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!--edit-->
+	<div id="editOrder" class="modalDialog modalDialogFormAdmin2">
+		<div class="marginModalDialogFormAdmin">
+			<a href="#close" title="Close" class="close">X</a>
+			<div class="">
+				
+				<div id="editOrderId" class="replay-box">
+				</div>
+				<script id="editOrderTemplate" type="text/template">
+					<h2>Edit Order: <%= idOrder %> </h2>
+								
+					<div class="row">
+						<h2>Create / Edit Order</h2>
+						<form id="editOrderForm" method="post" class="css-form" enctype="multipart/form-data">
+							<input type="hidden" name="idOrder" value="">
+							<input type="hidden" name="idUser" value="">
+							<div class="col-sm-12">
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-sm-5">
+											<label>Address</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" id="edit_address" name="edit_name" value="<%= address %>">
+										</div>	
+									</div>
+									
+								</div>
+								<div class="col-sm-6">
+									
+									<div class="row">
+										<div class="col-sm-5">
+											<label>status</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" id="edit_status" name="edit_status" value="<%= status %>">
+										</div>	
+									</div>
+									<div class="row">
+										<div class="col-sm-5">
+											<label>approvalCode</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											
+											<input type="text" id="edit_approvalCode" name="edit_approvalCode" value="<%= approvalCode %>">
+								
+										</div>	
+									</div>
+									<div class="row">
+										<div class="col-sm-5">
+											<label>city</label> <span>*</span>
+										</div>	
+										<div class="col-sm-6">
+											<input type="text" id="edit_city" name="edit_city" value="<%= city %>">
+										</div>	
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="row">
+						<label>Products</label><span>*</span>
+					</div>
+					<div class="row">
+						<div class="row section_color1">
+							<table class="table table-condensed ">
+								<thead>
+									<tr class="cart_menu">
+
+										<th class="col-sm-2">Name</th>
+										<th class="col-sm-1">Price</th>
+										<th class="col-sm-1">Tax</th>
+										<th class="col-sm-1">Quantity</th>
+										<th class="col-sm-1">Image</th>
+										<th class="col-sm-1 border-none"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="cart_total col-sm-2 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<img class="admin_items_image" src="images/cart/one.png" alt="">
+										</td>
+										<td class="cart_delete border-none admin_grid_actions">
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Edit</i></a>
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Remove</i></a>
+										</td>
+									</tr>
+									<tr>
+										<td class="cart_total col-sm-2 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<p>$59</p>
+										</td>
+										<td class="cart_total col-sm-1 ">
+											<img class="admin_items_image" src="images/cart/one.png" alt="">
+										</td>
+										<td class="cart_delete border-none admin_grid_actions">
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Edit</i></a>
+											<a class="cart_quantity_delete" onclick="console.log(1)" href="javascript:void(0);"><i class="fa ">Remove</i></a>
+										</td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-11">
+							<div colspan="2">
+								<a href="javascript:void(0);" onClick="console.log(1)" class="btn btn-primary pull-right">Create/Update</a>
+							</div>	
+						</div>	
+					</div>
+					</script>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!---->
+	<section id="admin_section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 padding-right">
+					<div class=""><!--features_items-->
+						<h2 class="title text-center">Users</h2>
+						<div class="container admin_section_container section_color2">
+							<div class="row ">
+								<a href="#show_user_form" class="btn btn-default admin_button">New User</a>
+							</div>
+							<div class="row section_color1">
+								<table class="table table-condensed " id="allusers">
+									<thead>
+										<tr class="cart_menu">
+										
+											<th class="col-sm-1">idUser</th>
+											<th class="col-sm-1">firstName</th>
+											<th class="col-sm-1">lastName</th>
+											<th class="col-sm-1">email</th>
+											<th class="col-sm-1">rol</th>
+											<th class="col-sm-1 buser-none"></th>
+										</tr>
+									</thead>
+								</table>
+									<script id="allUsersTemplate" type="text/template">
+										<td><%= idUser %></td>
+										<td><%= firstName %></td>
+										<td><%= lastName %></td>
+										<td><%= email %></td>
+										<td><%= rol %></td>
+										<td class="cart_delete border-none admin_grid_actions">
+										<a href="#editUser" class="edit btn">Edit</a>
+										<a href="#user/<%= _id %>" class="delete btn">Delete</a>
+										</td>
+									</script>
+									
+							</div>
+						</div>
+						
+					</div><!--features_items-->
+					
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12" style="text-align: center;">
+						<ul class="pagination">
+							<li class="active"><a href="javascript:void(0);" onClick="console.log(1)">1</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">2</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">3</a></li>
+							<li><a href="javascript:void(0);" onClick="console.log(1)">»</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div id="show_user_form" class="modalDialog modalDialogFormAdmin">
+		<div class="marginModalDialogFormAdmin">
+			<a href="#close" title="Close" class="close">X</a>
+			<div class="container">
+				
+				<div class="replay-box">
+					<div class="row">
+						<div class="col-sm-12">
+							<h2>Create / Edit User</h2>
+							<form  method="post" class="css-form" enctype="multipart/form-data">
+								<input type="hidden" name="idUser" value="">
+								<div class="container">
+									<div class="col-sm-6">
+										<div class="row">
+											<div class="col-sm-5">
+												<label>firstName</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="firstName" placeholder="firstName">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>lastName</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="lastName" placeholder="lastName">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>email</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="email" placeholder="email">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>rol</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="rol" placeholder="rol">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-11">
+												<div colspan="2">
+													<input type="submit" value="Add User" class="btn btn-primary" style="margin-top:5px">
+												</div>	
+											</div>	
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div id="editUser" class="modalDialog modalDialogFormAdmin">
+		<div class="marginModalDialogFormAdmin">
+			<a href="#close" title="Close" class="close">X</a>
+			<div class="container">
+				
+				<div class="replay-box">
+					<div class="col-sm-12">
+						<div class="row">
+							<div id="editUserId" class="col-sm-12">
+								</div>
+							</div>
+						</div>
+						<script id="editUserTemplate" type="text/template">
+							<h2>Create / Edit User</h2>
+							<form class="css-form"  id="editUserForm">
+								<input type="hidden" name="idUser" value="">
+								<div class="container">
+									<div class="col-sm-6">
+										<div class="row">
+											<div class="col-sm-5">
+												<label>firstName</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_firstName" value="<%= firstName %>">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>lastName</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_lastName" value="<%= lastName %>">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>email</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_email" value="<%= email %>">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>rol</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_rol" value="<%= rol %>">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-11">
+												<div colspan="2">
+													<input type="submit" value="Add User" class="btn btn-primary" style="margin-top:5px">
+												</div>	
+											</div>	
+										</div>
+									</div>
+								</div>
+							</form>
+						</script>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+	
+	<footer id="footer_admin"><!--Footer-->
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row">
+					<p class="pull-left"> UM2 Faculté de Sciences .</p>
+					<p class="pull-right">MAIGA Mariam - BOUHASI Meriam - MUNOZ Jimmy</span></p>
+				</div>
+			</div>
+		</div>
+	</footer><!--/Footer-->
+
+	
+
+	<div id="showLoginSingUp" class="modalDialog">
+		<div>
+			<div>
+				
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="login-form"><!--login form-->
+								<h2 class="login_subtitre_color">Login to your account</h2>
+								<form action="#">
+									<input type="email" name="email" placeholder="Email Address">
+									<input type="password" name="password" placeholder="Password">
+									<button class="btn btn-default" type="submit">Login</button>
+								</form>
+							</div><!--/login form-->
+						</div>
+						<div class="col-sm-1">
+						</div>
+						<div class="col-sm-4">
+							<div class="signup-form"><!--sign up form-->
+								<h2 class="login_subtitre_color">New User Signup!</h2>
+								<form action="#">
+									<input type="text" name="firstName" placeholder="Name">
+									<input type="text" name="lastName" placeholder="Last Name">
+									<input type="email" name="email" placeholder="Email Address">
+									<input type="password" name="password" placeholder="Password">
+									<button class="btn btn-default" type="submit">Signup</button>
+								</form>
+							</div><!--/sign up form-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<section id="style-switcher" class="">
+		<h2> Framework View <a href="#"><div class="icon_settings"></div></a></h2>
+		<ul>
+			<li id="framework_backbone" class="icon_backbone"></li>
+			<li id="framework_angular_react" class="icon_angular-react"></li>
+			<li id="framework_ember" class="icon_ember"></li>
+		</ul>
+	</section>
+
+<script src="js/jquery-latest.js"></script>
+<script src="js/underscore-min.js"></script>
+<script src="js/backbone-min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/models.js"></script>
+<script src="js/collections.js"></script>
+<script src="js/views.js"></script>
+<script src="js/CategoriesViews.js"></script>
+<script src="js/OrdersViews.js"></script>
+<script src="js/router.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script src="js/jquery.scrollUp.min.js"></script>
+	<script src="js/price-range.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
+    <script src="js/jquery-ui/jquery-ui.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  	<!-- Jimmy Custom JS-->
+    <script src="js/our_js.js"></script>
+	
+ 
+	
+<script>
+	new App.Router;
+	Backbone.history.start();
+
+	App.products = new App.Collections.Products;
+	App.products.fetch().then(function() {
+		new App.Views.App({ collection: App.products });
+	});
+	
+	App.categories = new App.Collections.Category;
+	App.categories.fetch().then(function() {
+		new App.CategoriesViews.App({ collection: App.categories });
+	});
+	
+	App.orders = new App.Collections.Order;
+	App.orders.fetch().then(function() {
+		new App.OrdersViews.App({ collection: App.orders });
+	});
+	
+	App.users = new App.Collections.User;
+	App.users.fetch().then(function() {
+		new App.UsersViews.App({ collection: App.users });
+	});
+	
+</script>
 
 </body>
 </html>

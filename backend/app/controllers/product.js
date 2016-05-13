@@ -10,6 +10,7 @@ var ProductEvaluation = require(pathServer + 'app/models/productEvaluation');
 //Helpers:
 var commonHelper   = require(pathServer + 'app/helpers/common');
 var authenticationHelper   = require(pathServer + 'app/helpers/authentication');
+var app = express();
 //http://localhost:8888/product/setup
 moduleRoutes.get('/setup', function(req, res) {
    var dataProduct = new Product({
@@ -40,6 +41,7 @@ moduleRoutes.get('/setup', function(req, res) {
 
 //Public Methods:
 //http://localhost:8888/product/createProduct
+//moduleRoutes.post('/', function(req, res) {
 moduleRoutes.post('/createProduct', function(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -121,7 +123,8 @@ moduleRoutes.post('/createProduct', function(req, res) {
 
 					var msgResponse = 'Product saved successfully';
 					console.log(msgResponse);
-					res.json({ success: true, message: msgResponse, data: dataProduct 	});
+					res.json({ success: true, message: msgResponse, data: dataProduct});
+					//res.send(dataProduct);
 				});
 
             }
@@ -158,6 +161,7 @@ moduleRoutes.get('/getProduct', function(req, res) {
 
 
 //http://localhost:8888/product/updateProduct?idProduct=1
+//moduleRoutes.put('/:id', function(req, res) {
 moduleRoutes.post('/updateProduct', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
@@ -166,9 +170,9 @@ moduleRoutes.post('/updateProduct', function(req, res) {
     //  console.log("end Body");
     console.log(req.body.name);
     // validation id
-    if(! ( HelperValidator.isNumeric( req.body.idProduct) && req.body.idProduct != "" )  ){
+    /*if(! ( HelperValidator.isNumeric( req.body.idProduct) && req.body.idProduct != "" )  ){
 		validationResponse.addError("Invalid idProduct: " + req.body.idProduct);
-    }
+    }*/
     // validation name
     if(! ( HelperValidator.isAscii( req.body.name) && req.body.name != "" )  ){
 		validationResponse.addError("Invalid product name: " + req.body.name);
@@ -270,8 +274,19 @@ moduleRoutes.post('/updateProduct', function(req, res) {
 
   	}
 });
+/*
+moduleRoutes.delete("/Product/:id", function(req,res){
+  var id = req.params.id;
+  Product.findById(id, function(err, prod) {
+      prod.remove(function(err) {
+        if(err) throw err;
+        
+      });
+    });
+});*/
 
 //http://localhost:8888/product/removeProduct?idProduct=1
+//moduleRoutes.delete('/:id', function(req, res) {
 moduleRoutes.delete('/removeProduct', function(req, res) {
 	var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
@@ -505,6 +520,17 @@ moduleRoutes.post('/productComment', function(req, res) {
 				}
 			});
 	}
+});
+
+module.exports = moduleRoutes;
+
+// http://localhost:8888/product/AllProducts
+moduleRoutes.get("/", function(req,res){
+  Product.find({},function(err,docs){
+    if(err) throw err;
+    res.send(docs);
+	//console.log(docs);
+  });
 });
 
 module.exports = moduleRoutes;

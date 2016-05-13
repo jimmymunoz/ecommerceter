@@ -12,9 +12,9 @@ var commonHelper   = require(pathServer + 'app/helpers/common');
 var authenticationHelper   = require(pathServer + 'app/helpers/authentication'); 
 
 //http://localhost:8888/order/
-moduleRoutes.get('/', function(req, res) {
+/* moduleRoutes.get('/', function(req, res) {
         res.json({ success: false, message: 'Invalid Order action', data: req.decoded });
-});
+}); */
 
 //http://localhost:8888/order/getOrder?idOrder=1 //Comment connaiter le client en question
 moduleRoutes.get('/getOrder', function(req, res) {
@@ -66,6 +66,17 @@ moduleRoutes.get('/getAdminOrders', function(req, res) {
     });
         
 });
+
+moduleRoutes.get('/', function(req, res) {
+    Order.find({}).
+    sort('-idCategory').
+    select('idUser idOrder address creationDate total status city totalTax orderLines approvalCode paymentDate modificationDate ').
+    exec(function(err, Orders) {
+       // res.json({ success: true, message: 'Order List:', data: Orders });
+	   res.send(Orders);
+    });
+});
+
 //http://localhost:8888/order/getClientOrder?idUser=1
 moduleRoutes.get('/getClientOrder', function(req, res) {
     //res.setHeader('Access-Control-Allow-Origin', '*');

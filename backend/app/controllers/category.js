@@ -34,6 +34,7 @@ moduleRoutes.get('/setup', function(req, res) {
 });
 //Public Methods:
 // http://localhost:8888/category/createCategory
+//moduleRoutes.post('/', function(req, res) {
 moduleRoutes.post('/createCategory', function(req, res) {
 	var validationResponse = commonHelper.getValidationResponse();
 	var HelperValidator = commonHelper.validator;
@@ -197,6 +198,7 @@ moduleRoutes.get('/getCategorysParentWithChilds', function(req, res) {
 
 
 // http://localhost:8888/category/updateCategory?idCategory=1
+//moduleRoutes.put('/:id', function(req, res) {
 moduleRoutes.post('/updateCategory', function(req, res) {
 	var validationResponse = commonHelper.getValidationResponse();
 	var HelperValidator = commonHelper.validator;
@@ -313,6 +315,7 @@ moduleRoutes.get('/getCategory', function(req, res) {
 
 
 // http://localhost:8888/category/removeCategory?idCategory=1
+//moduleRoutes.delete('/:id', function(req, res) {
 moduleRoutes.delete('/removeCategory', function(req, res) {
     Category.remove({
         idCategory: req.body.idCategory

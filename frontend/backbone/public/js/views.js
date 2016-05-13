@@ -6,20 +6,24 @@
 
 App.Views.App = Backbone.View.extend({
 	initialize: function() {
-		$("#editProduct").hide();
-		vent.on('product:edit', this.editProduct, this);
+		
+		//$("#editProduct").hide();
+		//vent.on('product:edit', this.editProduct, this);
 
 		var addProductView = new App.Views.AddProduct({ collection: App.products });
-
+		
 		var allProductsView = new App.Views.Products({ collection: App.products });
 		$('#allProducts').append(allProductsView.render().el);
-	},
+		
+	}
+	/*,
 
 	editProduct: function(product) {
 		var editProductView = new App.Views.EditProduct({ model: product });
 		$('#editProduct').html(editProductView.el);
-	}
+	}*/
 });
+
 
 
 /*
@@ -40,7 +44,7 @@ App.Views.AddProduct = Backbone.View.extend({
 		this.quantity = $('#quantity');
 		this.weight = $('#weight');
 		this.category = $('#category');
-		this.CategoryData = $('#CategoryData');
+		//this.CategoryData = $('#CategoryData');
 		this.creationDate = $('#creationDate');
 		this.modificationDate = $('#modificationDate');
 	},
@@ -62,7 +66,7 @@ App.Views.AddProduct = Backbone.View.extend({
 			quantity: this.quantity.val(),
 			weight: this.weight.val(),
 			category: this.category.val(),
-			CategoryData: this.CategoryData.val(),
+			//CategoryData: this.CategoryData.val(),
 			creationDate: Date(),
 			modificationDate: ''
 		}, { wait: true });
@@ -79,7 +83,7 @@ App.Views.AddProduct = Backbone.View.extend({
 		this.image.val('');
 		this.weight.val('');
 		this.category.val('');
-		this.CategoryData.val('');
+		//this.CategoryData.val('');
 		
 	}
 });
@@ -107,7 +111,7 @@ App.Views.EditProduct = Backbone.View.extend({
 		this.quantity = this.form.find('#edit_quantity');
 		this.weight = this.form.find('#edit_weight');
 		this.category = this.form.find('#edit_category');
-		this.CategoryData = this.form.find('#edit_CategoryData');
+		//this.CategoryData = this.form.find('#edit_CategoryData');
 		
 	},
 
@@ -129,19 +133,19 @@ App.Views.EditProduct = Backbone.View.extend({
 			quantity: this.quantity.val(),
 			weight: this.weight.val(),
 			category: this.category.val(),
-			CategoryData: this.CategoryData.val(),
+			//CategoryData: this.CategoryData.val(),
 			modificationDate: Date()
 		});
 
-		this.remove();
+		/*this.remove();
 		$("#editProduct").hide();
-		$("#addProduct").show();
+		$("#addProduct").show();*/
 	},
 
 	cancel: function() {
-		this.remove();
+		/*this.remove();
 		$("#editProduct").hide();
-		$("#addProduct").show();		
+		$("#addProduct").show();*/		
 	},
 
 	render: function() {
@@ -151,6 +155,7 @@ App.Views.EditProduct = Backbone.View.extend({
 		return this;
 	}
 });
+
 
 
 /*
@@ -199,9 +204,8 @@ App.Views.Product = Backbone.View.extend({
 	},
 
 	editProduct: function() {
-		vent.trigger('product:edit', this.model);
-		$("#addProduct").hide();
-		$("#editProduct").show();
+		var editProductView = new App.Views.EditProduct({ model: this.model });
+		$('#editProductId').html(editProductView.el);
 	},
 
 	deleteProduct: function() {
@@ -217,3 +221,4 @@ App.Views.Product = Backbone.View.extend({
 		this.remove();
 	}
 });
+

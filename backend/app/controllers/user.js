@@ -10,9 +10,9 @@ var commonHelper   = require(pathServer + 'app/helpers/common');
 
 
 //http://localhost:8888/user/
-moduleRoutes.get('/', function(req, res) {
+/*moduleRoutes.get('/', function(req, res) {
     res.json({ success: false, message: 'Invalid User action', data: req.decoded });
-});
+});*/
 
 //http://localhost:8888/user/getMyUser
 moduleRoutes.get('/getMyUser', function(req, res) {
@@ -90,6 +90,14 @@ moduleRoutes.get('/getUser', function(req, res) {
             }
         });
     }
+});
+
+moduleRoutes.get("/", function(req,res){
+  User.find({},function(err,Users){
+    if(err) throw err;
+	
+    res.send(Users);
+  });
 });
 
 //http://localhost:8888/user/getUsersList
@@ -199,6 +207,7 @@ moduleRoutes.post('/createUser', function(req, res) {
 });
 
 //http://localhost:8888/user/updateUser?idUser=1
+//moduleRoutes.put('/:id', function(req, res) {
 moduleRoutes.post('/updateUser', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
@@ -308,6 +317,7 @@ moduleRoutes.get('/setup', function(req, res) {
 });
 
 //http://localhost:8888/user/removeUser?idUser=1
+//moduleRoutes.delete('/:id', function(req, res) {
 moduleRoutes.delete('/removeUser', function(req, res) {
     var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
