@@ -1,0 +1,25 @@
+<table width="100%">
+    <thead>
+        <tr>
+            <th class="sort sortable" data-sortBy="firstName">First name</th>
+            <th class="sort sortable" data-sortBy="lastName">Last name</th>
+            <th class="sort sortable" data-sortBy="phone">Phone</th>
+            <th class="sort sortable" data-sortBy="email">Email</th>
+            <th class="sort sortable" data-sortBy="privileges">Privileges</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<input type="text" id="filter" placeholder="filter me" />
+<script type="text/template" id="administratorTmpl">
+<% _.each(administrators, function(administrator){ %>
+    <tr data-id="<%= administrator.get("id") %>">
+        <td class="editable editTxt" title="First Name"><%= administrator.get("firstName") %></td>
+        <td class="editable editTxt" title="Last Name"><%= administrator.get("lastName") %></td>
+        <td class="editable editTel" title="Phone"><%= administrator.get("phone") %></td>
+        <td class="editable editEmail" title="Email"><%= administrator.get("email") %></td>
+        <td class="editable editRadio" title="Privileges"><%= administrator.get("privileges") %></td>
+    </tr>
+<% }) %>
+</script>
