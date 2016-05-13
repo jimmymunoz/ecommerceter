@@ -30,7 +30,7 @@ App.CategoriesViews.AddCategory = Backbone.View.extend({
 	initialize: function() {
 		this.name = $('#name_Cat');
 		this.idParent = $('#parent_name');
-		this.level = $('#level');
+		//this.level = $('#level');
 		this.creationDate = $('#creationDate');
 		this.modificationDate = $('#modificationDate');
 	},
@@ -42,10 +42,11 @@ App.CategoriesViews.AddCategory = Backbone.View.extend({
 	addCategory: function(e) {
 		e.preventDefault();
 		console.log(this.name.val());
+		console.log(this.idParent.val());
 		this.collection.create({
 			name: this.name.val(),
 			idParent: this.idParent.val(),
-			level: this.level.val(),
+			//level: this.level.val(),
 			creationDate: Date(),
 			modificationDate: ''
 		}, { wait: true });
@@ -55,7 +56,7 @@ App.CategoriesViews.AddCategory = Backbone.View.extend({
 	clearForm: function() {
 		this.name.val('');
 		this.idParent.val('');
-		this.level.val('');
+		//this.level.val('');
 		
 	}
 });
@@ -76,7 +77,7 @@ App.CategoriesViews.EditCategory = Backbone.View.extend({
 		
 		this.name = this.form.find('#edit_name_Cat');
 		this.idParent = this.form.find('#edit_idParent');
-		this.level = this.form.find('#edit_level');
+		//this.level = this.form.find('#edit_level');
 		
 	},
 
@@ -91,7 +92,7 @@ App.CategoriesViews.EditCategory = Backbone.View.extend({
 		this.model.save({
 			name: this.name.val(),
 			idParent: this.idParent.val(),
-			level: this.level.val(),
+			//level: this.level.val(),
 			modificationDate: Date()
 		});
 

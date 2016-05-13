@@ -1,6 +1,13 @@
 App.Collections.Products = Backbone.Collection.extend({
 	model: App.Models.Product,
-	url: 'http://localhost:8888/product'
+	url: 'http://localhost:8888/product',
+	parse: function(data) {
+		
+		//for (i = 0; i< data.data.length ; i++)
+		//console.log( data.data[i].category);
+		return data.data;
+		
+	}
 	/* search : function(letters){
       if(letters == "") return this;
       var pattern = new RegExp(letters,"gi");
@@ -40,10 +47,10 @@ App.Collections.Products = Backbone.Collection.extend({
 
 App.Collections.Category = Backbone.Collection.extend({
 	model: App.Models.Category,
-	//url: 'http://localhost:8888/category',
-	url: 'http://localhost:8888/category/getCategorysList',
+	url: 'http://localhost:8888/category',
+	//url: 'http://localhost:8888/category/getCategorysList',
 	parse: function(data) {
-		console.log(data);
+		//console.log(data);
 		return data.data;
 	}
 });
@@ -55,5 +62,9 @@ App.Collections.Order = Backbone.Collection.extend({
 	
 App.Collections.User = Backbone.Collection.extend({
 	model: App.Models.User,
-	url: 'http://localhost:8888/user'
+	url: 'http://localhost:8888/user',
+	parse: function(data) {
+		//console.log(data);
+		return data.data;
+	}
 	});

@@ -4,6 +4,7 @@
 |--------------------------------------------------------------------------
 */
 
+
 App.Views.App = Backbone.View.extend({
 	initialize: function() {
 		
@@ -96,9 +97,11 @@ App.Views.AddProduct = Backbone.View.extend({
 */
 App.Views.EditProduct = Backbone.View.extend({
 	template: template('editProductTemplate'),
+	//el: '#editProductTemplate',
 
 	initialize: function() {
 		this.render();
+		
 
 		this.form = this.$('form');
 		
@@ -149,8 +152,10 @@ App.Views.EditProduct = Backbone.View.extend({
 	},
 
 	render: function() {
+	
+		
 		var html = this.template( this.model.toJSON() );
-
+		// console.log(this.model.toJSON());
 		this.$el.html(html);
 		return this;
 	}
@@ -206,6 +211,7 @@ App.Views.Product = Backbone.View.extend({
 	editProduct: function() {
 		var editProductView = new App.Views.EditProduct({ model: this.model });
 		$('#editProductId').html(editProductView.el);
+		
 	},
 
 	deleteProduct: function() {

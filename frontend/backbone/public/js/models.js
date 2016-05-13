@@ -22,17 +22,19 @@ App.Models.Product = Backbone.Model.extend({
 App.Models.Category = Backbone.Model.extend({
 	
 	idAttribute : "_id",
-	urlRoot: "http://localhost:8888/category/getCategorysList",
+	urlRoot: "http://localhost:8888/category",
+	//urlRoot: "http://localhost:8888/category/getCategorysList",
 	defaults : {
 		_id: null
 	},
+	/*
 	altSave: function(){
 		$.post("http://localhost:8888/category/createCategory", {}, 
 		
 			function(response){
 				console.log(response)
 		});
-	}
+	}*/
 });
 
 App.Models.Order = Backbone.Model.extend({

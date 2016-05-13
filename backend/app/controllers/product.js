@@ -290,19 +290,24 @@ moduleRoutes.delete("/Product/:id", function(req,res){
 moduleRoutes.delete('/removeProduct', function(req, res) {
 	var validationResponse = commonHelper.getValidationResponse();
     var HelperValidator = commonHelper.validator;
-	// validation id
-    if(! ( HelperValidator.isNumeric( req.body.idProduct) && req.body.idProduct != "" )  ){
-		validationResponse.addError("Invalid idProduct: " + req.body.idProduct);
+	console.log(req.params.id);
+	// validation idProduct
+   /* if(! ( HelperValidator.isNumeric( req.params.idProduct) && req.params.idProduct != "" )  ){
+		validationResponse.addError("Invalid idProduct: " + req.params.idProduct);
     }
 
     if(! validationResponse.success){
         res.json(validationResponse);
     }
+
     else {
     	var queryWhere = { idProduct: req.body.idProduct };
 		console.log(queryWhere);	   
+=======
+    else {*/
+    	var queryWhere = { _id: req.params.id };
 	    Product.findOne( queryWhere ).
-	        select('idProduct').
+	        select('_id').
 	        exec( function(err, product){
 	            if (err) throw err;
 
@@ -311,7 +316,8 @@ moduleRoutes.delete('/removeProduct', function(req, res) {
 	            } 
 	            else if (product) {
 				    Product.remove({
-				        idProduct: req.body.idProduct
+				       // idProduct: req.body.idProduct
+				        _id: req.params.id
 				    }, function(err, product) {
 				        if (err) throw err;
 
@@ -329,10 +335,21 @@ moduleRoutes.delete('/removeProduct', function(req, res) {
 	            }
 	        });
 	        
-    }
+	//}
+}); 
+
+// http://localhost:8888/product/AllProducts
+/*moduleRoutes.get("/", function(req,res){
+  Product.find({},function(err,docs){
+    if(err) throw err;
+    res.send(docs);
+	//console.log(docs);
+  });
 });
+*/
 
 // http://localhost:8888/product/getProductsList
+//moduleRoutes.get('/', function(req, res) {
 moduleRoutes.get('/getProductsList', function(req, res) {
     idCategory = 0;
     var query = {};
@@ -522,15 +539,5 @@ moduleRoutes.post('/productComment', function(req, res) {
 	}
 });
 
-module.exports = moduleRoutes;
-
-// http://localhost:8888/product/AllProducts
-moduleRoutes.get("/", function(req,res){
-  Product.find({},function(err,docs){
-    if(err) throw err;
-    res.send(docs);
-	//console.log(docs);
-  });
-});
 
 module.exports = moduleRoutes;

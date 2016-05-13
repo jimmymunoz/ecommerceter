@@ -229,8 +229,8 @@
 	<td><%= buyPrice %>$</td>
 	<td><%= quantity %></td>
 	<td><%= weight %>KG</td>
-	<td><%= category %></td>
-	<!--<td>< creationDate %></td>-->
+	<td><%= jQuery.parseJSON(JSON.stringify(category)).name %></td>
+	<!--<td>< modificationDate %></td>-->
 	<td><%= modificationDate %></td>
 	<!--<td></td>-->
 	<td><img src="<%= image %>" class="admin_items_image"/></td>
@@ -264,14 +264,14 @@
 	</section>
 	<div id="show_product_form" class="modalDialog modalDialogFormAdmin">
 		<div class="marginModalDialogFormAdmin">
-			<a href="#close" title="Close" class="close">X</a>
+			<a href="" title="Close" class="close">X</a>
 			<div class="container">
 				
 				<div class="replay-box">
 					<div class="row">
 						<div class="col-sm-12">
 							<h2>Create / Edit Product</h2>
-							<form  method="post" class="css-form" enctype="multipart/form-data" id="addProduct">
+							<form  method="post" class="css-form"  id="addProduct">
 								<input type="hidden" name="idProduct" value="">
 								<div class="container">
 									<div class="col-sm-6">
@@ -327,8 +327,13 @@
 											<div class="col-sm-5">
 												<label>Category</label> <span>*</span>
 											</div>	
-											<div class="col-sm-6">
+											<div class="col-sm-6" >
+												<!--
 												<input type="text" name="category" placeholder="Category" id="category" required>
+												-->
+												<select id="category" name="category" required>
+													
+												</select>
 											</div>	
 										</div>
 										<div class="row">
@@ -369,18 +374,19 @@
 	
 	<div id="editProduct" class="modalDialog modalDialogFormAdmin">
 		<div class="marginModalDialogFormAdmin">
-			<a href="#close" title="Close" class="close">X</a>
+			<a href="" title="Close" class="close">X</a>
 			<div class="container">
 				<div class="replay-box">
 					<div class="row">
 						<div class="col-sm-12">
+						
 						<div id="editProductId" class="col-sm-12">
 							
 							</div>
 								</div>
 								</div>
-							<script id="editProductTemplate" type="text/template">
-								
+							  <script id="editProductTemplate" type="text/template" language="javascript">  
+						
 								<h2>Create / Edit Product</h2>
 								<form id="editProductForm" class="css-form" >
 								<div class="container">
@@ -433,14 +439,23 @@
 												<input type="text" name="edit_weight" id="edit_weight" value="<%= weight %>" required>
 											</div>	
 										</div>
-										<div class="row">
+											<div class="row">
+										
 											<div class="col-sm-5">
 												<label>Category</label> <span>*</span>
 											</div>	
-											<div class="col-sm-6">
-												<input type="text" name="edit_category" id="edit_category" value="<%= category %>" required>
+											<div class="col-sm-6" >
+											 
+											
+												<select name="edit_category" id="edit_category">
+													 <!-- <option value="< ( category == null )? "": category.idCategory %>" selected>
+														< ( category == null )? "": category.name %>
+																			</option>  -->
+												
+												</select>
 											</div>	
 										</div>
+										
 										<div class="row">
 											<div class="col-sm-5">
 												<label>Image</label> <span>*</span>
@@ -470,7 +485,7 @@
 									</div>
 									</div>
 								</form>
-							</script>
+							  </script> 
 							
 						</div>
 					</div>
@@ -508,7 +523,7 @@
 									<script id="allCategoriesTemplate" type="text/template">
 										<td><%= idCategory %></td>
 										<td><%= name %></td>
-										<td><%= idParent %></td>
+										<td><%= ( idParent == null )? "": idParent.name  %></td>
 										<td><%= level %></td>
 										<td><%= modificationDate %></td>
 										<td class="cart_delete border-none admin_grid_actions">
@@ -543,7 +558,7 @@
 	</section>
 	<div id="show_category_form" class="modalDialog modalDialogFormAdmin">
 		<div class="marginModalDialogFormAdmin">
-			<a href="#close" title="Close" class="close">X</a>
+			<a href="" title="Close" class="close">X</a>
 			<div class="container">
 				
 				<div class="replay-box">
@@ -567,17 +582,13 @@
 												<label>Category Parent</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" name="parent_name" placeholder="Category Parent" id="parent_name">
+												<!-- <input type="text" name="parent_name" placeholder="Category Parent" id="parent_name"> -->
+												<select id="parent_name" name="parent_name" >
+												
+												</select>
 											</div>	
 										</div>
-										<div class="row">
-											<div class="col-sm-5">
-												<label>Level</label> <span>*</span>
-											</div>	
-											<div class="col-sm-6">
-												<input type="text" name="level" placeholder="Level" id="level" required>
-											</div>	
-										</div>
+										
 										<div class="row">
 											<div class="col-sm-11">
 												<div colspan="2">
@@ -598,7 +609,7 @@
 	
 	<div id="editCategory" class="modalDialog modalDialogFormAdmin">
 		<div class="marginModalDialogFormAdmin">
-			<a href="#close" title="Close" class="close">X</a>
+			<a href="" title="Close" class="close">X</a>
 			<div class="container">
 				<div class="replay-box">
 				
@@ -627,21 +638,17 @@
 												<label>Category Parent</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" name="edit_idParent" id="edit_idParent" value="<%= idParent %>">
+												<select name="edit_idParent" id="edit_idParent">
+													<option value="<%= jQuery.parseJSON(JSON.stringify(idParent)).idCategory %>" selected>
+													<%= jQuery.parseJSON(JSON.stringify(idParent)).name  %></option>
+												</select>
 											</div>	
 										</div>
-										<div class="row">
-											<div class="col-sm-5">
-												<label>Level</label> <span>*</span>
-											</div>	
-											<div class="col-sm-6">
-												<input type="text" name="edit_level" id="edit_level" value="<%= level %>" required>
-											</div>	
-										</div>
+										
 										<div class="row">
 											<div class="col-sm-11">
 												<div colspan="2">
-													<input type="submit" value="Edit Contact" class="btn btn-success">
+													<input type="submit" value="Edit Category" class="btn btn-success">
 													<button type="button" class="cancel btn">Cancel</button>
 												</div>	
 											</div>	
@@ -763,7 +770,7 @@
 	</section>
 	<div id="show_order_form" class="modalDialog modalDialogFormAdmin2">
 		<div class="marginModalDialogFormAdmin">
-			<a href="#close" title="Close" class="close">X</a>
+			<a href="" title="Close" class="close">X</a>
 			<div class="">
 				
 				<div class="replay-box">
@@ -910,7 +917,7 @@
 	<!--edit-->
 	<div id="editOrder" class="modalDialog modalDialogFormAdmin2">
 		<div class="marginModalDialogFormAdmin">
-			<a href="#close" title="Close" class="close">X</a>
+			<a href="" title="Close" class="close">X</a>
 			<div class="">
 				
 				<div id="editOrderId" class="replay-box">
@@ -1065,6 +1072,7 @@
 											<th class="col-sm-1">firstName</th>
 											<th class="col-sm-1">lastName</th>
 											<th class="col-sm-1">email</th>
+											<th class="col-sm-1">phone</th>
 											<th class="col-sm-1">rol</th>
 											<th class="col-sm-1 buser-none"></th>
 										</tr>
@@ -1075,6 +1083,7 @@
 										<td><%= firstName %></td>
 										<td><%= lastName %></td>
 										<td><%= email %></td>
+										<td><%= phone %></td>
 										<td><%= rol %></td>
 										<td class="cart_delete border-none admin_grid_actions">
 										<a href="#editUser" class="edit btn">Edit</a>
@@ -1105,7 +1114,7 @@
 	</section>
 	<div id="show_user_form" class="modalDialog modalDialogFormAdmin">
 		<div class="marginModalDialogFormAdmin">
-			<a href="#close" title="Close" class="close">X</a>
+			<a href="" title="Close" class="close">X</a>
 			<div class="container">
 				
 				<div class="replay-box">
@@ -1142,6 +1151,14 @@
 										</div>
 										<div class="row">
 											<div class="col-sm-5">
+												<label>phone</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="phone" placeholder="phone">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
 												<label>rol</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
@@ -1168,7 +1185,7 @@
 
 	<div id="editUser" class="modalDialog modalDialogFormAdmin">
 		<div class="marginModalDialogFormAdmin">
-			<a href="#close" title="Close" class="close">X</a>
+			<a href="" title="Close" class="close">X</a>
 			<div class="container">
 				
 				<div class="replay-box">
@@ -1189,7 +1206,7 @@
 												<label>firstName</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" name="edit_firstName" value="<%= firstName %>">
+												<input type="text" name="edit_firstName" id="edit_firstName" value="<%= firstName %>">
 											</div>	
 										</div>
 										<div class="row">
@@ -1197,7 +1214,7 @@
 												<label>lastName</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" name="edit_lastName" value="<%= lastName %>">
+												<input type="text" name="edit_lastName" id="edit_lastName" value="<%= lastName %>">
 											</div>	
 										</div>
 										<div class="row">
@@ -1205,7 +1222,15 @@
 												<label>email</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" name="edit_email" value="<%= email %>">
+												<input type="text" name="edit_email" id="edit_email" value="<%= email %>">
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-sm-5">
+												<label>phone</label> <span>*</span>
+											</div>	
+											<div class="col-sm-6">
+												<input type="text" name="edit_phone" id="edit_phone" value="<%= phone %>">
 											</div>	
 										</div>
 										<div class="row">
@@ -1213,13 +1238,14 @@
 												<label>rol</label> <span>*</span>
 											</div>	
 											<div class="col-sm-6">
-												<input type="text" name="edit_rol" value="<%= rol %>">
+												<input type="text" name="edit_rol" id="edit_rol" value="<%= rol %>">
 											</div>	
 										</div>
 										<div class="row">
 											<div class="col-sm-11">
 												<div colspan="2">
-													<input type="submit" value="Add User" class="btn btn-primary" style="margin-top:5px">
+													<input type="submit" value="Edit User" class="btn btn-success">
+													<button type="button" class="cancel btn">Cancel</button>
 												</div>	
 											</div>	
 										</div>
@@ -1303,6 +1329,8 @@
 <script src="js/views.js"></script>
 <script src="js/CategoriesViews.js"></script>
 <script src="js/OrdersViews.js"></script>
+<script src="js/UsersViews.js"></script>
+<script src="js/application.js"></script>
 <script src="js/router.js"></script>
 <script src="js/bootstrap.min.js"></script>
 

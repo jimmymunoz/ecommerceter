@@ -64,5 +64,15 @@ $(document).ready(function() {
 		$('#style-switcher').removeClass('open');
 		return false; 
 	});	
+});
 
 
+function openModal(div){
+  	$("#" + div).css('opacity', 1);
+  	$("#" + div).css('pointer-events', 'auto');
+  	
+}
+function colseModal(){
+  	$("[class^=modalDialog]").css('opacity', 0);
+  	$("[class^=modalDialog]").css('pointer-events', 'none');
+}

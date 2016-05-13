@@ -20,6 +20,7 @@ App.UsersViews.AddUser = Backbone.View.extend({
 		this.firstName = $('#firstName');
 		this.lastName = $('#lastName');
 		this.email = $('#email');
+		this.email = $('#phone');
 		this.rol = $('#rol');
 	},
 
@@ -34,6 +35,7 @@ App.UsersViews.AddUser = Backbone.View.extend({
 			firstName: this.firstName.val(),
 			lastName: this.lastName.val(),
 			email: this.email.val(),
+			phone: this.phone.val(),
 			rol:this.rol.val()
 			
 		}, { wait: true });
@@ -44,6 +46,7 @@ App.UsersViews.AddUser = Backbone.View.extend({
 		this.firstName.val('');
 		this.lastName.val('');
 		this.email.val('');
+		this.phone.val('');
 		this.rol.val('');
 	}
 });
@@ -65,8 +68,8 @@ App.UsersViews.EditUser = Backbone.View.extend({
 		this.firstName = this.form.find('#edit_firstName');
 		this.lastName = this.form.find('#edit_lastName');
 		this.email = this.form.find('#edit_email');
+		this.phone = this.form.find('#edit_phone');
 		this.rol = this.form.find('#edit_rol');
-		
 	},
 
 	events: {
@@ -76,11 +79,12 @@ App.UsersViews.EditUser = Backbone.View.extend({
 
 	submit: function(e) {
 		e.preventDefault();
-
+	console.log();
 		this.model.save({
 			firstName: this.firstName.val(),
 			lastName: this.lastName.val(),
 			email: this.email.val(),
+			phone: this.phone.val(),
 			rol: this.rol.val()
 		});
 
