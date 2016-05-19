@@ -65,7 +65,6 @@ app.use(morgan('dev'));
 //app.use(authenticationHelper.restrictAccess);
 
 //Controllers
-//app.use('/_population', require('./app/controllers/_population'));
 app.use('/authentication', require('./app/controllers/authentication'));
 app.use('/category', require('./app/controllers/category'));
 app.use('/order', require('./app/controllers/order'));

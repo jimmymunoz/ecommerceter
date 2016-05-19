@@ -16,7 +16,7 @@
                                 <ul class="nav nav-pills nav-stacked">
                                     <li>
                                         <div class="form-group">
-                                            <input ng-change="sendCatalogSearchFormBridge()" ng-model="search_catalog_form.name" name="name" placeholder="Product Name" class="form-control" type="text">
+                                            <input ng-change="sendCatalogSearchFormBridge()" ng-model="search_catalog_form.name" name="name" placeholder="Product Name" id="test_product_name_id" class="form-control" type="text">
                                         </div>
                                     </li>
                                     <li>
@@ -27,7 +27,8 @@
                                 </ul>
                             </div><!--/brands_products-->
                             
-                            <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                            <!--category-productsr-->
+                            <div class="panel-group category-products" id="accordian">
                                 <div class="panel panel-default">
                                     <h2>Category</h2>
                                     <div class="panel panel-default" ng-repeat="(categoryParentKey, categoryParentValue) in category_menu_tree" >
@@ -53,10 +54,9 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-                                
-                            </div><!--/category-products-->
+                            </div>
+                            <!--/category-products-->
                             
                             <div class="price-range"><!--price-range-->
                                 <h2>Price Range</h2>
@@ -74,11 +74,8 @@
                 
                 <div class="col-sm-9 padding-right">
                     <div class="features_items"><!--features_items-->
-                        
                         <product-list data="product_list_data"></product-list>
-                        
                     </div><!--features_items-->
-                    
                 </div>
             </div>
             <div class="container">
@@ -110,7 +107,8 @@
                         </div>
                     </div>
                     <div class="col-sm-7">
-                        <div class="product-information"><!--/product-information-->
+                        <!--/product-information-->
+                        <div class="product-information">
                             <h2>{{detailProduct.name}}</h2>
                             <p>Web ID: {{detailProduct.idProduct}}</p>
                             <img alt="" src="images/product-details/rating.png">
@@ -125,7 +123,8 @@
                             </span>
                             <p><b>Brand:</b> {{detailProduct.brand}}</p>
                             <p>{{detailProduct.description}}</p>
-                        </div><!--/product-information-->
+                        </div>
+                        <!--/product-information-->
                     </div>
                 </div><!--/product-details-->
                 

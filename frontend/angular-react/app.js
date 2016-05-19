@@ -5,7 +5,6 @@
 angular.module('app', [
 	'angularUtils.directives.dirPagination',
 	'ngScrollTo',
-	//'offer',
 	'catalog',
 	'shopping_cart',
 	'payment',
@@ -94,17 +93,20 @@ angular.module('app').run(function($rootScope, $http, $httpParamSerializer){
 	//options
 	setCategorysOptions = function($event){
 		var categoryFilters = "";
-		$http.get (config.pathApiServer + 'category/getCategorysList/?' + categoryFilters).then(function(response){
-            if( response.data.success  ){
-            	$rootScope.options.category_options = [];
-            	for (key in response.data.data){
-            		$rootScope.options.category_options.push({
-            			name: response.data.data[key]['name'],
-            			id: response.data.data[key]['idCategory'],
-            		});
-            	}
-            }
-        });
+		if(false){
+			
+			$http.get (config.pathApiServer + 'category/getCategorysList/?' + categoryFilters).then(function(response){
+	            if( response.data.success  ){
+	            	$rootScope.options.category_options = [];
+	            	for (key in response.data.data){
+	            		$rootScope.options.category_options.push({
+	            			name: response.data.data[key]['name'],
+	            			id: response.data.data[key]['idCategory'],
+	            		});
+	            	}
+	            }
+	        });
+		}
 	}
 	setCategoryMenuTree = function($event){
 		var categoryFilters = "";
@@ -159,7 +161,8 @@ angular.module('app').config(
 		            template: '<admin-product-manager></admin-product-manager>'//Directive -> React module
 		        })
 		        .when('/', {//otherwhise
-		            //template: '<catalog-container></catalog-container>'//Directive -> React module
+		            //template: ''//Directive -> React module
+		            //template: '<catalog-container-manager></catalog-container-manager>'//Directive -> React module
 		            templateUrl: 'modules/main/main.html'//Template or templateUrl
 		        });
 		}

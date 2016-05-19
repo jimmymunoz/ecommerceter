@@ -1,6 +1,7 @@
 App.Collections.Products = Backbone.Collection.extend({
 	model: App.Models.Product,
-	url: 'http://localhost:8888/product',
+	//url: 'http://localhost:8888/product',
+	url: "http://localhost:8888/product/getProductsList/",
 	parse: function(data) {
 		return data.data;
 		

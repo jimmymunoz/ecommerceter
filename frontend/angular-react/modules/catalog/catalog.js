@@ -55,6 +55,15 @@ function setCategoryId (obj){
 
 }
 
+function sendCatalogSearchFormTest (){
+	var $body = angular.element(document.body);
+	var $rootScope = $body.scope().$root; 
+	$rootScope.$apply(function () {            
+		searchProducts(9, 1);
+	});     
+
+}
+
 
 angular.module('catalog', ['ngRoute']);
 
