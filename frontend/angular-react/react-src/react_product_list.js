@@ -21,8 +21,12 @@ var ProductItem = React.createClass({
                                     <div><b>{product_data.name}</b></div>
                                     <span>{product_data.category.name}</span>
                                     <div className="row">
-                                        <div className="col-sm-6"><img alt="" src="images/product-details/rating.png" /></div>
-                                        <div className="col-sm-6"><span className="price_product">{product_data.price} €</span></div>
+                                        <div className="col-sm-6">
+                                            <img alt="" src="images/product-details/rating.png" />
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <span className="price_product">{product_data.price} €</span>
+                                        </div>
                                     </div>
                                 </div>
                             </a>

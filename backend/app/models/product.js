@@ -27,14 +27,9 @@ var schemaProduct = new Schema({
     tax: Number,
     buyPrice: Number,
     price: Number,
-    //image: String,
     quantity: Number,
     weight: Number,
-    //category: Number,
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
-    //productComment: Array,
-    //CategoryData: Array, 
-    //productEvaluation: Array,
     productComment: [ { user: { type: Schema.Types.ObjectId, ref: 'User' }, comment: { type: String } , evaluationDate: { type: Date } }],
     productEvaluation: [ { user: { type: Schema.Types.ObjectId, ref: 'User' }, evaluation: { type: Number } , evaluationDate: { type: Date } }],
     creationDate: Date,
@@ -47,12 +42,10 @@ schemaProduct.plugin(filePlugin, {
     relative_to: uploads_base
 });
 
-
-
 schemaProduct.plugin(autoIncrement.plugin, { model: 'products', field: 'idProduct' });
-//schemaProduct.plugin(mongoosePaginate);
 module.exports = mongoose.model('Product', schemaProduct);
 module.exports.paginate = mongoosePaginate;
+
 //console.log(  mongoosePaginate );
 //console.log(  module.exports.paginate() );
 
