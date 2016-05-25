@@ -136,7 +136,7 @@ h2{
   bottom: 0;
   left: 0;
   background: rgba(0,0,0,0.8);
-  z-index: 99999;
+  z-index: 99000;
   opacity:0;
   -webkit-transition: opacity 400ms ease-in;
   -moz-transition: opacity 400ms ease-in;
@@ -203,6 +203,13 @@ h2{
 }
 .view-product img{
   width: auto !important;
+}
+
+.total_area span{
+  float: none !important;
+}
+.float-right{
+  float: right;
 }
 
 .product-information{
@@ -294,13 +301,16 @@ h2{
   background-size: 40px 40px;
 }
 
+.ui-notify {
+  z-index: 99900 !important;
+}
 
 #style-switcher {
   background-color: #fff;
   width: 200px;
   position: fixed;
   top: 222px;
-  z-index: 99999;
+  z-index: 99000;
   border-radius: 0 0 3px 0;
   left: -200px;
   border: 1px solid #e4e4e4;
@@ -367,6 +377,10 @@ h2{
 .width_90{
   width: 90%;
 }
+
+.width_container_section{
+  width: 1250px;
+}
 .container_project_white{
   background: #fff; 
   padding: 5px; 
@@ -374,8 +388,15 @@ h2{
   border-radius: 10px;
   padding: 10px;
 }
+.shopping_cart_bck{
+  background: #fff; 
+  padding: 5px; 
+  width: 99%;
+  min-height: 750px;
+}
 .cart_product{
-  margin: -1px -71px 11px 25px
+  margin: -1px -71px 11px 25px;
+  min-width: 100px;
 }
 .shopping_cart_image{
   max-height: 70px
@@ -505,6 +526,9 @@ a#scrollUp, .login-form form button, .signup-form form button{
 .nav-tabs li.active a, .nav-tabs li.active a:hover, .nav-tabs li.active a:focus  {
   background-color: #23A657 !important;
 }
+.nav-tabs li.active a, .nav-tabs li.active{
+  cursor: pointer;
+}
 .close {
   background: #23A657;
 }
@@ -587,6 +611,17 @@ a#scrollUp, .login-form form button, .signup-form form button{
   border: 1px solid #23a657;
 }
 
+.slider-selection{
+  background: #23a657 none repeat scroll 0 0;
+}
+
+.tooltip.top .tooltip-arrow{
+  border-top-color: #23a657;
+}
+.tooltip-inner{
+  background-color: #23a657;
+}
+
 /* Background balck replace -> #f0f0e9 -> #101010 */
 /* Background balck replace -> #d6d6d0 -> #101010 */
 
@@ -616,7 +651,9 @@ a#scrollUp, .login-form form button, .signup-form form button{
   background: #000;
 }
 
-
+.project_font {
+  color: #23A657 !important;
+}
 .project_logo_font {
   font-size: 36px !important;
   font-weight: 700;
@@ -650,9 +687,12 @@ a#scrollUp, .login-form form button, .signup-form form button{
 #reviews ul li a i{
   color: #23A657 !important;
 }
+/*
+
 .modalDialog > div{
   padding: 10px 10px 10px 10px;
 }
+ */
 .total_area{
   font-weight: bold;
   font-size: 1.2em;

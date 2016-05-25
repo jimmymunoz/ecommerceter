@@ -1,11 +1,125 @@
-<section id="result_section" class="section_color2" >
+<section id="result_section" class="section_color2" ng-controller="OrderController">
     <div class="container container_project_white width_container_section">
         <header class="section-header text-center">
             <div class="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
                 <h2>Result</h2>
             </div>
         </header>
-        <div class="container">
+        <div class="container" style="display: none--;">
+        	
+        	<div class="fadeInUp animated text-center" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+	            <h2>Web ID {{order_result.idOrder}}</h2>
+	        </div>
+
+			<div class="marginModalDialogProduct section_color3">
+		       
+				<div class="container">
+		            <div class="col-sm-11 padding-right">
+		                <div class="product-details"><!--product-details-->
+		                    <div class="col-sm-12">
+		                        <!--/product-information-->
+		                        <div class="product-information">
+		                            <p><b>Address:</b> {{order_result.address}}</p>
+		                            <p><b>Date:</b> {{order_result.creationDate}}</p>
+		                            <p><b>City:</b> {{order_result.city}}</p>
+		                        </div>
+		                        <!--/product-information-->
+		                    </div>
+		                </div><!--/product-details-->
+		                
+		                <div class="category-tab shop-details-tab" style="background:#ffffff;">
+		                	<!--orderLines-->
+		                    <div class="col-sm-12">
+	                    		<table class="col-sm-12">
+									<thead>
+										<tr class="cart_menu">
+											<th class="image"></th>
+											<th class="description">Product</th>
+											<th class="price">Price</th>
+											<th class="quantity">Quantity</th>
+											<th class="total">Total</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="cart_product ">
+												<a href=""><img alt="" src="images/cart/one.png" class="shopping_cart_image"></a>
+											</td>
+											<td class="cart_description ">
+												<h4><a href="#showProductDetail" class="main_font_color">Colorblock Scuba</a></h4>
+												<p>Web ID: 1089772</p>
+											</td>
+											<td class="cart_price ">
+												<p>$59</p>
+											</td>
+											<td class="cart_quantity ">
+												<p class="cart_quantity_price">59</p>
+											</td>
+											<td class="cart_total ">
+												<p class="cart_total_price">$59</p>
+											</td>
+										</tr>
+										<tr>
+											<td class="cart_product ">
+												<a href=""><img alt="" src="images/cart/one.png" class="shopping_cart_image"></a>
+											</td>
+											<td class="cart_description ">
+												<h4><a href="#showProductDetail" class="main_font_color">Colorblock Scuba</a></h4>
+												<p>Web ID: 1089772</p>
+											</td>
+											<td class="cart_price ">
+												<p>$59</p>
+											</td>
+											<td class="cart_quantity ">
+												<p class="cart_quantity_price">59</p>
+											</td>
+											<td class="cart_total ">
+												<p class="cart_total_price">$59</p>
+											</td>
+										</tr>
+										
+									</tbody>
+								</table>
+		                        
+		                        <div class="row">
+					                <div class="col-sm-6">
+					                    
+					                </div>
+					                <div class="col-sm-6">
+					                    <table class="table total_area">
+										  <thead>
+											<tr>
+											  <th colspan="3" class="text-center">Order sumary</th>
+											</tr>
+										  </thead>
+										  <tbody>
+											<tr>
+											  <td>Shipping cost:</td>
+											  <td></td>
+											  <td class="text-right">Free</td>
+											</tr>
+											<tr>
+											  <td>Tax:</td>
+											  <td></td>
+											  <td class="text-right">0.00 €</td>
+											</tr>
+											<tr>
+											  <td>Total:</td>
+											  <td></td>
+											  <td class="text-right">0.00 €</td>
+											</tr>
+										  </tbody>
+										</table>
+					                </div>
+					            </div>
+					            
+		                    </div>
+		                </div><!--/category-tab-->
+		            </div>
+		        </div>
+		    </div>
+
+
         </div>
     </div>
 </section>

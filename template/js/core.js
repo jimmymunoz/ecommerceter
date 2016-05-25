@@ -360,37 +360,6 @@ function removeToSessionShoppingCart(idProduct){
 	sessionStorage.shoppingCartList = JSON.stringify(newShoppingCartList);
 }
 
-function saveResultOrderInSession(response){
-	
-	sessionStorage.orderResult = JSON.stringify(response);
-	sessionStorage.orderResult['productData'] = getToSessionShoppingCart();
-}
-
-/**
-	address -> "Av 12121"
-	cc_code -> "121"
-	cc_month -> "3"
-	cc_number -> "4111111111111111"
-	cc_year ->	2017
-	city -> "Montpellier"
-	country -> "France"
-	product
-	[26, 32, 31]
-	quantity
-	[1, 1, 2]
-	
- * [getOrderInSession description]
- * @return {[type]} [description]
- */
-function getOrderInSession(){
-	var orderResult = [];
-	if (sessionStorage.orderResult) {
-		if( typeof sessionStorage.orderResult ==  "string" ){
-			orderResult = JSON.parse(sessionStorage.orderResult);
-		}
-	}
-	return orderResult;
-}
 
 
 $(document).ready(function() {
