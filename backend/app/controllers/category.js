@@ -348,4 +348,232 @@ moduleRoutes.delete('/removeCategory', function(req, res) {
     });
 });
 
+/****************************            Backbone            *****************************/
+
+//Public Methods:
+// http://localhost:8888/category/createCategory
+moduleRoutes.post('/', function(req, res) {
+//moduleRoutes.post('/createCategory', function(req, res) {
+	var validationResponse = commonHelper.getValidationResponse();
+	var HelperValidator = commonHelper.validator;
+	console.log(req.body.idParent);
+	// validation idParent
+	if(! ( HelperValidator.isNumeric( req.body.idParent ) && req.body.idParent >= 0 )  ){
+		validationResponse.addError("Invalid categoy idParent: " + req.body.idParent);
+	}
+	//validation name
+	if(! ( HelperValidator.isAscii( req.body.name ) && req.body.name != "" )  ){
+		validationResponse.addError("Invalid categoy name: " + req.body.name);
+	}
+	//console.log(req.body.level);
+	if(! validationResponse.success){
+		res.json(validationResponse);
+	}
+	else {
+        /*
+        
+        var parentCategory = 0;
+        var promiseParentCategory = Category.getCategoryById(req.body.idParent);
+        promiseParentCategory.then(
+            function(val) {
+                parentCategory = val;
+                console.log(val);
+            })
+            .catch(function() { 
+                console.log("promesse rompue");
+            });
+         */
+
+        Category.findOne({
+            idCategory: req.body.idParent
+        }, function (err, categoryParent) {
+            if (err) throw err;
+
+            console.log(categoryParent);
+            
+            if (! categoryParent && req.body.idParent > 0) {
+                res.json({ success: false, message: 'Category Parent not found.' + req.body.idParent, data: [] });
+            } 
+            else {
+                console.log("parentCategoryParent: ");
+                console.log(categoryParent);
+                var idParent = null;
+                var level = 1;
+                if (categoryParent){//Found
+                    idParent = categoryParent._id;
+                    //idParent = categoryParent.idCategory;
+                    level = categoryParent.level + 1;
+                }
+
+        		var dataCategory = new Category({
+        			idParent: idParent,
+        			name: req.body.name,
+        			level: level,
+        			creationDate: Date(),
+        			modificationDate: Date()
+        		});
+        		dataCategory.save(function(err) {
+        			if (err) throw err;
+
+        			var msgResponse = 'Category saved successfully';
+        			console.log(msgResponse);
+        			res.json({ success: true, message: msgResponse, data: dataCategory });
+        		});
+                
+            }
+        });
+    }
+});
+
+//http://localhost:8888/category/getCategorysList
+//moduleRoutes.get('/getCategorysList', function(req, res) {
+moduleRoutes.get('/', function(req, res) {
+    var query = {};
+    var page = (req.query.page != undefined )? req.query.page : 1 ;
+    var page_size = (req.query.page_size != undefined )? req.query.page_size : config.default_page_size_pagination ;
+    Category.count(query, function(err, total_results) {
+        if (err) throw err;
+        //  res.json({ success: true, message: 'Product List:', data: out, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+        Category.find(query).
+        //where('idCategory').equals(req.query.idCategory).// =
+        //where('idCategory').gt(17).lt(66).// gt - lt
+        //where('idCategory').in(['idCategory', req.query.idCategory]).// like
+        //limit(10).
+        sort('-idCategory').
+        populate('idParent'). 
+        select('idCategory idParent name level creationDate modificationDate ').
+        exec(function(err, Categorys) {
+            res.json({ success: true, message: 'Category List:', data: Categorys, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+        });
+        
+    }); 
+});
+
+
+// http://localhost:8888/category/updateCategory?idCategory=1
+moduleRoutes.put('/:id', function(req, res) {
+//moduleRoutes.post('/updateCategory', function(req, res) {
+	var validationResponse = commonHelper.getValidationResponse();
+	var HelperValidator = commonHelper.validator;
+    //  console.log("Body:");
+    //  console.log(req.body);
+    //  console.log("end Body");
+    console.log(req.body.name);
+
+    // validation idCategory
+    if(! ( HelperValidator.isNumeric( req.body.idCategory) && req.body.idCategory != "" )  ){
+    	validationResponse.addError("Invalid category idCategory: " + req.body.idCategory);
+    }
+    // validation name
+    if(! ( HelperValidator.isAscii( req.body.name) && req.body.name != "" )  ){
+    	validationResponse.addError("Invalid category name: " + req.body.name);
+    }
+    console.log(req.body.idParent);
+    // validation idParent
+    if(! ( HelperValidator.isNumeric( req.body.idParent) && req.body.idParent >= 0  )  ){
+    	validationResponse.addError("Invalid category idParent: " + req.body.idParent);
+    }
+    
+    if(! validationResponse.success){
+    	res.json(validationResponse);
+    }
+
+    else {
+
+        var queryWhere = { idCategory: req.body.idCategory };
+        Category.findOne( queryWhere ).
+            select('idCategory').
+            exec( function(err, category){
+                if (err) throw err;
+
+                if (!category) {
+                    res.json({ success: false, message: 'Category not found.', data: [] });
+                } 
+                else if (category) {
+                    Model.findOne({
+                        idCategory: req.body.idParent
+                    }, function (err, categoryParent) {
+                        if (err) throw err;
+
+                        console.log(categoryParent);
+                        
+                        if (! categoryParent && req.body.idParent > 0) {
+                            res.json({ success: false, message: 'Category Parent not found.' + req.body.idParent, data: [] });
+                        } 
+                        else {
+                            console.log("parentCategoryParent: ");
+                            console.log(categoryParent);
+                            var idParent = null;
+                            var level = 1;
+                            if (categoryParent){//Found
+                                idParent = categoryParent._id;
+                                level = categoryParent.level + 1;
+                            }
+
+                            var updateFields = {
+                                idCategory: req.body.idCategory,
+                                idParent: idParent,
+                                name: req.body.name,
+                                level: level,
+                                //creationDate: Date(),
+                                modificationDate:Date()
+                            };
+
+                            Category.update(
+                                queryWhere, //query
+                                updateFields, //update
+                                function (err, raw) {
+                                    if (err) throw err;
+
+                                    var msgResponse = 'Category updated successfully';
+                                    console.log(msgResponse);
+                                    res.json({ success: true, message: msgResponse, data: raw });
+                                }
+                            );
+                            
+                        }
+                    });
+
+                }
+            });
+
+    }
+});
+
+
+// http://localhost:8888/category/removeCategory?idCategory=1
+moduleRoutes.delete('/:id', function(req, res) {
+//moduleRoutes.delete('/removeCategory', function(req, res) {
+    Category.remove({
+        idCategory: req.body.idCategory
+    }, function(err, category) {
+        if (err) throw err;
+
+        if (!category) {
+            res.json({ success: false, message: 'Error: Category can not deleted', data: Category });
+        }
+        else if (category) {
+            var queryWhere = { idCategory: req.body.idCategory };
+            Category.findOne( queryWhere ).
+                select('idCategory').
+                exec( function(err, category){
+                    if (err) throw err;
+
+                    if (!category) {
+                        res.json({ success: false, message: 'category not found.', data: [] });
+                    } 
+                    else if (category) {
+                        res.json({
+                            success: true,
+                            message: 'Category Deleted',
+                            data: category
+                        });
+                    }
+                });
+            
+        }
+    });
+});
+
+
 module.exports = moduleRoutes;

@@ -607,5 +607,342 @@ moduleRoutes.post('/productComment', function(req, res) {
 	}
 });
 
+/****************************            Backbone            *****************************/
+
+//http://localhost:8888/product/createProduct
+moduleRoutes.post('/', function(req, res) {
+//moduleRoutes.post('/createProduct', function(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    console.log(req);
+    var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+    console.log(req.body.name);
+	// validation name
+    if(! ( HelperValidator.isAscii( req.body.name ) && req.body.name != "" )  ){
+		validationResponse.addError("Invalid product name: " + req.body.name);
+    }
+	//validation description
+    if(! ( HelperValidator.isAscii( req.body.description ) && req.body.description != "" )  ){
+		validationResponse.addError("Invalid product description: " + req.body.description);
+    }
+	// validation price
+	if(! ( HelperValidator.isNumeric( req.body.price ) && req.body.price != "" )  ){
+		validationResponse.addError("Invalid product price: " + req.body.price);
+	}
+	// validation tax
+	if(! ( HelperValidator.isNumeric( req.body.tax) && req.body.tax != "" )  ){
+		validationResponse.addError("Invalid product tax: " + req.body.tax);
+	}
+	// validation buyPrice
+	if(! ( HelperValidator.isNumeric( req.body.buyPrice) && req.body.buyPrice!= "" )  ){
+		validationResponse.addError("Invalid product buyPrice: " + req.body.buyPrice);
+	}
+	// validation image
+	/*
+	
+	if(! ( HelperValidator.isAscii( req.body.image ) && req.body.image != "" )  ){
+		validationResponse.addError("Invalid product image : " + req.body.image);
+	}
+	 */
+	// validation quantity
+	if(! ( HelperValidator.isNumeric( req.body.quantity) && req.body.quantity!= "" )  ){
+		validationResponse.addError("Invalid product quantity: " + req.body.quantity);
+	}
+	// validation weight
+	if(! ( HelperValidator.isNumeric( req.body.weight) && req.body.weight!= "" )  ){
+		validationResponse.addError("Invalid product weight: " + req.body.weight);
+	}
+	// validation category
+	if(! ( HelperValidator.isInt( req.body.category) && req.body.category!= "" )  ){
+		validationResponse.addError("Invalid product category: " + req.body. category);
+	}
+	// validation productComment
+	if(! validationResponse.success){
+        res.json(validationResponse);
+    }
+    else {
+    	Category.findOne({
+            idCategory: req.body.category
+        }, function (err, categoryJoin) {
+            if (err) throw err;
+
+            console.log(categoryJoin);
+            
+            if (! categoryJoin && req.body.category > 0) {
+                res.json({ success: false, message: 'Category not found.' + req.body.category, data: [] });
+            } 
+            else {
+				var dataProduct = new Product({
+					//idProduct: req.body.idProduct,
+					name: ( req.body.name == undefined )? '': req.body.name,
+					description: ( req.body.description == undefined )? '': req.body.description,
+					price: ( req.body.price == undefined )? '': req.body.price,
+					tax: ( req.body.tax == undefined )? '': req.body.tax,
+					buyPrice: ( req.body.buyPrice == undefined )? '': req.body.buyPrice,
+					image: ( req.body.image == undefined )? '': req.body.image,
+					quantity: ( req.body.quantity == undefined )? '': req.body.quantity,
+					weight: ( req.body.weight == undefined )? '': req.body.weight,
+					category: categoryJoin._id,
+					creationDate: Date(),
+					modificationDate: Date()
+				});
+				dataProduct.save(function(err) {
+					if (err) throw err;
+
+					var msgResponse = 'Product saved successfully';
+					console.log(msgResponse);
+					res.json({ success: true, message: msgResponse, data: dataProduct});
+					//res.send(dataProduct);
+				});
+
+            }
+        });
+
+    }
+
+});
+
+//http://localhost:8888/product/updateProduct?idProduct=1
+moduleRoutes.put('/:id', function(req, res) {
+//moduleRoutes.post('/updateProduct', function(req, res) {
+    var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+    //  console.log("Body:");
+    //  console.log(req.body);
+    //  console.log("end Body");
+    console.log(req.body.name);
+    // validation id
+    /*if(! ( HelperValidator.isNumeric( req.body.idProduct) && req.body.idProduct != "" )  ){
+		validationResponse.addError("Invalid idProduct: " + req.body.idProduct);
+    }*/
+    // validation name
+    if(! ( HelperValidator.isAscii( req.body.name) && req.body.name != "" )  ){
+		validationResponse.addError("Invalid product name: " + req.body.name);
+    }
+    //validation description
+    if(! ( HelperValidator.isAscii( req.body.description ) && req.body.description != "" )  ){
+		validationResponse.addError("Invalid product description: " + req.body.description);
+    }
+    // validation price
+    if(! ( HelperValidator.isNumeric( req.body.price ) && req.body.price != "" )  ){
+		validationResponse.addError("Invalid product price: " + req.body.price);
+    }
+    // validation tax
+    if(! ( HelperValidator.isNumeric( req.body.tax) && req.body.tax != "" )  ){
+		validationResponse.addError("Invalid product tax: " + req.body.tax);
+    }
+    // validation buyPrice
+    if(! ( HelperValidator.isNumeric( req.body.buyPrice) && req.body.buyPrice!= "" )  ){
+		validationResponse.addError("Invalid product buyPrice: " + req.body.buyPrice);
+    }
+    // validation image
+    /*Default Empty*/
+    /*
+    
+    if(! ( HelperValidator.isAscii( req.body.image ) && req.body.image != "" )  ){
+		validationResponse.addError("Invalid product image : " + req.body.image);
+    }
+     */
+    // validation quantity
+    if(! ( HelperValidator.isNumeric( req.body.quantity) && req.body.quantity!= "" )  ){
+		validationResponse.addError("Invalid product quantity: " + req.body.quantity);
+    }
+
+    // validation weight
+    if(! ( HelperValidator.isNumeric( req.body.weight) && req.body.weight!= "" )  ){
+		validationResponse.addError("Invalid product weight: " + req.body.weight);
+    }
+    // validation category
+    if(! ( HelperValidator.isInt( req.body.category) && req.body.category!= "" )  ){
+		validationResponse.addError("Invalid product category: " + req.body. category);
+    }
+    
+    if(! validationResponse.success){
+        res.json(validationResponse);
+    }
+    else {
+	    var queryWhere = { idProduct: req.body.idProduct };
+	    Product.findOne( queryWhere ).
+	        select('idProduct').
+	        exec( function(err, product){
+	            if (err) throw err;
+
+	            if (!product) {
+	                res.json({ success: false, message: 'Product not found.', data: [] });
+	            } 
+	            else if (product) {
+	            	Category.findOne({
+					    idCategory: req.body.category
+					}, function (err, categoryJoin) {
+					    if (err) throw err;
+
+					    console.log(categoryJoin);
+					    
+					    if (! categoryJoin && req.body.category > 0) {
+					        res.json({ success: false, message: 'Category not found.' + req.body.category, data: [] });
+					    } 
+					    else {
+						    var updateFields = {
+						        idProduct: req.body.idProduct,
+						        name: req.body.name,
+						        description: req.body.description,
+						        price: req.body.price,
+						        tax: req.body.tax,
+						        buyPrice: req.body.buyPrice,
+						        image: req.body.image,
+						        quantity: req.body.quantity,
+						        weight: req.body.weight,
+						        category: categoryJoin._id,
+						        //productComment: req.body.productComment,
+						        //productEvaluation: req.body.productEvaluation,
+						        modificationDate: Date()
+						    };
+
+						    Product.update(
+						        queryWhere, //query
+						        updateFields, //update
+						        function (err, raw) {
+						            if (err) return handleError(err);
+
+						            var msgResponse = 'Product updated successfully';
+						            console.log(msgResponse);
+						            res.json({ success: true, message: msgResponse, data: raw });
+						        }
+						    );
+						}
+					});
+	            }
+	        });
+
+  	}
+});
+
+//http://localhost:8888/product/removeProduct?idProduct=1
+moduleRoutes.delete('/:id', function(req, res) {
+//moduleRoutes.delete('/removeProduct', function(req, res) {
+	var validationResponse = commonHelper.getValidationResponse();
+    var HelperValidator = commonHelper.validator;
+	console.log(req.params.id);
+	// validation idProduct
+   /* if(! ( HelperValidator.isNumeric( req.params.idProduct) && req.params.idProduct != "" )  ){
+		validationResponse.addError("Invalid idProduct: " + req.params.idProduct);
+    }
+
+    if(! validationResponse.success){
+        res.json(validationResponse);
+    }
+
+    else {
+    	var queryWhere = { idProduct: req.body.idProduct };
+		console.log(queryWhere);	   
+=======
+    else {*/
+    	var queryWhere = { _id: req.params.id };
+	    Product.findOne( queryWhere ).
+	        select('_id').
+	        exec( function(err, product){
+	            if (err) throw err;
+
+	            if (!product) {
+	                res.json({ success: false, message: 'Product not found.', data: [] });
+	            } 
+	            else if (product) {
+				    Product.remove({
+				       // idProduct: req.body.idProduct
+				        _id: req.params.id
+				    }, function(err, product) {
+				        if (err) throw err;
+
+				        if (!product) {
+				            res.json({ success: false, message: 'Error: Product can not deleted', data: [] });
+				        }
+				        else if (product) {
+				            res.json({
+				                success: true,
+				                message: 'Product Deleted',
+				                data: product
+				            });
+				        }
+				    });								
+	            }
+	        });
+	        
+	//}
+}); 
+
+
+
+// http://localhost:8888/product/getProductsList
+moduleRoutes.get('/', function(req, res) {
+//moduleRoutes.get('/getProductsList', function(req, res) {
+    idCategory = 0;
+    var query = {};
+    if( req.query.name != undefined && req.query.name != "" ){
+    	query["name"] = new RegExp(req.query.name, "i");
+    }
+    if( req.query.price != undefined && req.query.price != "" ){
+    	query["price"] = req.query.price
+    }
+    if( req.query.category != undefined && req.query.category != "" ){
+    	idCategory = req.query.category
+    }
+    if(idCategory > 0 ){
+    	query["category"] = "";
+    }
+
+	var page = (req.query.page != undefined )? req.query.page : 1 ;
+	var page_size = (req.query.page_size != undefined )? req.query.page_size : config.default_page_size_pagination ;
+	
+	Category.findOne({
+        idCategory: idCategory
+    }, function (err, categoryJoin) {
+        if (err) throw err;
+
+        if ( categoryJoin ) {
+		    query["category"] = categoryJoin._id
+		} 
+        console.log(categoryJoin);
+        console.log(query);
+	    Product.count(query, function(err, total_results) {
+	    	if (err) throw err;
+	    	var ProductList = Product.find(query);
+	    	//ProductList.where('name').equals(req.query.name);// =
+		    //ProductList.where('name').equals(req.query.name);// =
+		    if( req.query.maxPrice != undefined && req.query.maxPrice >= 0 && req.query.minPrice != undefined && req.query.minPrice >= 0 ){
+		    	ProductList.where('price').gt(req.query.minPrice).lt(req.query.maxPrice);// gt - lt
+		    }
+		    //ProductList.where('idCategory').in(['idCategory', req.query.idCategory]);// like
+		    if(page_size > 0){
+		    	ProductList.skip( page_size * (page - 1) ); //Jimmy -> pagination offset
+		    	ProductList.limit(page_size); //Jimmy -> pagination limit
+		    } 
+		    ProductList.sort('-name');
+		    ProductList.populate('category')
+		    ProductList.populate('productEvaluation.user', 'firstName lastName idUser')
+		    ProductList.populate('productComment.user', 'firstName lastName idUser')
+		    ProductList.exec(function(err, Products) {
+		    	//console.log(Products);
+				var out = [];
+				for(var key in Products){
+					var tmpobj = JSON.parse(JSON.stringify(Products[key]));
+					tmpobj['productCommentTotal'] = (tmpobj['productComment'] != undefined)? tmpobj['productComment'].length: 0;
+					tmpobj['productEvaluationResult'] = (tmpobj['productEvaluation'] != undefined)? tmpobj['productEvaluation'].length: 0;
+					tmpobj['categoryName'] = (tmpobj['category'] != undefined)? tmpobj['category'].name: '';
+					//Products[key]['CategoryData'] = Category.findOne({ idCategory: Products[key].category });
+					//console.log(Products[key]);
+					out.push(tmpobj);
+
+				}
+				res.json({ success: true, message: 'Product List:', data: out, pagination: commonHelper.getPaginationResult(total_results, page_size, page) });
+		    });
+	    });
+        
+    });
+
+
+});
+
+
 
 module.exports = moduleRoutes;
