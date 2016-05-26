@@ -146,7 +146,7 @@
 
 
 	<section id="products_section" class="section_color2" >
-		<div class="container container_project_white width_90">
+		<div class="container container_project_white width_container_section">
 			<header class="section-header text-center">
 				<div class="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
 					<h2>Products</h2>
@@ -211,46 +211,43 @@
 					</div>
 					
 					<div class="col-sm-9 padding-right">
-					
-					
-						 <div class="features_items" id="montest" ><!--features_items-->
+						<div class="features_items" id="montest" ><!--features_items-->
 						
-							<table id="allProducts" class="table table-hover"></table>
-							<script type="text/template" id="ClientTmpl">
-									<b></b>
-								<!-- < _.each(administrators, function(administrator){ 	%> -->
+							<table id="allProducts" class="table table-hover">
 								
-									<div class="col-sm-4">
-										<a href="#showProductDetail" class="edit btn">
-											<div class="product-image-wrapper">
-												<div class="single-products">
-													<div class="product_container">
-														<a href="javascript:void(0);" >
-															<div class="productinfo text-left">
-																<img src="<%= image %>"  />
-																<div><b><%= name %></b></div>
-																<span>Brand</span>
-																<div class="row">
-																	<div class="col-sm-6"><img alt="" src="images/product-details/rating.png"></div>
-																	<div class="col-sm-6"><span class="price_product"><%= price %>€</span></div>
+							</table>
+							<div class="product_list_content">
+								<script type="text/template" id="ClientTmpl">
+									
+									<!-- < _.each(administrators, function(administrator){ 	%> -->
+											<div class="col-sm-4">
+												<div class="product-image-wrapper">
+													<div class="single-products">
+														<div class="product_container">
+															<a href="javascript:void(0);" >
+																<div class="productinfo text-left">
+																	<img src="<%= image %>"  />
+																	<div><b><%= name %></b></div>
+																	<span>Brand</span>
+																	<div class="row">
+																		<div class="col-sm-6">
+																			<img alt="" src="images/product-details/rating.png" />
+																		</div>
+																		<div class="col-sm-6"><span class="price_product"><%= price %>€</span></div>
+																	</div>
 																</div>
+															</a> 													
+															<div class="productinfo text-center">
+																<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 															</div>
-														</a> 													
-														<div class="productinfo text-center">
-															<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 														</div>
 													</div>
 												</div>
 											</div>
-										</a>
-									</div>
-								<!-- < }) %> -->
-							</script>
-
-							
-							
+									<!-- < }) %> -->
+								</script>
+							</div>
 						</div> <!--features_items-->
-						
 					</div>
 				</div>
 				<div class="container">
@@ -269,7 +266,7 @@
 		</div>
 	</section>
 	<section id="shopping_cart_section" class="section_color2" >
-		<div class="container container_project_white width_90">
+		<div class="container container_project_white width_container_sectioncontainer_project_white width_container_section">
 			<header class="section-header text-center">
 				<div class="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
 					<h2>Shopping Cart</h2>
@@ -353,7 +350,7 @@
 	</section>
 
 	<section id="payment_section" class="section_color2" >
-		<div class="container container_project_white width_90">
+		<div class="container container_project_white width_container_section">
 			<header class="section-header text-center">
 				<div class="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
 					<h2>Payment</h2>
@@ -484,7 +481,7 @@
 	</section>
 
 	<section id="result_section" class="section_color2" >
-		<div class="container container_project_white width_90">
+		<div class="container container_project_white width_container_section">
 			<header class="section-header text-center">
 				<div class="fadeInUp animated" data-wow-delay="0.2s" data-wow-offset="10" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
 					<h2>Result</h2>
