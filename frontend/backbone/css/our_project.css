@@ -70,8 +70,9 @@ h2{
   min-height: 800px;
 }
 #admin_section{
-  padding-top: 50px;
+  padding-top: 80px;
   max-height: auto;
+  height: 1000px;
 }
 .admin_section_container{
   padding-top: 3%; 
