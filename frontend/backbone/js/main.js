@@ -7,6 +7,7 @@
 		UsersViews: {},
 		OrdersViews: {},
 		VueCatalogue: {},
+		CatalogueCategoriesViews: {},
 		Router: {}
 	};
 

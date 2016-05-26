@@ -72,8 +72,8 @@ moduleRoutes.get('/', function(req, res) {
     sort('-idCategory').
     select('idUser idOrder address creationDate total status city totalTax orderLines approvalCode paymentDate modificationDate ').
     exec(function(err, Orders) {
-       // res.json({ success: true, message: 'Order List:', data: Orders });
-	   res.send(Orders);
+       res.json({ success: true, message: 'Order List:', data: Orders });
+	   //res.send(Orders);
     });
 });
 
