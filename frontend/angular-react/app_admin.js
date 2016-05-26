@@ -162,9 +162,9 @@ angular.module('app').config(
 		        })
 		        .when('/', {//otherwhise
 		            //template: ''//Directive -> React module
-		            //template: '<catalog-container-manager></catalog-container-manager>'//Directive -> React module
+		            template: '<admin-product-manager></admin-product-manager>'//Directive -> React module
 		            //template: ''//Directive -> React module
-		            templateUrl: 'modules/main/main.html'//Template or templateUrl
+		            //templateUrl: 'modules/main/main.html'//Template or templateUrl
 		        });
 		}
 	]

@@ -3,8 +3,6 @@ var ProductItem = React.createClass({
 
     addItemToShoppingCart: function (e) {
         addToShoppingCart(this.props.product_data, 1);
-        //this.props.product_data.quantity = this.props.product_data.quantity -1;
-        //this.setState({quantity: (this.props.product_data.quantity -1) });
         return false;
     },
     showProductDetail: function (e) {
@@ -79,8 +77,6 @@ var ProductItem = React.createClass({
         );
     }
 });
-//<a className="btn btn-default add-to-cart" href="javascript:void(0);" onClick={this.addItemToShoppingCart} ><span>Add to cart</span></a>
-//<a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
 var ProductListContent = React.createClass({
     displayName: 'ProductListContent',
     data: [],

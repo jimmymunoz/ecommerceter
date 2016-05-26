@@ -36,7 +36,7 @@ angular.module('payment').controller('PaymentController', ['$rootScope', '$http'
 	   				notifyServerResponse(response);
 		            if( response.data.success  ){
 		            	colseModal();
-		            	saveResultOrderInSession(response);
+		            	saveResultOrderInSession(response.data.data);
 		            	$rootScope.order_result = getOrderInSession();
 		            	console.log($rootScope.order_result);
 		            }

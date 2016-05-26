@@ -286,8 +286,8 @@ function removeSessionUserData(){
 	sessionStorage.removeItem('userloged');
 	sessionStorage.removeItem('token');
 	sessionStorage.removeItem('shoppingCartList');
+	sessionStorage.removeItem('orderResult');
 	notifyServerResponse({ data: { success: true, message: "Bye! Closed"} }, false, "Session Closed");
-		
 }
 
 function saveSessionUserData(responseLogin){
@@ -362,8 +362,8 @@ function removeToSessionShoppingCart(idProduct){
 
 function saveResultOrderInSession(response){
 	
+	response['orderData'] = getToSessionShoppingCart();
 	sessionStorage.orderResult = JSON.stringify(response);
-	sessionStorage.orderResult['productData'] = getToSessionShoppingCart();
 }
 
 /**
